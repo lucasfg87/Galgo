@@ -1,8 +1,10 @@
-# Crea la versión para descargar (Release) cada vez que se publica una etiqueta vX.YY
+# Cada vez que se sube un galgo.html con un número de versión nuevo,
+# crea la versión para descargar (Release) con ese archivo.
 name: Publicar versión
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+    paths: ['galgo.html', '.github/workflows/release.yml']
 permissions:
   contents: write
 jobs:
@@ -14,6 +16,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" galgo.html \
-            --title "Galgo ${GITHUB_REF_NAME#v}" \
-            --notes "Descargá **galgo.html** (abajo, en Assets) y abrilo con doble clic en Chrome o Edge. Los datos se procesan en tu computadora y no se envían a ningún servidor."
+          V=$(grep -o "GF.version = '[0-9.]*'" galgo.html | head -1 | grep -o "[0-9.]*")
+          if [ -z "$V" ]; then echo "No se encontró el número de versión"; exit 1; fi
+          if gh release view "v$V" >/dev/null 2>&1; then
+            echo "La versión v$V ya existe: se actualiza el archivo"
+            gh release upload "v$V" galgo.html --clobber
+          else
+            gh release create "v$V" galgo.html --target "$GITHUB_SHA" \
+              --title "Galgo $V" \
+              --notes "Descargá **galgo.html** (abajo, en Assets) y abrilo con doble clic en Chrome o Edge. Los datos se procesan en tu computadora y no se envían a ningún servidor."
+          fi
