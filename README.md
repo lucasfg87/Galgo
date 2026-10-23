@@ -2,7 +2,7 @@
 
 **Tableros interactivos en un solo archivo HTML.** Se carga un Excel o CSV, se arma el tablero con gráficos y filtros, y se exporta un HTML que cualquiera abre con doble clic: sin instalar nada, sin licencias y sin internet.
 
-**[▶ Probar Galgo en el navegador](https://lucasfg87.github.io/galgo/)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
+**[▶ Probar Galgo en el navegador](https://lucasfg87.github.io/Galgo/)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/Galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
 
 ![Tablero filtrado por clic en una barra](docs/informe-filtrado.png)
 
@@ -62,7 +62,7 @@ Galgo es un proyecto personal de [Lucas Gómez](https://www.linkedin.com/in/luca
 
 El nombre esconde mis iniciales: Ga**lg**o.
 
-Sugerencias y errores: se pueden dejar en [Issues](https://github.com/lucasfg87/galgo/issues).
+Sugerencias y errores: se pueden dejar en [Issues](https://github.com/lucasfg87/Galgo/issues).
 
 ## Licencia
 
