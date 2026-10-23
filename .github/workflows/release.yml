@@ -1,0 +1,19 @@
+# Crea la versión para descargar (Release) cada vez que se publica una etiqueta vX.YY
+name: Publicar versión
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crear la versión con galgo.html
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" galgo.html \
+            --title "Galgo ${GITHUB_REF_NAME#v}" \
+            --notes "Descargá **galgo.html** (abajo, en Assets) y abrilo con doble clic en Chrome o Edge. Los datos se procesan en tu computadora y no se envían a ningún servidor."
