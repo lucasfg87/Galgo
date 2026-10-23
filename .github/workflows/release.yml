@@ -16,7 +16,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          V=$(grep -o "GF.version = '[0-9.]*'" galgo.html | head -1 | grep -o "[0-9.]*")
+          V=$(grep -o "GF.version = '[0-9.]*'" galgo.html | head -1 | sed -E "s/.*'([0-9.]+)'/\1/")
           if [ -z "$V" ]; then echo "No se encontró el número de versión"; exit 1; fi
           if gh release view "v$V" >/dev/null 2>&1; then
             echo "La versión v$V ya existe: se actualiza el archivo"
