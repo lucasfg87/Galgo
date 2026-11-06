@@ -2,7 +2,7 @@
 
 **Tableros interactivos en un solo archivo HTML.** Se carga un Excel o CSV, se arma el tablero con gráficos y filtros, y se exporta un HTML que cualquiera abre con doble clic: sin instalar nada, sin licencias y sin internet.
 
-**[▶ Probar Galgo en el navegador](https://lucasfg87.github.io/Galgo/)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/Galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
+**[🌐 Sitio de Galgo](https://lucasfg87.github.io/Galgo/)** · **[▶ Probar Galgo en el navegador](https://lucasfg87.github.io/Galgo/galgo.html)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/Galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
 
 ![Tablero filtrado por clic en una barra](docs/informe-filtrado.png)
 
@@ -51,6 +51,7 @@ Importante: **el HTML exportado lleva los datos adentro.** Quien lo recibe puede
 
 ## Versiones
 
+- **1.04:** clic en la leyenda para filtrar todo el tablero, nombres editables para los valores de la leyenda y opción de mostrar el total de cada barra apilada.
 - **1.03:** paneles que se ocultan, lienzo con zoom igual al informe final, guías de alineación al mover objetos, y los informes ya no se dañan si el archivo cambia de codificación al enviarse.
 - **1.02:** medidas calculadas, colores por objeto, lienzo libre, deshacer y rehacer, autoguardado, modo foco y copiar gráficos como imagen.
 - **1.01:** páginas de texto con imágenes y botones de acceso desde los objetos.

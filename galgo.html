@@ -502,6 +502,8 @@ body.gf-moving, body.gf-moving * { cursor: grabbing !important; user-select: non
 
 /* Pantallas medianas: los botones secundarios de la barra quedan solo con icono (el nombre aparece al pasar el mouse) */
 @media (max-width: 1520px) { .ed-tools .gf-btn.ed-lbl > span { display: none; } .ed-tools .gf-btn.ed-lbl { padding: 0 9px; } }
+
+.ed-color .ed-color-n { flex: 1; min-width: 0; height: 28px; padding: 3px 8px; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -547,7 +549,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 (function () {
 'use strict';
 const GF = window.GF = window.GF || {};
-GF.version = '1.03';
+GF.version = '1.04';
 GF.mode = 'view';
 GF.cfg = { title: 'Informe', subtitle: '', widgets: [], filters: [] };
 GF.data = null;
@@ -895,9 +897,13 @@ function filterPreds() {
   return preds;
 }
 function selPred() {
+  // La selecci\u00f3n por clic puede tener dos partes: la categor\u00eda (eje) y la serie (leyenda).
   const s = GF.rt.sel; if (!s) return null;
-  const c = colOf(s.col); if (!c) return null;
-  return r => s.keys.has(keyOf(r[c.ci], c.type, s.grain));
+  const ps = [];
+  if (s.keys && s.keys.size) { const c = colOf(s.col); if (c) ps.push(r => s.keys.has(keyOf(r[c.ci], c.type, s.grain))); }
+  if (s.skeys && s.skeys.size) { const c2 = colOf(s.scol); if (c2) ps.push(r => s.skeys.has(keyOf(r[c2.ci], c2.type, s.sgrain))); }
+  if (!ps.length) return null;
+  return ps.length === 1 ? ps[0] : r => ps[0](r) && ps[1](r);
 }
 GF.baseRows = function () {
   const preds = filterPreds(), rows = GF.data.rows;
@@ -1175,21 +1181,24 @@ function computeSeries(W, rows) {
     }
     map.set(OTHERK, e); keep.push(OTHERK); keys = keep;
   }
-  const labels = keys.map(k => labelOf(k, d ? d.type : 'text', dg));
+  // Nombres propios del objeto para los valores de la leyenda (p. ej. 0 \u2192 \u00abSin promo\u00bb).
+  const nm = k => W.names && W.names[k] != null && W.names[k] !== '' ? W.names[k] : null;
+  const olabels = keys.map(k => labelOf(k, d ? d.type : 'text', dg));
+  const labels = W.type === 'pie' ? keys.map((k, i) => nm(k) || olabels[i]) : olabels;
   let series;
   if (s) {
     const present = new Set(); keys.forEach(k => map.get(k).sub.forEach((a, sk) => present.add(sk)));
     const sk = sR.keys.filter(k => present.has(k) && sR.keep.has(k));
     if (present.has(OTHERK)) sk.push(OTHERK);
     series = sk.map(k => ({
-      key: k, label: labelOf(k, s.type, sg), colorIdx: k === OTHERK ? -1 : sR.idx.get(k),
+      key: k, label: nm(k) || labelOf(k, s.type, sg), orig: labelOf(k, s.type, sg), colorIdx: k === OTHERK ? -1 : sR.idx.get(k),
       values: keys.map(c => { const a = map.get(c).sub.get(k); return a ? accVal(a, agg) : null; })
     }));
   } else {
     series = [{ key: '__v__', label: measureLabel(W), colorIdx: 0, values: keys.map(k => accVal(map.get(k).acc, agg)) }];
   }
   const colorIdx = dR ? keys.map(k => k === OTHERK ? -1 : dR.idx.get(k)) : null;
-  return { d, dg, s, sg, agg, keys, labels, series, map, tot, colorIdx };
+  return { d, dg, s, sg, agg, keys, labels, olabels, series, map, tot, colorIdx };
 }
 GF.computeSeries = computeSeries;
 
@@ -1202,8 +1211,28 @@ const labelPlugin = {
   id: 'gfLabels',
   afterDatasetsDraw(chart) {
     const o = chart.options.plugins.gfLabels;
-    if (!o || !o.show) return;
+    if (!o || (!o.show && !o.totals)) return;
     const ctx = chart.ctx, fam = Chart.defaults.font.family;
+    if (o.totals) {
+      // Total de cada barra apilada, por fuera del extremo de la pila
+      ctx.save(); ctx.font = '700 11.5px ' + fam; ctx.fillStyle = o.totalColor || o.color;
+      o.totals.forEach((t, i) => {
+        if (t == null) return;
+        let edge = null, cross = null;
+        chart.data.datasets.forEach((ds, di) => {
+          const meta = chart.getDatasetMeta(di); if (meta.hidden || !chart.isDatasetVisible(di)) return;
+          const e = meta.data[i]; if (!e || ds.data[i] == null) return;
+          if (o.horizontal) { edge = edge == null ? Math.max(e.x, e.base) : Math.max(edge, e.x, e.base); cross = e.y; }
+          else { edge = edge == null ? Math.min(e.y, e.base) : Math.min(edge, e.y, e.base); cross = e.x; }
+        });
+        if (edge == null) return;
+        const txt = chart.canvas.__gfFmtTot ? chart.canvas.__gfFmtTot(t) : String(t);
+        if (o.horizontal) { ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(txt, edge + 6, cross); }
+        else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(txt, cross, edge - 4); }
+      });
+      ctx.restore();
+    }
+    if (!o.show) return;
     chart.data.datasets.forEach((ds, di) => {
       const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
       meta.data.forEach((e, i) => {
@@ -1283,6 +1312,8 @@ function renderChart(W, body, rows, ckey) {
   wrap.appendChild(canvas); body.appendChild(wrap);
   const ink2 = tok('--ink-2'), ink3 = tok('--ink-3'), grid = tok('--grid'), axis = tok('--axis'), surf = tok('--surface');
   const sel = GF.rt.sel && GF.rt.sel.wid === W.id ? GF.rt.sel : null;
+  const selK = sel && sel.keys.size ? sel : null;
+  const sOn = key => !sel || !sel.skeys || !sel.skeys.size || sel.skeys.has(key);
   const msrc = GF.rt.msel && GF.rt.msel.wid === W.id ? GF.rt.msel : null;
   const mOn = (key) => !msrc || key === 'm' + msrc.idx;
   const measureClick = !!R.measures && !W.$focus && Array.isArray(W.measures);
@@ -1319,6 +1350,17 @@ function renderChart(W, body, rows, ckey) {
         GF.refresh(); return;
       }
     }
+    // Con una columna de serie (leyenda), el clic sobre un segmento filtra por categor\u00eda y serie a la vez.
+    if (R.s) {
+      const hit = chart.getElementsAtEventForMode(evt.native, 'nearest', { intersect: true }, false)[0];
+      const sk = hit && R.series[hit.datasetIndex] ? R.series[hit.datasetIndex].key : null;
+      if (sk != null && sk !== OTHERK && !addKey) {
+        const cur = GF.rt.sel;
+        const same = cur && cur.wid === W.id && cur.keys.size === 1 && cur.keys.has(k) && cur.skeys && cur.skeys.size === 1 && cur.skeys.has(sk);
+        GF.rt.sel = same ? null : { wid: W.id, col: W.dim, grain: R.dg, type: R.d.type, keys: new Set([k]), scol: W.series, sgrain: R.sg, stype: R.s.type, skeys: new Set([sk]) };
+        GF.refresh(); return;
+      }
+    }
     toggleSel(W, R, k, addKey);
   };
   const onHover = (evt, els, chart) => { evt.native.target.style.cursor = clickable && (els.length || axisIndex(chart, evt) >= 0) ? 'pointer' : 'default'; };
@@ -1329,7 +1371,7 @@ function renderChart(W, body, rows, ckey) {
     const cols = R.colorIdx.map((ci, i) => colorFor(R.keys[i], ci));
     cfg = {
       type: 'doughnut',
-      data: { labels: R.labels, datasets: [{ data: R.series[0].values, backgroundColor: sel ? cols.map((c, i) => sel.keys.has(R.keys[i]) ? c : alpha(c, 0.28)) : msrc ? cols.map((c, i) => mOn(R.keys[i]) ? c : alpha(c, 0.25)) : cols, borderColor: surf, borderWidth: 2, hoverOffset: 4 }] },
+      data: { labels: R.labels, datasets: [{ data: R.series[0].values, backgroundColor: selK ? cols.map((c, i) => selK.keys.has(R.keys[i]) ? c : alpha(c, 0.28)) : msrc ? cols.map((c, i) => mOn(R.keys[i]) ? c : alpha(c, 0.25)) : cols, borderColor: surf, borderWidth: 2, hoverOffset: 4 }] },
       options: {
         responsive: true, maintainAspectRatio: false, cutout: '58%', animation: { duration: 250 }, onClick, onHover,
         layout: { padding: 4 },
@@ -1358,14 +1400,17 @@ function renderChart(W, body, rows, ckey) {
     const stacked = pct || !!(W.stacked && (R.s || R.multi) && !line);
     let tots = null;
     if (pct) tots = R.keys.map((k, i) => R.series.reduce((a, S) => a + (S.values[i] || 0), 0));
+    // Total por barra (solo barras apiladas con m\u00e1s de una parte)
+    const showTotals = !!W.totals && stacked && multi && !line;
+    const barTotals = showTotals ? R.keys.map((k, i) => { let t = 0, any = false; R.series.forEach(S => { if (sOn(S.key) && mOn(S.key) && S.values[i] != null) { t += S.values[i]; any = true; } }); return any ? t : null; }) : null;
     const datasets = R.series.map(S => {
-      const c0 = colorFor(S.key, S.colorIdx), c = mOn(S.key) ? c0 : alpha(c0, 0.22);
+      const c0 = colorFor(S.key, S.colorIdx), faded = !(mOn(S.key) && sOn(S.key)), c = faded ? alpha(c0, 0.22) : c0;
       const data = pct ? S.values.map((v, i) => v == null ? null : (tots[i] ? v / tots[i] * 100 : 0)) : S.values;
-      if (line) return { label: S.label, data: S.values, borderColor: c, backgroundColor: sel ? R.keys.map(k => sel.keys.has(k) ? c : alpha(c, 0.35)) : c, borderWidth: 2,
-        pointRadius: sel ? R.keys.map(k => sel.keys.has(k) ? 6 : (R.keys.length > 36 ? 0 : 3)) : (R.keys.length > 36 ? 0 : 3), pointHoverRadius: 6, pointBorderColor: surf, pointBorderWidth: 1.5, tension: 0, spanGaps: true };
+      if (line) return { label: S.label, data: S.values, borderColor: c, backgroundColor: selK ? R.keys.map(k => selK.keys.has(k) ? c : alpha(c0, faded ? 0.15 : 0.35)) : c, borderWidth: 2,
+        pointRadius: selK ? R.keys.map(k => selK.keys.has(k) ? 6 : (R.keys.length > 36 ? 0 : 3)) : (R.keys.length > 36 ? 0 : 3), pointHoverRadius: 6, pointBorderColor: surf, pointBorderWidth: 1.5, tension: 0, spanGaps: true };
       return {
         label: S.label, data, rawValues: S.values, gfColor: c,
-        backgroundColor: sel ? R.keys.map(k => sel.keys.has(k) ? c : alpha(c, 0.28)) : c,
+        backgroundColor: selK ? R.keys.map(k => selK.keys.has(k) ? c : alpha(c0, faded ? 0.12 : 0.28)) : c,
         borderColor: surf, borderWidth: stacked ? { top: 1, bottom: 0, left: 0, right: 0 } : 0,
         borderRadius: stacked ? 0 : 4, borderSkipped: 'start', maxBarThickness: 56, categoryPercentage: 0.78, barPercentage: 0.92
       };
@@ -1374,8 +1419,8 @@ function renderChart(W, body, rows, ckey) {
     const catAxis = {
       stacked, grid: { display: false }, border: { color: axis },
       ticks: {
-        color: sel ? (ctx => sel.keys.has(R.keys[ctx.index]) ? tok('--ink-1') : ink3) : ink3,
-        font: sel ? (ctx => ({ size: 11, weight: sel.keys.has(R.keys[ctx.index]) ? '700' : '400' })) : { size: 11 }, maxRotation: line || horizontal ? 0 : 40, autoSkip: line || horizontal || R.keys.length > 24, autoSkipPadding: 8,
+        color: selK ? (ctx => selK.keys.has(R.keys[ctx.index]) ? tok('--ink-1') : ink3) : ink3,
+        font: selK ? (ctx => ({ size: 11, weight: selK.keys.has(R.keys[ctx.index]) ? '700' : '400' })) : { size: 11 }, maxRotation: line || horizontal ? 0 : 40, autoSkip: line || horizontal || R.keys.length > 24, autoSkipPadding: 8,
         callback: function (v) { const l = String(this.getLabelForValue(v)); return l.length > 22 ? l.slice(0, 21) + '\u2026' : l; }
       }
     };
@@ -1385,6 +1430,8 @@ function renderChart(W, body, rows, ckey) {
       ticks: { color: ink3, font: { size: 11 }, padding: 8, maxTicksLimit: 6, callback: v => pct ? nf(0).format(v) + '%' : fmtCompact(v, W) }
     };
     if (pct) { valAxis.max = 100; valAxis.min = 0; }
+    // Con totales arriba de cada barra, se deja aire para que no choquen con la leyenda ni el borde
+    if (showTotals && !pct) valAxis.grace = '10%';
     const showLabels = !!W.labels;
     const tip = pct ? tooltipOpts(W, { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + nf(1).format(ctx.raw || 0) + '%  (' + fmtVal(ctx.dataset.rawValues[ctx.dataIndex], W) + ')' } }) : tooltipOpts(W);
     cfg = {
@@ -1393,7 +1440,7 @@ function renderChart(W, body, rows, ckey) {
       options: {
         responsive: true, maintainAspectRatio: false, indexAxis: horizontal ? 'y' : 'x', animation: { duration: 250 },
         interaction: { mode: 'index', intersect: false, axis: horizontal ? 'y' : 'x' }, onClick, onHover,
-        layout: { padding: { top: showLabels && !horizontal && !stacked ? 18 : 4, right: showLabels && horizontal && !stacked ? 56 : 8 } },
+        layout: { padding: { top: (showLabels && !horizontal && !stacked) || (showTotals && !horizontal) ? 18 : 4, right: (showLabels && horizontal && !stacked) || (showTotals && horizontal) ? 56 : 8 } },
         scales: horizontal ? { x: valAxis, y: catAxis } : { x: catAxis, y: valAxis },
         plugins: {
           gfBg: { color: surf },
@@ -1402,15 +1449,17 @@ function renderChart(W, body, rows, ckey) {
               const ds = chart.data.datasets[l.datasetIndex]; if (ds && ds.gfColor) { l.fillStyle = ds.gfColor; l.strokeStyle = ds.gfColor; } l.fontColor = ink2; l.hidden = false; return l;
             })
           }),
-          onClick: measureClick ? (e, item) => toggleMeasure(W, +String(R.series[item.datasetIndex].key).slice(1)) : undefined,
-          onHover: measureClick ? e => { e.native.target.style.cursor = 'pointer'; } : undefined }),
+          onClick: measureClick ? (e, item) => toggleMeasure(W, +String(R.series[item.datasetIndex].key).slice(1))
+            : R.s ? (e, item) => toggleSeriesSel(W, R, R.series[item.datasetIndex].key, e.native && (e.native.ctrlKey || e.native.metaKey || e.native.shiftKey)) : undefined,
+          onHover: measureClick || R.s ? e => { e.native.target.style.cursor = 'pointer'; } : undefined }),
           tooltip: tip,
-          gfLabels: { show: showLabels, inside: stacked, color: ink2, horizontal, line }
+          gfLabels: { show: showLabels, inside: stacked, color: ink2, horizontal, line, totals: barTotals, totalColor: tok('--ink-1') }
         }
       }
     };
   }
   canvas.__gfFmt = v => (W.pct && R.series.length > 1 && W.type !== 'line') ? nf(0).format(v) + '%' : fmtCompact(v, W);
+  canvas.__gfFmtTot = v => fmtCompact(v, W);
   const ch = new Chart(canvas, cfg);
   ch.$gfTitle = W.title || autoTitle(W);
   ch.$gfClick = clickable; ch.$gfKeys = R.keys; ch.$gfWid = W.id; ch.$gfMeasure = measureClick && W.type === 'pie';
@@ -1483,12 +1532,26 @@ function effWidget(W) {
 function toggleSel(W, R, k, multi) {
   const s = GF.rt.sel;
   if (s && s.wid === W.id) {
-    if (multi) { if (s.keys.has(k)) s.keys.delete(k); else s.keys.add(k); if (!s.keys.size) GF.rt.sel = null; }
-    else if (s.keys.size === 1 && s.keys.has(k)) GF.rt.sel = null;
+    if (multi) { if (s.keys.has(k)) s.keys.delete(k); else s.keys.add(k); }
+    else if (s.keys.size === 1 && s.keys.has(k)) s.keys = new Set();
     else s.keys = new Set([k]);
+    if (!s.keys.size && !(s.skeys && s.skeys.size)) GF.rt.sel = null;
   } else {
     GF.rt.sel = { wid: W.id, col: W.dim, grain: R.dg, type: R.d.type, keys: new Set([k]) };
   }
+  GF.refresh();
+}
+
+/* Clic en la leyenda de un gr\u00e1fico con serie (p. ej. 0 / 1): filtra todo el tablero por ese valor. */
+function toggleSeriesSel(W, R, sk, multi) {
+  if (sk == null || sk === OTHERK || !R.s) return;
+  let s = GF.rt.sel;
+  if (!s || s.wid !== W.id) s = GF.rt.sel = { wid: W.id, col: W.dim, grain: R.dg, type: R.d ? R.d.type : 'text', keys: new Set() };
+  if (!s.skeys || s.scol !== W.series) { s.scol = W.series; s.sgrain = R.sg; s.stype = R.s.type; s.skeys = new Set(); }
+  if (multi) { if (s.skeys.has(sk)) s.skeys.delete(sk); else s.skeys.add(sk); }
+  else if (s.skeys.size === 1 && s.skeys.has(sk)) s.skeys = new Set();
+  else s.skeys = new Set([sk]);
+  if (!s.keys.size && !s.skeys.size) GF.rt.sel = null;
   GF.refresh();
 }
 
@@ -1905,12 +1968,18 @@ function renderFilters(bar) {
     }
     items.appendChild(chip);
   }
-  const s = GF.rt.sel, sc = s && colOf(s.col);
-  if (s && sc) {
-    const labs = [...s.keys].map(k => labelOf(k, s.type, s.grain));
+  const s = GF.rt.sel;
+  const selParts = [];
+  if (s) {
+    const srcW = GF.cfg.widgets.find(w => w.id === s.wid), names = (srcW && srcW.names) || {};
+    const part = (col, keys, type, grain, useNames) => { const labs = [...keys].map(k => (useNames && names[k]) || labelOf(k, type, grain)); return colLabel(col) + ': ' + (labs.length > 3 ? labs.slice(0, 3).join(', ') + ' y ' + (labs.length - 3) + ' m\u00e1s' : labs.join(', ')); };
+    if (s.keys.size && colOf(s.col)) selParts.push(part(s.col, s.keys, s.type, s.grain, srcW && srcW.type === 'pie'));
+    if (s.skeys && s.skeys.size && colOf(s.scol)) selParts.push(part(s.scol, s.skeys, s.stype, s.sgrain, true));
+  }
+  if (selParts.length) {
     const chip = el('div', 'gf-fchip gf-active gf-selchip');
     chip.appendChild(el('span', 'gf-flab', 'Selecci\u00f3n'));
-    chip.appendChild(el('span', 'gf-fval', esc(colLabel(s.col) + ': ' + (labs.length > 3 ? labs.slice(0, 3).join(', ') + ' y ' + (labs.length - 3) + ' m\u00e1s' : labs.join(', ')))));
+    chip.appendChild(el('span', 'gf-fval', esc(selParts.join(' \u00b7 '))));
     const x = el('button', 'gf-icon gf-fx', '<svg viewBox="0 0 12 12" width="12" height="12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5"/></svg>');
     x.title = 'Quitar selecci\u00f3n'; x.onclick = () => { GF.rt.sel = null; GF.refresh(); };
     chip.appendChild(x);
@@ -1949,7 +2018,7 @@ function openListPopover(f, c, anchor) {
   const setSet = s => {
     if (s && s.size === list.length) s = null;
     GF.rt.fvals[f.id] = { set: s };
-    if (GF.rt.sel && GF.rt.sel.col === f.col) GF.rt.sel = null;
+    if (GF.rt.sel && (GF.rt.sel.col === f.col || GF.rt.sel.scol === f.col)) GF.rt.sel = null;
     GF.refresh();
   };
   let visible = list;
@@ -3876,7 +3945,7 @@ function renderPropsInner() {
       field(form, W.type === 'table' ? 'Columnas por' : 'Desglosar por (color)', selectEl([['', 'Sin desglose']].concat(colGroups(c => c.name !== W.dim)), W.series, v => { W.series = v || undefined; redraw(true); }));
       const sc = GF.colOf(W.series);
       if (sc && sc.type === 'date') field(form, 'Agrupar desglose por', segEl([['mes', 'Mes'], ['trim', 'Trim.'], ['anio', 'A\u00f1o']], W.sgrain || 'anio', v => { W.sgrain = v; redraw(true); }));
-      if (W.series && W.type !== 'line' && W.type !== 'table') form.appendChild(checkEl('Apilar barras', W.stacked, v => { W.stacked = v; redraw(); }));
+      if (W.series && W.type !== 'line' && W.type !== 'table') form.appendChild(checkEl('Apilar barras', W.stacked, v => { W.stacked = v; redraw(true); }));
       if (W.series) form.appendChild(el('div', 'ed-hint', 'Se muestran los 7 valores principales; el resto se agrupa en \u00abOtros\u00bb.'));
     }
     }
@@ -3894,6 +3963,8 @@ function renderPropsInner() {
       form.appendChild(r2);
     }
     if (W.type === 'bar' || W.type === 'barh' || W.type === 'line') form.appendChild(checkEl(W.pct ? 'Mostrar porcentajes en las barras' : 'Mostrar valores sobre las marcas', W.labels, v => { W.labels = v; redraw(); }));
+    if ((W.type === 'bar' || W.type === 'barh') && (W.stacked || W.pct) && (Array.isArray(W.measures) ? W.measures.length > 1 : !!W.series))
+      form.appendChild(checkEl('Mostrar el total de cada barra', W.totals, v => { W.totals = v; redraw(); }));
     if (W.type === 'pie') form.appendChild(checkEl('Mostrar porcentajes en las porciones', W.labels !== false, v => { W.labels = v; redraw(); }));
     if (W.type === 'line') form.appendChild(checkEl('Eje vertical desde cero', W.zero !== false, v => { W.zero = v; redraw(); }));
     if (W.type === 'kpi') field(form, 'Nota debajo del n\u00famero', inputEl(W.note, v => { W.note = v; redraw(); }, 'Opcional, p. ej. \u00aben millones\u00bb'));
@@ -3910,13 +3981,16 @@ function renderPropsInner() {
     const items = [];
     if (W.type === 'kpi') items.push(['__kpi', 'Color del n\u00famero', GF.isDark() ? '#ffffff' : '#0b0b0b']);
     else if (R) {
-      if (W.type === 'pie') R.keys.forEach((k, i) => items.push([k, R.labels[i], GF.colorOf(R.colorIdx[i])]));
-      else R.series.forEach(S2 => items.push([S2.key, S2.key === '__v__' ? (W.type === 'line' ? 'L\u00ednea' : 'Barras') : S2.label, GF.colorOf(S2.colorIdx)]));
+      // 4.\u00ba dato: nombre original (si se puede renombrar desde ac\u00e1)
+      if (W.type === 'pie' && !R.measures) R.keys.forEach((k, i) => items.push([k, R.labels[i], GF.colorOf(R.colorIdx[i]), (R.olabels || R.labels)[i]]));
+      else if (W.type === 'pie') R.keys.forEach((k, i) => items.push([k, R.labels[i], GF.colorOf(R.colorIdx[i])]));
+      else R.series.forEach(S2 => items.push([S2.key, S2.key === '__v__' ? (W.type === 'line' ? 'L\u00ednea' : 'Barras') : S2.label, GF.colorOf(S2.colorIdx), S2.orig != null && R.s ? S2.orig : null]));
     }
     if (items.length) {
       const box = el('div', 'ed-colors');
       W.colors = W.colors || {};
-      items.slice(0, 24).forEach(([k, lab, def]) => {
+      const renamable = items.some(it => it[3] != null);
+      items.slice(0, 24).forEach(([k, lab, def, orig]) => {
         const row = el('div', 'ed-color');
         const sw = el('button', 'ed-swatch-btn'); sw.type = 'button';
         const cur = () => W.colors[k] || def;
@@ -3927,12 +4001,20 @@ function renderPropsInner() {
         sw.onclick = () => colorPopover(sw, cur(), def, apply);
         rst.onclick = e => { e.preventDefault(); apply(null); };
         row.appendChild(sw);
-        const l = el('span', 'ed-color-l', esc(lab)); l.onclick = () => sw.click(); row.appendChild(l);
+        if (orig != null) {
+          // Nombre que se muestra en la leyenda; vac\u00edo = el valor original de los datos
+          W.names = W.names || {};
+          const inp = el('input', 'ed-color-n'); inp.type = 'text'; inp.value = W.names[k] || ''; inp.placeholder = orig;
+          inp.title = 'Nombre en la leyenda (vac\u00edo = \u00ab' + orig + '\u00bb)'; inp.setAttribute('aria-label', 'Nombre para ' + orig);
+          inp.oninput = () => { const v = inp.value.trim(); W.names = W.names || {}; if (v) W.names[k] = v; else delete W.names[k]; if (!Object.keys(W.names).length) delete W.names; redraw(); };
+          row.appendChild(inp);
+        } else { const l = el('span', 'ed-color-l', esc(lab)); l.onclick = () => sw.click(); row.appendChild(l); }
         row.appendChild(rst);
         box.appendChild(row);
       });
       if (items.length > 24) box.appendChild(el('div', 'ed-hint', 'Se muestran los primeros 24 valores.'));
-      field(form, 'Colores', box);
+      field(form, renamable ? 'Colores y nombres' : 'Colores', box);
+      if (renamable) box.appendChild(el('div', 'ed-hint', 'Escrib\u00ed el nombre que quer\u00e9s mostrar en la leyenda. Los datos no cambian.'));
       if (Object.keys(W.colors).length) {
         const ra = el('button', 'gf-link', 'Restablecer todos los colores'); ra.style.alignSelf = 'flex-start';
         ra.onclick = () => { W.colors = {}; redraw(true); };

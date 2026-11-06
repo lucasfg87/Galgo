@@ -1,4 +1,391 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8"><title>Galgo</title>
-<meta http-equiv="refresh" content="0; url=galgo.html"></head>
-<body><p><a href="galgo.html">Abrir Galgo</a></p></body></html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galgo · Tableros fáciles de compartir</title>
+<meta name="description" content="Galgo: hacé tableros fácil y compartilos sin instalar nada. Cargás un Excel, armás el tablero y lo enviás como un único archivo HTML.">
+<meta property="og:title" content="Galgo · Tableros fáciles de compartir">
+<meta property="og:description" content="Hacé tableros fácil y compartilos sin instalar nada.">
+<meta property="og:image" content="https://lucasfg87.github.io/Galgo/img/05-informe.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F8FB; --surface:#FFFFFF; --ink:#13213A; --muted:#55657E; --line:#D8E0EB;
+  --blue:#2F6FDE; --blue-d:#1F56B8; --blue-soft:#E7EFFC; --orange:#F08A24; --orange-soft:#FDF0E2;
+  --display:'Bricolage Grotesque', system-ui, sans-serif; --body:'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--blue-d)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.02em;margin:0}
+h2{font-size:clamp(32px,4.2vw,48px);font-weight:800}
+h3{font-size:24px;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.lg{color:var(--orange)}
+
+/* barra superior */
+.top{position:sticky;top:0;z-index:20;background:rgba(246,248,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid transparent}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 26px/1 var(--display);letter-spacing:-.02em}
+.brand .logo-dog{width:52px;height:auto;color:var(--blue)}
+.top nav{display:flex;gap:22px;margin-left:auto}
+.top nav a{color:var(--muted);text-decoration:none;font-size:16px}
+.top nav a:hover{color:var(--ink)}
+.top .btn{padding:9px 18px;font-size:16px}
+@media (max-width:760px){.top nav{display:none}.top .btn{margin-left:auto}}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:12px;font:700 18px/1 var(--body);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:background .15s,transform .15s}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-d)}
+.btn-secondary{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn-secondary:hover{border-color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+
+/* portada */
+.hero{padding:64px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:52px;align-items:center}
+.hero h1{font-size:clamp(40px,4.4vw,62px);font-weight:800;letter-spacing:-.035em;line-height:1}
+.hero .lead{font-size:21px;color:var(--muted);margin:26px 0 34px;max-width:30em}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px}
+.hero .fine{margin-top:22px;font-size:15.5px;color:var(--muted);max-width:34em}
+.window{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 1px 0 var(--line),0 30px 60px -28px rgba(19,33,58,.35)}
+.window-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line);background:#EEF2F8}
+.window-bar i{width:11px;height:11px;border-radius:50%;background:#C9D3E1}
+.window-bar span{margin-left:10px;font-size:14px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:3px 12px}
+.stage{position:relative;height:560px;overflow:hidden;background:#F3F4F1}
+.stage iframe{position:absolute;left:0;top:0;width:1180px;height:900px;border:0;background:#fff;transform-origin:0 0}
+@media (max-width:640px){.stage{height:600px}.stage iframe{width:100%;height:100%;transform:none!important}}
+.try-hint{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:16px;color:var(--muted)}
+.try-hint b{color:var(--ink)}
+.try-hint svg{width:22px;height:22px;color:var(--orange);flex:none}
+@media (max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:44px}}
+
+/* secciones */
+section{padding:96px 0}
+.sec-head{max-width:720px;margin-bottom:56px}
+.sec-head p{font-size:20px;color:var(--muted);margin-top:16px}
+
+/* qué hace */
+.feature{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center;padding:36px 0}
+.feature + .feature{border-top:1px solid var(--line)}
+.feature:nth-child(even) .feature-text{order:2}
+.feature-text p{color:var(--muted);margin-top:14px;max-width:32em}
+.shot{border-radius:14px;border:1px solid var(--line);overflow:hidden;background:#fff;box-shadow:0 22px 44px -30px rgba(19,33,58,.4)}
+.shot.phone{max-width:min(280px,100%);margin-inline:auto;border-radius:32px;border:10px solid var(--ink)}
+.shot.small{max-width:min(440px,100%)}
+@media (max-width:860px){.feature{grid-template-columns:1fr;gap:26px}.feature:nth-child(even) .feature-text{order:0}}
+
+/* archivos */
+.files{background:var(--ink);color:#fff}
+.files .sec-head p{color:#B8C4D8}
+.file-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:18px;align-items:stretch}
+.file{border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:28px 26px;background:rgba(255,255,255,.04)}
+.file .name{font:700 18px/1.2 var(--display);display:inline-block;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,.08);margin-bottom:18px;word-break:break-all}
+.file h3{font-size:22px;margin-bottom:10px}
+.file p{color:#C3CEDF;font-size:17px}
+.file .warn{margin-top:14px;color:#FFD2A6;font-size:15.5px}
+.file.out{border-color:var(--orange);background:rgba(240,138,36,.08)}
+.arrow{display:grid;place-items:center;color:var(--orange)}
+.arrow svg{width:30px;height:30px}
+@media (max-width:900px){.file-flow{grid-template-columns:1fr}.arrow svg{transform:rotate(90deg)}}
+
+/* pasos */
+.steps{list-style:none;margin:0;padding:0;counter-reset:paso}
+.step{display:grid;grid-template-columns:64px minmax(0,5fr) minmax(0,6fr);gap:28px;align-items:start;padding:40px 0;border-top:1px solid var(--line)}
+.step:first-child{border-top:0;padding-top:0}
+.step::before{counter-increment:paso;content:counter(paso);display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--orange);color:#fff;font:800 24px/1 var(--display)}
+.step p{color:var(--muted);margin-top:12px}
+.step ul{margin:14px 0 0;padding-left:20px;color:var(--muted)}
+.step li{margin:6px 0}
+.step li b,.step p b{color:var(--ink)}
+.kbd{display:inline-block;padding:1px 8px;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;background:#fff;font-size:15px;color:var(--ink);white-space:nowrap}
+.tip{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--blue-soft);color:var(--ink);font-size:16px}
+@media (max-width:900px){.step{grid-template-columns:52px minmax(0,1fr);gap:18px}.step .shot{grid-column:1 / -1}}
+
+/* preguntas */
+.faq{max-width:820px}
+.faq details{border-top:1px solid var(--line);padding:4px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font:700 21px/1.3 var(--display)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-size:28px;line-height:1;color:var(--blue)}
+.faq details[open] summary::after{content:'−'}
+.faq details p{color:var(--muted);padding:0 0 22px;max-width:40em}
+
+/* cierre */
+.end{padding:96px 0 40px;text-align:left}
+.end-box{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:56px}
+.end-box h2{margin-bottom:18px}
+.end-box p{color:var(--muted)}
+.end-box .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.about{border-left:4px solid var(--orange);padding-left:24px}
+.about p + p{margin-top:12px}
+.about .btn{margin-top:22px}
+@media (max-width:860px){.end-box{grid-template-columns:1fr;padding:32px 24px}}
+footer{padding:28px 0 48px;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Galgo, inicio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 7 116 47" class="logo-dog" aria-hidden="true"><defs><clipPath id="gdog"><path d="M116,19 C110,16 105,14 100,13.5 L97.5,12.6 L91.5,10.2 L94.5,14.2 C92,17.5 88.5,20.5 84,22.5 C76,21 66,16 57,16.5 C50,17 45,19 41,23 C34,26 26,31 17,31 C15,31 13,30 12,28.5 L11,29.5 C14,33.5 26,34 40,27 C39,31 37,34 34,36 L22,42 L10,46.5 C8,47 6.5,48 7,49.5 L11,49.8 L24,45.5 L37,39.5 C41,37 44,35 47,33.5 C52,31 56,30 60,30.5 C67,31.5 73,38 79,42.5 L96,47.5 L108,49.5 C110,50 111,51 110.5,52.5 L96,51 L81,47.5 C85,45 88.5,40 90,34 C91.5,28.5 95,23 101,21.5 C106,20.8 111,20.5 116,19 Z"/></clipPath></defs><g clip-path="url(#gdog)" fill="currentColor"><rect x="0" y="0" width="51.15" height="60"/><rect x="53.95" y="0" width="10.15" height="60"/><rect x="66.9" y="0" width="10.15" height="60"/><rect x="79.85" y="0" width="40.15" height="60"/></g></svg><span>Ga<span class="lg">lg</span>o</span></a>
+    <nav aria-label="Secciones">
+      <a href="#que-hace">Qué hace</a>
+      <a href="#archivos">Los archivos</a>
+      <a href="#como-usarlo">Cómo usarlo</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary" href="galgo.html">Probalo</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="titulo">
+    <div class="wrap">
+      <div>
+        <h1 id="titulo">Hacé tableros fácil y compartilos sin instalar nada.</h1>
+        <p class="lead">Cargás un Excel, armás el tablero con gráficos y filtros, y lo mandás como un único archivo que se abre con doble clic. Quien lo recibe puede filtrarlo y explorarlo, no solo mirarlo.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="galgo.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>
+            Probalo
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/lucasfg87/Galgo/releases/latest/download/galgo.html" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+            Descargar
+          </a>
+        </div>
+        <p class="fine">Es gratis y funciona en Chrome o Edge. Tus datos se procesan en tu computadora: no se suben a ningún servidor.</p>
+      </div>
+      <div>
+        <div class="window">
+          <div class="window-bar"><i></i><i></i><i></i><span>informe-ejemplo.html</span></div>
+          <div class="stage" id="stage"><iframe src="demo/informe-ejemplo.html" title="Informe de ejemplo hecho con Galgo, interactivo"></iframe></div>
+        </div>
+        <p class="try-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 1 1 4 0v5m0 0V9a2 2 0 1 1 4 0v4m-8-2V9.5a2 2 0 1 0-4 0V15a6 6 0 0 0 6 6h2a6 6 0 0 0 6-6v-2a2 2 0 1 0-4 0"/></svg><span>Este es un informe real hecho con Galgo. <b>Hacé clic en un banco</b> y mirá cómo cambia todo el tablero.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="que-hace" aria-labelledby="t-que-hace">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="t-que-hace">Qué hace Galgo</h2>
+        <p>Lo que hoy terminás mandando como planilla o como capturas en un PowerPoint, lo mandás como un tablero que se puede usar.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-text">
+            <h3>Armás el tablero en minutos</h3>
+            <p>Cargás un Excel o un CSV y Galgo propone un tablero con indicadores y gráficos. Después lo ajustás: agregás o quitás objetos, los movés, cambiás colores y títulos.</p>
+          </div>
+          <img class="shot" src="img/02-editor.png" alt="Editor de Galgo con un tablero de cumplimiento por banco" loading="lazy">
+        </div>
+        <div class="feature">
+          <div class="feature-text">
+            <h3>Quien lo recibe lo explora</h3>
+            <p>Un clic en una barra, una porción o un nombre filtra todo el informe, como en Power BI. También puede usar los filtros de arriba, ampliar un gráfico o ver el detalle de los registros.</p>
+          </div>
+          <img class="shot" src="img/03-filtro.png" alt="Informe filtrado por un banco con un clic" loading="lazy">
+        </div>
+        <div class="feature">
+          <div class="feature-text">
+            <h3>Te avisa si los datos tienen problemas</h3>
+            <p>Apenas cargás el archivo, Galgo revisa celdas vacías, valores que no corresponden al tipo de la columna y filas duplicadas. Así los detectás antes de mostrar un número.</p>
+          </div>
+          <img class="shot small" src="img/calidad.png" alt="Resumen de calidad: celdas vacías, valores inválidos y filas duplicadas" loading="lazy">
+        </div>
+        <div class="feature">
+          <div class="feature-text">
+            <h3>Se ve bien en el celular</h3>
+            <p>El informe se acomoda a la pantalla del teléfono. Los filtros y los clics funcionan igual.</p>
+          </div>
+          <img class="shot phone" src="img/06-celular.png" alt="Informe de Galgo en la pantalla de un celular" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="files" id="archivos" aria-labelledby="t-archivos">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="t-archivos">Los tres archivos que vas a usar</h2>
+        <p>Galgo no se instala: todo pasa en archivos que guardás donde quieras, como cualquier documento.</p>
+      </div>
+      <div class="file-flow">
+        <div class="file">
+          <span class="name">galgo.html</span>
+          <h3>La herramienta</h3>
+          <p>Lo abrís con doble clic para armar o editar tableros. Es siempre el mismo archivo: guardalo en una carpeta fija.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></div>
+        <div class="file">
+          <span class="name">mi-tablero.galgo.json</span>
+          <h3>Tu proyecto</h3>
+          <p>Es tu trabajo guardado. Lo abrís desde Galgo para seguir editando otro día.</p>
+          <p class="warn">Lleva los datos adentro: no lo compartas si son sensibles.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></div>
+        <div class="file out">
+          <span class="name">mi-informe.html</span>
+          <h3>Lo que enviás</h3>
+          <p>El informe terminado. Se abre con doble clic en cualquier navegador, sin tener Galgo, y se puede filtrar pero no editar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-usarlo" aria-labelledby="t-como">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="t-como">Cómo usarlo, paso a paso</h2>
+        <p>De la planilla al informe enviado, sin vueltas.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <div>
+            <h3>Abrí Galgo</h3>
+            <p>Si querés probar, tocá <b>Probalo</b> y se abre en el navegador. Para usarlo seguido, <b>descargá galgo.html</b> y abrilo con doble clic.</p>
+            <div class="tip">Si se abre en otro programa, hacé clic derecho sobre el archivo → <b>Abrir con</b> → <b>Google Chrome</b> o <b>Microsoft Edge</b>.</div>
+          </div>
+          <img class="shot" src="img/01-inicio.png" alt="Pantalla inicial de Galgo para cargar un archivo" loading="lazy">
+        </li>
+        <li class="step">
+          <div>
+            <h3>Cargá tus datos</h3>
+            <p>Arrastrá tu Excel o CSV a la pantalla, o tocá <b>Abrir</b>. Galgo detecta las columnas y arma un tablero sugerido.</p>
+            <ul>
+              <li>La primera fila tiene que tener los nombres de las columnas.</li>
+              <li>Si no tenés datos a mano, tocá <b>Probar con datos de ejemplo</b>.</li>
+            </ul>
+          </div>
+          <img class="shot" src="img/02-editor.png" alt="Tablero sugerido después de cargar un Excel" loading="lazy">
+        </li>
+        <li class="step">
+          <div>
+            <h3>Armá el tablero</h3>
+            <ul>
+              <li><b>+ Objeto</b> agrega un indicador, un gráfico o una tabla.</li>
+              <li><b>Filtro</b> agrega un filtro arriba del tablero, por ejemplo por período.</li>
+              <li>Hacé clic en un objeto para cambiar su configuración en el panel de la derecha.</li>
+              <li>Arrastralo para moverlo y tirá de la esquina para cambiar su tamaño.</li>
+              <li><b>Vista previa</b> te muestra cómo lo va a ver quien lo reciba.</li>
+            </ul>
+          </div>
+          <img class="shot" src="img/03-filtro.png" alt="Vista previa del tablero con un filtro aplicado" loading="lazy">
+        </li>
+        <li class="step">
+          <div>
+            <h3>Guardá el proyecto</h3>
+            <p>Tocá <b>Guardar proyecto</b> y elegí la carpeta. Se guarda un archivo <b>.galgo.json</b> con el tablero y los datos.</p>
+            <ul>
+              <li>Para seguir otro día, abrí Galgo y tocá <b>Abrir</b> → elegí tu proyecto.</li>
+              <li>Con <b>Activar autoguardado</b>, Galgo guarda solo cada cambio en ese archivo.</li>
+            </ul>
+          </div>
+          <img class="shot" src="img/guardar.png" alt="Botón Guardar proyecto en la barra de Galgo" loading="lazy">
+        </li>
+        <li class="step">
+          <div>
+            <h3>Exportá el informe</h3>
+            <p>Tocá <b>Exportar informe</b>, revisá el título y elegí qué columnas incluir. Después, <b>Descargar HTML</b>.</p>
+            <div class="tip">Los datos viajan dentro del informe. Si una columna no hace falta, por ejemplo un número de documento, dejala afuera.</div>
+          </div>
+          <img class="shot" src="img/04-exportar.png" alt="Ventana para exportar el informe HTML" loading="lazy">
+        </li>
+        <li class="step">
+          <div>
+            <h3>Envialo</h3>
+            <p>Mandá el archivo .html como cualquier adjunto: por mail, Teams, Drive o WhatsApp. Quien lo recibe lo abre con doble clic y ya puede filtrarlo.</p>
+            <ul>
+              <li>Por mail, si el servidor bloquea archivos .html, mandalo comprimido en <b>.zip</b>.</li>
+              <li>En el celular, si se ve en blanco, tocá <b>Abrir con</b> → Chrome o Safari.</li>
+            </ul>
+          </div>
+          <img class="shot" src="img/05-informe.png" alt="Informe exportado abierto en el navegador" loading="lazy">
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="preguntas" aria-labelledby="t-preguntas">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="t-preguntas">Preguntas frecuentes</h2></div>
+      <div class="faq">
+        <details><summary>¿Es gratis?</summary><p>Sí. Podés usarlo para trabajo, estudio o uso personal, y compartir los informes que hagas sin restricciones.</p></details>
+        <details><summary>¿Tengo que instalar algo?</summary><p>No. Galgo es un archivo que se abre en el navegador. No necesitás permisos de administrador ni crear una cuenta.</p></details>
+        <details><summary>¿Mis datos se suben a internet?</summary><p>No. Todo se procesa en tu computadora, incluso cuando usás Galgo desde esta página. Los datos solo salen si vos enviás el proyecto o el informe.</p></details>
+        <details><summary>¿Quien recibe el informe necesita tener Galgo?</summary><p>No. El informe es un archivo independiente que se abre en cualquier navegador actual, en la computadora o en el celular.</p></details>
+        <details><summary>¿Cuántos datos soporta?</summary><p>Está pensado para volúmenes de una hoja de Excel. Con más datos funciona igual, pero la velocidad depende de la computadora. No es una herramienta para big data.</p></details>
+        <details><summary>¿Qué navegador uso?</summary><p>Chrome o Edge. En otros navegadores funciona, pero el guardado en una carpeta elegida y el autoguardado no están disponibles: los archivos se descargan.</p></details>
+        <details><summary>¿Puedo editar un informe que ya envié?</summary><p>Sí. Abrí Galgo, tocá <b>Abrir</b> y elegí el informe .html: se carga como proyecto para seguir editándolo.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="end" aria-labelledby="t-fin">
+    <div class="wrap">
+      <div class="end-box">
+        <div>
+          <h2 id="t-fin">Tu próximo informe, en un archivo que se puede usar.</h2>
+          <p>Probalo con tus datos o con los de ejemplo. No hay que registrarse.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="galgo.html">Probalo</a>
+            <a class="btn btn-secondary" href="https://github.com/lucasfg87/Galgo/releases/latest/download/galgo.html" download>Descargar</a>
+          </div>
+        </div>
+        <div class="about">
+          <p>¡Hola! Soy <b>Lucas</b>, un analista de datos bastante inquieto y muy amigo de la IA (ella pone la velocidad, yo los mates 🧉).</p>
+          <p>Galgo es un proyecto personal que desarrollé con asistencia de IA.</p>
+          <p>¿Sugerencias, errores o ideas? Escribime.</p>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/lucas-gomez-data" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4z"/></svg>
+            Escribime en LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Galgo · Ga<span class="lg">lg</span>o esconde mis iniciales.</span>
+    <a href="https://github.com/lucasfg87/Galgo">Código y versiones en GitHub</a>
+    <a href="https://github.com/lucasfg87/Galgo/blob/main/LICENCIA.md">Licencia de uso</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var top = document.getElementById('top');
+    var onScroll = function () { top.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    // El informe de ejemplo se muestra a tamaño de escritorio, achicado para entrar en el recuadro
+    var stage = document.getElementById('stage'), frame = stage.querySelector('iframe');
+    var fit = function () {
+      if (window.innerWidth <= 640) { frame.style.transform = ''; return; }
+      var s = stage.clientWidth / 1180;
+      frame.style.transform = 'scale(' + s + ')';
+      stage.style.height = Math.round(Math.min(900, 820) * s) + 'px';
+    };
+    window.addEventListener('resize', fit); fit();
+  })();
+</script>
+</body>
+</html>
