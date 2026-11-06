@@ -2,7 +2,7 @@
 
 **Tableros interactivos en un solo archivo HTML.** Se carga un Excel o CSV, se arma el tablero con gráficos y filtros, y se exporta un HTML que cualquiera abre con doble clic: sin instalar nada, sin licencias y sin internet.
 
-**[🌐 Sitio de Galgo](https://lucasfg87.github.io/Galgo/)** · **[▶ Probar Galgo en el navegador](https://lucasfg87.github.io/Galgo/galgo.html)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/Galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
+**[🌐 Sitio de Galgo](https://galgo.net.ar/)** · **[▶ Probar Galgo en el navegador](https://galgo.net.ar/galgo.html)** · **[⬇ Descargar galgo.html](https://github.com/lucasfg87/Galgo/releases/latest)** · **[🎬 Ver el video (1 min)](docs/galgo-demo.mp4)**
 
 ![Tablero filtrado por clic en una barra](docs/informe-filtrado.png)
 
