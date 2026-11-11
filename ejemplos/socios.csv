@@ -1,0 +1,121 @@
+socio;nombre;barrio;categoria;fecha_alta
+S001;Socio 1;Saavedra;Jubilado;31/05/2025
+S002;Socio 2;Centro;Jubilado;25/03/2024
+S003;Socio 3;Boedo;Docente;10/02/2023
+S004;Socio 4;Centro;Estudiante;23/03/2023
+S005;Socio 5;Boedo;Docente;25/09/2024
+S006;Socio 6;Saavedra;Jubilado;24/08/2025
+S007;Socio 7;Boedo;Estudiante;25/01/2023
+S008;Socio 8;Nunez;Jubilado;02/07/2023
+S009;Socio 9;Saavedra;Jubilado;15/01/2024
+S010;Socio 10;Nunez;Jubilado;14/10/2024
+S011;Socio 11;Flores;Jubilado;24/08/2025
+S012;Socio 12;Mataderos;Docente;27/10/2023
+S013;Socio 13;Saavedra;Jubilado;02/07/2024
+S014;Socio 14;Flores;General;30/07/2025
+S015;Socio 15;Boedo;General;02/12/2024
+S016;Socio 16;Villa Luro;Docente;06/01/2025
+S017;Socio 17;Saavedra;Docente;13/05/2023
+S018;Socio 18;Saavedra;Jubilado;11/12/2023
+S019;Socio 19;Mataderos;Jubilado;05/11/2023
+S020;Socio 20;Boedo;Estudiante;16/02/2025
+S021;Socio 21;Mataderos;General;26/03/2024
+S022;Socio 22;Centro;General;01/10/2024
+S023;Socio 23;Saavedra;General;11/01/2024
+S024;Socio 24;Boedo;Jubilado;21/07/2024
+S025;Socio 25;Saavedra;Jubilado;11/01/2024
+S026;Socio 26;Centro;General;23/01/2025
+S027;Socio 27;Flores;Docente;08/11/2023
+S028;Socio 28;Boedo;Estudiante;14/08/2024
+S029;Socio 29;Mataderos;Docente;13/01/2024
+S030;Socio 30;Saavedra;General;18/08/2024
+S031;Socio 31;Nunez;Jubilado;06/08/2023
+S032;Socio 32;Flores;Docente;12/07/2025
+S033;Socio 33;Centro;General;17/05/2024
+S034;Socio 34;Villa Luro;General;20/10/2024
+S035;Socio 35;Flores;Docente;06/06/2025
+S036;Socio 36;Flores;Jubilado;28/09/2023
+S037;Socio 37;Saavedra;Docente;07/08/2024
+S038;Socio 38;Centro;Estudiante;20/08/2025
+S039;Socio 39;Nunez;General;06/09/2023
+S040;Socio 40;Flores;Estudiante;03/02/2024
+S041;Socio 41;Flores;Docente;31/10/2024
+S042;Socio 42;Centro;Docente;19/08/2023
+S043;Socio 43;Saavedra;General;12/02/2023
+S044;Socio 44;Centro;General;09/04/2025
+S045;Socio 45;Saavedra;Estudiante;24/11/2024
+S046;Socio 46;Centro;General;24/08/2023
+S047;Socio 47;Saavedra;General;04/06/2023
+S048;Socio 48;Villa Luro;Docente;01/08/2025
+S049;Socio 49;Mataderos;Jubilado;02/10/2024
+S050;Socio 50;Mataderos;Jubilado;20/11/2023
+S051;Socio 51;Nunez;Jubilado;24/01/2025
+S052;Socio 52;Flores;General;19/10/2023
+S053;Socio 53;Nunez;Docente;14/02/2024
+S054;Socio 54;Villa Luro;Estudiante;11/05/2025
+S055;Socio 55;Boedo;Estudiante;31/03/2023
+S056;Socio 56;Nunez;Docente;21/07/2025
+S057;Socio 57;Flores;Docente;21/12/2023
+S058;Socio 58;Villa Luro;General;01/07/2023
+S059;Socio 59;Saavedra;General;03/05/2025
+S060;Socio 60;Mataderos;General;28/04/2025
+S061;Socio 61;Boedo;Docente;26/01/2024
+S062;Socio 62;Nunez;Estudiante;24/04/2025
+S063;Socio 63;Saavedra;Docente;01/11/2023
+S064;Socio 64;Villa Luro;General;13/04/2025
+S065;Socio 65;Mataderos;General;07/11/2023
+S066;Socio 66;Centro;General;03/02/2024
+S067;Socio 67;Nunez;Jubilado;07/05/2025
+S068;Socio 68;Mataderos;Jubilado;04/12/2024
+S069;Socio 69;Nunez;Estudiante;03/09/2025
+S070;Socio 70;Flores;General;10/01/2025
+S071;Socio 71;Centro;Docente;24/11/2023
+S072;Socio 72;Nunez;Docente;05/07/2024
+S073;Socio 73;Flores;Docente;31/07/2025
+S074;Socio 74;Boedo;Docente;27/10/2023
+S075;Socio 75;Boedo;Estudiante;24/02/2024
+S076;Socio 76;Flores;Docente;08/08/2024
+S077;Socio 77;Saavedra;Jubilado;12/09/2023
+S078;Socio 78;Nunez;General;21/04/2023
+S079;Socio 79;Saavedra;Docente;01/05/2025
+S080;Socio 80;Centro;Estudiante;03/06/2024
+S081;Socio 81;Villa Luro;Jubilado;17/07/2024
+S082;Socio 82;Centro;Jubilado;11/10/2024
+S083;Socio 83;Nunez;General;18/12/2024
+S084;Socio 84;Centro;Estudiante;22/01/2023
+S085;Socio 85;Saavedra;Jubilado;31/01/2023
+S086;Socio 86;Boedo;Docente;24/06/2024
+S087;Socio 87;Saavedra;Estudiante;18/04/2023
+S088;Socio 88;Flores;Estudiante;17/03/2023
+S089;Socio 89;Flores;General;03/01/2024
+S090;Socio 90;Centro;Estudiante;23/12/2023
+S091;Socio 91;Boedo;Docente;03/02/2024
+S092;Socio 92;Centro;General;25/08/2024
+S093;Socio 93;Villa Luro;Estudiante;30/05/2023
+S094;Socio 94;Villa Luro;Jubilado;10/05/2024
+S095;Socio 95;Boedo;General;15/10/2023
+S096;Socio 96;Boedo;Docente;02/10/2024
+S097;Socio 97;Centro;General;16/02/2024
+S098;Socio 98;Saavedra;Docente;12/11/2024
+S099;Socio 99;Villa Luro;General;07/07/2023
+S100;Socio 100;Centro;Jubilado;02/12/2023
+S101;Socio 101;Villa Luro;General;12/11/2024
+S102;Socio 102;Saavedra;General;12/01/2025
+S103;Socio 103;Flores;Estudiante;25/06/2025
+S104;Socio 104;Mataderos;Estudiante;03/05/2023
+S105;Socio 105;Mataderos;Estudiante;01/12/2024
+S106;Socio 106;Saavedra;Jubilado;30/05/2023
+S107;Socio 107;Flores;Jubilado;20/12/2024
+S108;Socio 108;Villa Luro;Jubilado;10/11/2024
+S109;Socio 109;Boedo;Docente;27/08/2023
+S110;Socio 110;Mataderos;Jubilado;27/09/2024
+S111;Socio 111;Villa Luro;General;06/01/2023
+S112;Socio 112;Centro;Jubilado;06/08/2023
+S113;Socio 113;Villa Luro;Jubilado;11/01/2024
+S114;Socio 114;Mataderos;Estudiante;12/02/2023
+S115;Socio 115;Centro;Jubilado;30/10/2023
+S116;Socio 116;Saavedra;General;20/04/2023
+S117;Socio 117;Nunez;Jubilado;24/07/2025
+S118;Socio 118;Villa Luro;Docente;12/01/2025
+S119;Socio 119;Nunez;Docente;11/04/2024
+S120;Socio 120;Boedo;Docente;17/09/2025

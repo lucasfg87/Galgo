@@ -218,6 +218,20 @@ footer a{color:var(--muted)}
         </div>
         <div class="feature">
           <div class="feature-text">
+            <h3>Relacionás varias tablas</h3>
+            <p>Si tus datos están repartidos en varios archivos, los subís por separado y Galgo los une por la columna que tienen en común. Antes de confirmar te muestra cuántas filas coinciden, cuáles quedaron afuera y si hay claves repetidas, así no te enterás tarde.</p>
+          </div>
+          <img class="shot" src="img/modelo.png" alt="Diagrama del modelo: dos tablas de referencia unidas a la tabla principal" loading="lazy">
+        </div>
+        <div class="feature">
+          <div class="feature-text">
+            <h3>Actualizás los datos sin rehacer el tablero</h3>
+            <p>Cuando llegan los datos del mes siguiente, <b>Actualizar datos</b> los vuelve a leer y todo el tablero se recalcula. También funciona en el informe ya enviado: quien lo recibe elige su archivo y lo actualiza, con la opción de deshacer.</p>
+          </div>
+          <img class="shot" src="img/actualizar.png" alt="Aviso de datos actualizados en un informe, con las opciones de guardar y deshacer" loading="lazy">
+        </div>
+        <div class="feature">
+          <div class="feature-text">
             <h3>Se ve bien en el celular</h3>
             <p>El informe se acomoda a la pantalla del teléfono. Los filtros y los clics funcionan igual.</p>
           </div>
@@ -278,6 +292,7 @@ footer a{color:var(--muted)}
             <ul>
               <li>La primera fila tiene que tener los nombres de las columnas.</li>
               <li>Si no tenés datos a mano, tocá <b>Probar con datos de ejemplo</b>.</li>
+              <li>¿Tenés los datos en varios archivos? Cargá primero el principal y después tocá <b>Relacionar otra tabla</b>.</li>
             </ul>
           </div>
           <img class="shot" src="img/02-editor.png" alt="Tablero sugerido después de cargar un Excel" loading="lazy">
@@ -337,6 +352,8 @@ footer a{color:var(--muted)}
         <details><summary>¿Tengo que instalar algo?</summary><p>No. Galgo es un archivo que se abre en el navegador. No necesitás permisos de administrador ni crear una cuenta.</p></details>
         <details><summary>¿Mis datos se suben a internet?</summary><p>No. Todo se procesa en tu computadora, incluso cuando usás Galgo desde esta página. Los datos solo salen si vos enviás el proyecto o el informe.</p></details>
         <details><summary>¿Quien recibe el informe necesita tener Galgo?</summary><p>No. El informe es un archivo independiente que se abre en cualquier navegador actual, en la computadora o en el celular.</p></details>
+        <details><summary>¿Puedo usar varias tablas?</summary><p>Sí. Una tabla principal —la de los hechos, por ejemplo las ventas o los pedidos— y las tablas de referencia que le suman columnas, como clientes o productos. Galgo propone por qué columna unirlas y te muestra el porcentaje que coincide antes de confirmar.</p></details>
+        <details><summary>¿Cómo actualizo los datos el mes que viene?</summary><p>Con <b>Actualizar datos</b>: elegís el archivo nuevo y el tablero se recalcula solo, sin tocar los gráficos. Si ya enviaste el informe, quien lo recibió también puede hacerlo desde el botón de arriba a la derecha.</p></details>
         <details><summary>¿Cuántos datos soporta?</summary><p>Está pensado para volúmenes de una hoja de Excel. Con más datos funciona igual, pero la velocidad depende de la computadora. No es una herramienta para big data.</p></details>
         <details><summary>¿Qué navegador uso?</summary><p>Chrome o Edge. En otros navegadores funciona, pero el guardado en una carpeta elegida y el autoguardado no están disponibles: los archivos se descargan.</p></details>
         <details><summary>¿Puedo editar un informe que ya envié?</summary><p>Sí. Abrí Galgo, tocá <b>Abrir</b> y elegí el informe .html: se carga como proyecto para seguir editándolo.</p></details>

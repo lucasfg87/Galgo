@@ -17,7 +17,7 @@ Muchos informes terminan en una planilla de Excel o en un PowerPoint con gráfic
 ## Cómo se usa
 
 1. **Abrir `galgo.html`** con Chrome o Edge, con doble clic o desde el link de arriba.
-2. **Cargar los datos:** arrastrar un Excel (.xlsx, .xls) o un CSV, o cargarlos a mano. Galgo arma un tablero sugerido al instante. Para probar, está el archivo [`ejemplos/cumplimiento_cuentas_bancos.xlsx`](ejemplos/cumplimiento_cuentas_bancos.xlsx), con datos sintéticos.
+2. **Cargar los datos:** arrastrar un Excel (.xlsx, .xls) o un CSV, o cargarlos a mano. Galgo arma un tablero sugerido al instante. Para probar, están [`ejemplos/cumplimiento_cuentas_bancos.xlsx`](ejemplos/cumplimiento_cuentas_bancos.xlsx) y, para relacionar tablas, [`prestamos.xlsx`](ejemplos/prestamos.xlsx) + [`socios.csv`](ejemplos/socios.csv) + [`libros.xlsx`](ejemplos/libros.xlsx): todos con datos sintéticos.
 3. **Armar el tablero:** agregar indicadores, barras, líneas, donas, tablas y textos; moverlos y cambiarles el tamaño en el lienzo, con guías de alineación; elegir colores; sumar filtros y medidas calculadas (por ejemplo, % de cumplimiento).
 4. **Exportar el informe:** «Exportar informe» genera un único HTML con los datos adentro, listo para enviar.
 
@@ -27,6 +27,8 @@ Con «Guardar proyecto» se guarda el trabajo para seguir editándolo más adela
 
 ## Funcionalidades
 
+- **Varias tablas relacionadas:** una tabla principal y sus tablas de referencia, unidas por una columna en común, con control de calidad de la relación (porcentaje que coincide, filas sin correspondencia, claves repetidas) y diagrama del modelo.
+- **Actualizar datos** en un clic, en el editor y también en el informe ya enviado, con deshacer.
 - **Tablero sugerido** a partir de las columnas detectadas: texto, número y fecha. Reconoce períodos como `202601`.
 - **Filtrado cruzado** con un clic, como en las herramientas de BI.
 - **Perfil de calidad de los datos:** celdas vacías, valores inválidos y filas duplicadas.
@@ -51,6 +53,8 @@ Importante: **el HTML exportado lleva los datos adentro.** Quien lo recibe puede
 
 ## Versiones
 
+- **1.06:** varias tablas relacionadas (una principal y sus tablas de referencia), con control de calidad de la relación y diagrama del modelo; los desplegables de columnas se agrupan por tabla y tienen buscador.
+- **1.05:** «Actualizar datos» en el editor y en el informe exportado, con deshacer; la marca Galgo y el pie del informe llevan al sitio.
 - **1.04:** clic en la leyenda para filtrar todo el tablero, nombres editables para los valores de la leyenda y opción de mostrar el total de cada barra apilada.
 - **1.03:** paneles que se ocultan, lienzo con zoom igual al informe final, guías de alineación al mover objetos, y los informes ya no se dañan si el archivo cambia de codificación al enviarse.
 - **1.02:** medidas calculadas, colores por objeto, lienzo libre, deshacer y rehacer, autoguardado, modo foco y copiar gráficos como imagen.

@@ -245,6 +245,21 @@ body.gf-noscroll { overflow: hidden; }
 .gf-card:hover .gf-fs { opacity: 1; }
 @media (max-width: 600px) { .gf-focus-ov { padding: 8px; } .gf-focus-box { padding: 12px; } }
 
+/* actualizar datos desde el informe */
+.gf-updbtn svg { flex: none; }
+.gf-upd { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin: 0 0 14px; padding: 12px 16px; border: 1px solid var(--accent); background: var(--accent-wash); border-radius: 12px; font-size: 14px; color: var(--ink-1); }
+.gf-upd-t { flex: 1 1 320px; line-height: 1.45; }
+.gf-upd-w { color: var(--warn); font-weight: 600; }
+.gf-upd-a { display: flex; gap: 8px; flex: none; }
+.gf-upd-p { margin: 0 0 10px; line-height: 1.5; color: var(--ink-2); }
+.gf-upd-l { margin: 0 0 12px; padding-left: 20px; color: var(--ink-1); font-weight: 600; }
+.gf-sheets { display: flex; flex-direction: column; gap: 8px; }
+.gf-sheets .gf-btn { justify-content: flex-start; }
+a.gf-made { color: inherit; text-decoration: none; border-radius: 6px; padding: 2px 6px; }
+a.gf-made:hover { background: var(--accent-wash); color: var(--ink-1); }
+a.gf-made:hover .gf-word { text-decoration: underline; text-underline-offset: 3px; }
+@media print { .gf-updbtn, .gf-upd { display: none !important; } }
+
 /* ---------- editor ---------- */
 .ed { display: grid; grid-template-rows: 52px 1fr; height: 100vh; }
 .ed-top { display: flex; align-items: center; gap: 10px; padding: 0 14px; background: var(--surface); border-bottom: 1px solid var(--line); min-width: 0; }
@@ -281,6 +296,7 @@ body.gf-noscroll { overflow: hidden; }
 .ed-badge { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
 .ed-badge.warn { background: var(--warn-wash); color: var(--warn); }
 .ed-badge.ok { color: var(--good); }
+}
 .ed-cols { padding: 6px 8px 16px; }
 .ed-col { padding: 8px; border-radius: 8px; }
 .ed-col:hover { background: var(--surface-2); }
@@ -504,6 +520,106 @@ body.gf-moving, body.gf-moving * { cursor: grabbing !important; user-select: non
 @media (max-width: 1520px) { .ed-tools .gf-btn.ed-lbl > span { display: none; } .ed-tools .gf-btn.ed-lbl { padding: 0 9px; } }
 
 .ed-color .ed-color-n { flex: 1; min-width: 0; height: 28px; padding: 3px 8px; font-size: 13px; }
+
+a.ed-brand { color: inherit; text-decoration: none; border-radius: 8px; padding: 4px 8px; margin-left: -8px; transition: background .12s; }
+a.ed-brand:hover { background: var(--accent-wash); }
+a.ed-brand:hover .gf-word { text-decoration: underline; text-underline-offset: 3px; }
+.ed-upd { width: 100%; justify-content: center; margin-top: 10px; }
+.ed-upd svg { flex: none; }
+.ed-upd-at { font-size: 11.5px; color: var(--ink-3); margin-top: 5px; text-align: center; }
+.ed-exp-upd { margin-top: 14px; font-weight: 600; }
+.ed-exp-updh { margin: 4px 0 0 26px; }
+.ed-exp-tbl { font-size: 12.5px; font-weight: 650; color: var(--ink-2); margin: 12px 0 4px; }
+.ed-exp-tbl small { font-weight: 500; color: var(--ink-3); }
+
+/* ---------------- tablas relacionadas ---------------- */
+.ed-badge.bad { background: rgba(208,59,59,.12); color: var(--crit); }
+.ed-badge.main { background: var(--accent-wash); color: var(--accent-ink); }
+/* tablas relacionadas: tarjetas del panel de datos */
+.gf-menu-sub { margin-top: 4px; }
+/* elegir columna: boton + lista buscable */
+.ed-pick { width: 100%; height: 32px; display: flex; align-items: center; gap: 7px; padding: 0 6px 0 7px; border: 1px solid var(--line-2); border-radius: 7px; background: var(--surface); font-size: 13.5px; text-align: left; cursor: pointer; }
+.ed-pick:hover { border-color: var(--ink-3); }
+.ed-pick:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
+.ed-pick-t { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-pick-c { display: grid; place-items: center; color: var(--ink-3); flex: none; }
+.ed-pop { width: 100%; max-width: 340px; }
+.ed-psearch { width: 100%; height: 30px; border: 1px solid var(--line-2); border-radius: 7px; background: var(--surface-2); padding: 0 8px; font-size: 13px; margin-bottom: 6px; }
+.ed-psearch:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.ed-plist { max-height: 300px; overflow: auto; margin: 0 -4px; }
+.ed-pgrp { padding: 7px 8px 3px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); }
+.ed-pgrp:first-child { padding-top: 2px; }
+.ed-pcol { width: 100%; display: flex; align-items: center; gap: 8px; padding: 5px 8px; border: 0; background: none; border-radius: 7px; font-size: 13.5px; text-align: left; cursor: pointer; color: var(--ink-1); }
+.ed-pcol span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-pcol:hover, .ed-pcol:focus-visible { background: var(--surface-2); outline: none; }
+.ed-pcol.on { background: var(--accent-wash); font-weight: 600; }
+.ed-addtbl { margin-top: 6px; width: 100%; justify-content: center; }
+.ed-sec-tablas .ed-actions-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ed-sec-tablas .ed-actions-row .gf-btn { padding: 0 6px; font-size: 13px; min-width: 0; }
+.ed-sec-tablas .ed-actions-row .gf-btn span { overflow: hidden; text-overflow: ellipsis; }
+.ed-sec-tablas { display: flex; flex-direction: column; gap: 6px; }
+.ed-tbl { border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; cursor: pointer; background: var(--surface); }
+.ed-tbl:hover { background: var(--surface-2); }
+.ed-tbl.cur { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--surface); }
+.ed-tbl-n { font-weight: 600; font-size: 13.5px; display: flex; align-items: center; gap: 6px; justify-content: space-between; word-break: break-word; }
+.ed-tbl-rel { margin-top: 5px; padding-top: 5px; border-top: 1px dashed var(--line); font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.ed-tbl-acts { margin-left: auto; display: flex; gap: 2px; }
+.ed-tbl-x { width: 24px; height: 24px; }
+.ed-key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; color: var(--ink-2); }
+.ed-colgrp { margin: 2px 0 0; padding: 6px 8px 2px; font-size: 11.5px; font-weight: 650; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); }
+/* dialogo de relacion */
+.ed-rel-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 10px; }
+.ed-rel-eq { font-weight: 700; color: var(--ink-3); padding-bottom: 7px; }
+.ed-relq { margin: 12px 0 4px; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; background: var(--surface-2); }
+.ed-relq-h { font-size: 12px; font-weight: 650; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.ed-relq-r { display: flex; align-items: baseline; gap: 8px; font-size: 13px; margin-top: 5px; }
+.ed-relq-v { font-variant-numeric: tabular-nums; font-weight: 650; min-width: 68px; text-align: right; }
+.ed-relq-v.ok { color: var(--good); }
+.ed-relq-v.warn { color: var(--warn); }
+.ed-relq-v.bad { color: var(--crit); }
+.ed-relq-t { color: var(--ink-2); }
+.ed-relq-bar { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; margin: 7px 0 2px; }
+.ed-relq-bar i { display: block; height: 100%; background: var(--good); }
+.ed-dim { color: var(--ink-3); }
+.ed-link { border: 0; background: none; padding: 0 2px; color: var(--accent-ink); font-size: 12.5px; text-decoration: underline; cursor: pointer; }
+.ed-keys { display: flex; flex-wrap: wrap; gap: 5px; max-height: 240px; overflow: auto; }
+.ed-keys span { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+.ed-relc-h { margin-top: 12px; }
+.ed-relc { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 2px 12px; max-height: 210px; overflow: auto; }
+/* diagrama del modelo */
+.ed-model { display: flex; flex-direction: column; gap: 10px; }
+.ed-mcanvas {
+  position: relative; display: flex; align-items: center; gap: 56px;
+  padding: 18px; border: 1px solid var(--line); border-radius: 12px;
+  background-color: var(--surface-2);
+  background-image: radial-gradient(var(--line-2) 1px, transparent 1px);
+  background-size: 16px 16px; background-position: -1px -1px;
+  overflow: auto;
+}
+.ed-mlines { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.ed-mline { fill: none; stroke-width: 2; stroke: var(--accent); opacity: .9; }
+.ed-mline.warn { stroke: var(--warn); } .ed-mline.bad { stroke: var(--crit); }
+.ed-mdot { fill: var(--accent); } .ed-mdot.warn { fill: var(--warn); } .ed-mdot.bad { fill: var(--crit); }
+.ed-mcol { position: relative; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.ed-mcol-main { margin-left: auto; }
+.ed-mnode { width: 230px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; }
+.ed-mn-h { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.ed-mnode.main .ed-mn-h { background: var(--accent); border-bottom-color: var(--accent); color: #fff; }
+.ed-mn-t { font-weight: 650; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-mn-c { margin-left: auto; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--ink-3); white-space: nowrap; }
+.ed-mnode.main .ed-mn-c { color: rgba(255,255,255,.85); }
+.ed-mn-b { padding: 4px 0; }
+.ed-mn-r { display: flex; align-items: center; gap: 7px; padding: 2px 10px; font-size: 12.5px; color: var(--ink-2); }
+.ed-mn-r span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-mn-r.key { background: var(--accent-wash); color: var(--ink-1); font-weight: 600; }
+.ed-mn-mas { padding: 3px 10px 2px; font-size: 11.5px; color: var(--ink-3); }
+.ed-mbadge { position: absolute; left: 0; top: 0; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 650; white-space: nowrap; background: var(--surface); border: 1px solid var(--line); color: var(--good); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.ed-mbadge.warn { color: var(--warn); } .ed-mbadge.bad { color: var(--crit); }
+@media (max-width: 640px) {
+  .ed-rel-pair { grid-template-columns: 1fr; }
+  .ed-mcanvas { gap: 32px; }
+  .ed-mnode { width: 180px; }
+  .ed-rel-eq { padding: 0; text-align: center; }
 </style>
 </head>
 <body>
@@ -549,11 +665,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 (function () {
 'use strict';
 const GF = window.GF = window.GF || {};
-GF.version = '1.04';
+GF.version = '1.06';
 GF.mode = 'view';
 GF.cfg = { title: 'Informe', subtitle: '', widgets: [], filters: [] };
 GF.data = null;
 GF.meta = null;
+GF.SITE = 'https://galgo.net.ar';
 GF.rt = { fvals: {}, sel: null, charts: {}, rankCache: {}, distinctCache: {}, tsort: {}, selectedWid: null };
 GF.hooks = {};
 GF.NAME = 'Galgo';
@@ -776,8 +893,7 @@ function inferType(name, vals0) {
 }
 GF.inferType = inferType;
 
-function computeProfile() {
-  const D = GF.data;
+function computeProfile(D) {
   D.profile = D.columns.map((c, ci) => {
     let nulls = 0, inv = 0, mn = Infinity, mx = -Infinity, monthly = c.type === 'date';
     const set = new Set();
@@ -796,13 +912,33 @@ function computeProfile() {
   });
   GF.rt.rankCache = {}; GF.rt.distinctCache = {};
 }
-GF.retype = function () {
-  const D = GF.data;
-  D.rows = D.raw.map(r => D.columns.map((c, i) => convert(r[i], c.type)[0]));
-  computeProfile();
-};
-/* raw: valores crudos (n\u00famero, texto, booleano, {d: ms} para fechas, null) */
-GF.setRaw = function (name, headers, raw, types) {
+
+/* ================= modelo de datos =================
+   Una tabla principal (una fila por hecho) y, opcionalmente, tablas de referencia que le suman
+   columnas por una clave en com\u00fan. La vista principal es la tabla principal con esas columnas ya
+   unidas, as\u00ed el resto del motor sigue trabajando sobre una \u00fanica grilla de filas. Cada tabla de
+   referencia tiene adem\u00e1s su propia vista, para poder contar sus filas (los clientes que nunca
+   compraron, por ejemplo). */
+GF.model = null;
+GF.views = {};
+GF.colIndex = {};
+let tidSeq = 0;
+GF.tables = () => (GF.model ? GF.model.tables : []);
+GF.tableById = id => GF.tables().find(t => t.id === id) || null;
+GF.mainTable = () => (GF.model ? GF.tableById(GF.model.mainId) : null);
+GF.refTables = () => GF.tables().filter(t => GF.model && t.id !== GF.model.mainId);
+function ownCols(t) { return t.columns.length; }
+function truncRows(t) {
+  const n = ownCols(t);
+  if (t.rows) for (const r of t.rows) if (r.length > n) r.length = n;
+  if (t.raw) for (const r of t.raw) if (r.length > n) r.length = n;
+}
+function retypeTable(t) {
+  truncRows(t);
+  if (t.raw) t.rows = t.raw.map(r => t.columns.map((c, i) => convert(r[i], c.type)[0]));
+  computeProfile(t);
+}
+GF.mkTable = function (name, headers, raw, types) {
   const cols = headers.map((h, i) => {
     let t = types && types[h];
     if (!t) {
@@ -812,20 +948,464 @@ GF.setRaw = function (name, headers, raw, types) {
     }
     return { name: h, type: t };
   });
-  GF.data = { name, columns: cols, raw, rows: [], profile: [] };
-  GF.retype();
+  const t = { id: 't' + (++tidSeq), name, columns: cols, raw, rows: [], profile: [] };
+  retypeTable(t);
+  return t;
+};
+/* Clave de uni\u00f3n: n\u00fameros y textos num\u00e9ricos se comparan como n\u00fameros, el texto se compara
+   sin espacios al borde y respetando may\u00fasculas (si algo no coincide solo por eso, se avisa). */
+function joinKey(v) {
+  if (v == null) return null;
+  if (typeof v === 'number') return 'n' + v;
+  if (typeof v === 'boolean') return 'b' + v;
+  const t = String(v).trim();
+  if (t === '') return null;
+  if (/^-?\d+(?:[.,]\d+)?$/.test(t)) { const n = Number(t.replace(',', '.')); if (!isNaN(n)) return 'n' + n; }
+  return 's' + t;
+}
+function ciKey(k) { return k && k[0] === 's' ? 's' + k.slice(1).toLowerCase() : k; }
+function refMap(refT, ri) {
+  const map = new Map(); let dup = 0, dupKeys = 0;
+  for (let i = 0; i < refT.rows.length; i++) {
+    const k = joinKey(refT.rows[i][ri]);
+    if (k == null) continue;
+    if (map.has(k)) { dup++; if (map.get(k) >= 0) { dupKeys++; map.set(k, ~map.get(k)); } continue; }
+    map.set(k, i);
+  }
+  for (const [k, v] of map) if (v < 0) map.set(k, ~v);
+  return { map, dup, dupKeys };
+}
+/* \u00bfQu\u00e9 tan bien se unen dos tablas? Es el control de calidad que se muestra antes de confirmar. */
+GF.relQuality = function (mainT, refT, key, refKey) {
+  const mi = mainT.columns.findIndex(c => c.name === key);
+  const ri = refT.columns.findIndex(c => c.name === refKey);
+  if (mi < 0 || ri < 0) return null;
+  const { map, dup, dupKeys } = refMap(refT, ri);
+  let matched = 0, nulls = 0, caseFix = 0;
+  const miss = new Map(), used = new Set();
+  const lower = new Map();
+  for (let i = 0; i < mainT.rows.length; i++) {
+    const v = mainT.rows[i][mi], k = joinKey(v);
+    if (k == null) { nulls++; continue; }
+    if (map.has(k)) { matched++; used.add(k); continue; }
+    miss.set(k, (miss.get(k) || 0) + 1);
+  }
+  if (miss.size) {
+    for (const k of map.keys()) { const c = ciKey(k); if (!lower.has(c)) lower.set(c, k); }
+    for (const [k, n] of miss) if (lower.has(ciKey(k))) caseFix += n;
+  }
+  const total = mainT.rows.length;
+  const sample = [...miss.keys()].slice(0, 12).map(k => k.slice(1));
+  return {
+    total, matched, nulls, unmatched: total - matched - nulls,
+    pct: total ? matched / total * 100 : 0,
+    missKeys: miss.size, sample, caseFix,
+    dup, dupKeys, orphanRefs: refT.rows.length - used.size
+  };
+};
+/* Propone con qu\u00e9 columnas unir una tabla nueva: compara los valores, no solo los nombres. */
+GF.suggestRel = function (refT, mainT) {
+  mainT = mainT || GF.mainTable();
+  if (!mainT || !refT) return null;
+  let best = null;
+  refT.columns.forEach((rc, ri) => {
+    const { map } = refMap(refT, ri);
+    if (map.size < Math.min(2, refT.rows.length)) return;
+    // Una columna sirve como clave de la referencia si casi no repite valores
+    if (map.size < refT.rows.length * 0.9) return;
+    mainT.columns.forEach((mc, mi) => {
+      if ((mc.type === 'number') !== (rc.type === 'number') && mc.type !== 'text' && rc.type !== 'text') return;
+      let hit = 0, n = 0;
+      const step = Math.max(1, Math.floor(mainT.rows.length / 4000));
+      for (let i = 0; i < mainT.rows.length; i += step) {
+        const k = joinKey(mainT.rows[i][mi]); if (k == null) continue;
+        n++; if (map.has(k)) hit++;
+      }
+      if (!n) return;
+      const r = hit / n;
+      if (r < 0.5) return;
+      const nameBonus = norm(mc.name) === norm(rc.name) ? 0.05 : 0;
+      const score = r + nameBonus;
+      if (!best || score > best.score) best = { key: mc.name, refKey: rc.name, score, ratio: r };
+    });
+  });
+  return best;
+};
+function joinIndex(mainT, refT, rel) {
+  const mi = mainT.columns.findIndex(c => c.name === rel.key);
+  const ri = refT.columns.findIndex(c => c.name === rel.refKey);
+  const idx = new Int32Array(mainT.rows.length).fill(-1);
+  if (mi < 0 || ri < 0) return idx;
+  const { map } = refMap(refT, ri);
+  for (let i = 0; i < mainT.rows.length; i++) {
+    const k = joinKey(mainT.rows[i][mi]);
+    if (k == null) continue;
+    const j = map.get(k);
+    if (j !== undefined) idx[i] = j;
+  }
+  return idx;
+}
+/* Arma la vista principal (tabla principal + columnas unidas) y una vista por tabla de referencia. */
+GF.buildViews = function () {
+  GF.views = {}; GF.colIndex = {};
+  const M = GF.model;
+  if (!M || !M.tables.length) { GF.data = null; return; }
+  const main = GF.mainTable() || M.tables[0];
+  truncRows(main);
+  const cols = main.columns.map(c => ({ name: c.name, type: c.type, tid: main.id, src: c.name }));
+  const used = new Set(cols.map(c => c.name));
+  for (const t of GF.refTables()) {
+    if (!t.rel) continue;
+    const idx = joinIndex(main, t, t.rel);
+    t.rel.n = 0;
+    const pick = (t.rel.cols && t.rel.cols.length ? t.rel.cols : t.columns.map(c => c.name)).filter(n => n !== t.rel.refKey);
+    pick.forEach(n => {
+      const ci = t.columns.findIndex(c => c.name === n); if (ci < 0) return;
+      let nm = n, k = 2;
+      if (used.has(nm)) { nm = t.name + ' \u00b7 ' + n; while (used.has(nm)) nm = t.name + ' \u00b7 ' + n + ' (' + (k++) + ')'; }
+      used.add(nm); t.rel.n++;
+      cols.push({ name: nm, type: t.columns[ci].type, tid: t.id, src: n });
+      const R = main.rows, N = R.length;
+      for (let i = 0; i < N; i++) { const j = idx[i]; R[i].push(j < 0 ? null : t.rows[j][ci]); }
+      if (main.raw) { const W = main.raw; for (let i = 0; i < W.length; i++) { const j = idx[i]; W[i].push(j < 0 ? null : (t.raw ? t.raw[j][ci] : null)); } }
+    });
+  }
+  const mv = { name: main.name, tid: main.id, columns: cols, rows: main.rows, raw: main.raw, profile: [] };
+  computeProfile(mv);
+  GF.views[main.id] = mv;
+  cols.forEach(c => { GF.colIndex[c.name] = c.tid + '\u0001' + c.src; });
+  for (const t of GF.refTables()) {
+    GF.views[t.id] = { name: t.name, tid: t.id, columns: t.columns.map(c => ({ name: c.name, type: c.type, tid: t.id, src: c.name })), rows: t.rows, raw: t.raw, profile: t.profile };
+  }
+  GF.data = mv;
+  GF.rt.rankCache = {}; GF.rt.distinctCache = {};
+};
+GF.viewOf = function (tid) { return (tid && GF.views[tid]) || (GF.model ? GF.views[GF.model.mainId] : null); };
+/* Ejecuta algo con una vista distinta como \u00abtabla activa\u00bb (para objetos sobre una tabla de referencia). */
+function withView(tid, fn) {
+  const v = GF.viewOf(tid);
+  if (!v || v === GF.data) return fn();
+  const prev = GF.data; GF.data = v;
+  try { return fn(); } finally { GF.data = prev; }
+}
+GF.withView = withView;
+GF.hasTable = tid => !!(tid && GF.views[tid]);
+GF.retype = function (tid) {
+  const t = (tid && GF.tableById(tid)) || GF.mainTable();
+  if (!t) return;
+  retypeTable(t);
+  GF.buildViews();
+};
+/* raw: valores crudos (n\u00famero, texto, booleano, {d: ms} para fechas, null) */
+GF.setRaw = function (name, headers, raw, types) {
+  tidSeq = 0;
+  const t = GF.mkTable(name, headers, raw, types);
+  GF.model = { tables: [t], mainId: t.id };
+  GF.buildViews();
+};
+/* Reemplaza los datos de una tabla sin tocar las dem\u00e1s (actualizar datos con varias tablas). */
+GF.replaceTableRaw = function (tid, name, headers, raw, types) {
+  const t = GF.tableById(tid); if (!t) return null;
+  const nt = GF.mkTable(name, headers, raw, types);
+  t.name = name; t.columns = nt.columns; t.rows = nt.rows; t.raw = nt.raw; t.profile = nt.profile;
+  if (t.rel && t.rel.cols) t.rel.cols = t.rel.cols.filter(n => t.columns.some(c => c.name === n));
+  GF.buildViews();
+  return t;
 };
 GF.setTyped = function (name, columns, rows) {
-  GF.data = { name, columns: columns.map(c => ({ name: c.name, type: c.type })), rows, raw: null, profile: [] };
-  computeProfile();
+  tidSeq = 0;
+  const t = { id: 't' + (++tidSeq), name, columns: columns.map(c => ({ name: c.name, type: c.type })), rows, raw: null, profile: [] };
+  computeProfile(t);
+  GF.model = { tables: [t], mainId: t.id };
+  GF.buildViews();
+};
+/* Carga un modelo completo (proyecto o informe con varias tablas). */
+GF.setModel = function (tables, mainId) {
+  tidSeq = 0;
+  const ts = tables.map(d => {
+    const t = { id: d.id || 't' + (tidSeq + 1), name: d.name, columns: d.columns.map(c => ({ name: c.name, type: c.type })), raw: d.raw || null, rows: d.rows || [], profile: [] };
+    const n = Number(String(t.id).replace(/\D/g, '')); if (n > tidSeq) tidSeq = n;
+    if (t.raw) retypeTable(t); else computeProfile(t);
+    if (d.rel) t.rel = { key: d.rel.key, refKey: d.rel.refKey, cols: d.rel.cols ? d.rel.cols.slice() : null };
+    return t;
+  });
+  GF.model = { tables: ts, mainId: mainId || (ts[0] && ts[0].id) };
+  GF.buildViews();
+};
+
+/* ---------------- lectura de archivos de datos (CSV / Excel) ----------------
+   La comparten el editor y el informe (bot\u00f3n \u00abActualizar datos\u00bb). El Excel necesita la biblioteca XLSX. */
+function decodeText(buf) {
+  let t = new TextDecoder('utf-8').decode(buf);
+  if (t.includes('\ufffd')) t = new TextDecoder('windows-1252').decode(buf);
+  return t.replace(/^\ufeff/, '');
+}
+function parseCSV(text) {
+  const first = text.split(/\r?\n/, 1)[0];
+  let sep = ',', best = 0;
+  [';', ',', '\t', '|'].forEach(c => { const n = first.split(c).length; if (n > best) { best = n; sep = c; } });
+  const rows = []; let row = [], f = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) {
+      if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; }
+      else f += ch;
+    } else if (ch === '"' && f === '') q = true;
+    else if (ch === sep) { row.push(f); f = ''; }
+    else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+    else f += ch;
+  }
+  if (f !== '' || row.length) { row.push(f); rows.push(row); }
+  const clean = rows.filter(r => r.some(x => x.trim() !== ''));
+  const headers = (clean.shift() || []).map(h => h.trim());
+  const width = Math.max(headers.length, ...clean.map(r => r.length));
+  const raw = clean.map(r => { const o = []; for (let i = 0; i < width; i++) o.push(r[i] == null || r[i].trim() === '' ? null : r[i]); return o; });
+  return cleanHeaders(headers, raw, width);
+}
+function sheetToRaw(ws) {
+  const R = XLSX.utils.decode_range(ws['!ref']);
+  const get = (r, c) => ws[XLSX.utils.encode_cell({ r, c })];
+  const val = cell => {
+    if (!cell) return null;
+    switch (cell.t) {
+      case 'n':
+        if (cell.z && XLSX.SSF.is_date(cell.z)) { const p = XLSX.SSF.parse_date_code(cell.v); if (p) return { d: Date.UTC(p.y, p.m - 1, p.d) }; }
+        return cell.v;
+      case 'd': { const d = cell.v; return { d: Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) }; }
+      case 'b': return cell.v;
+      case 'e': return null;
+      default: return cell.v == null ? null : String(cell.v);
+    }
+  };
+  let hr = R.s.r;
+  for (; hr <= R.e.r; hr++) {
+    let n = 0; for (let c = R.s.c; c <= R.e.c; c++) { const x = get(hr, c); if (x && x.v != null && String(x.v).trim() !== '') n++; }
+    if (n >= 1) break;
+  }
+  const headers = [];
+  for (let c = R.s.c; c <= R.e.c; c++) { const h = get(hr, c); headers.push(h ? String(h.w != null ? h.w : h.v).trim() : ''); }
+  const raw = [];
+  for (let r = hr + 1; r <= R.e.r; r++) {
+    const row = []; let any = false;
+    for (let c = R.s.c; c <= R.e.c; c++) { const v = val(get(r, c)); row.push(v); if (v != null && v !== '') any = true; }
+    if (any) raw.push(row);
+  }
+  return cleanHeaders(headers, raw, headers.length);
+}
+function cleanHeaders(headers, raw, width) {
+  const keep = [];
+  for (let i = 0; i < width; i++) {
+    const h = headers[i] || '';
+    if (h || raw.some(r => r[i] != null && r[i] !== '')) keep.push(i);
+  }
+  const used = {};
+  const hs = keep.map((i, j) => {
+    let h = (headers[i] || '').replace(/\s+/g, ' ').trim() || 'Columna ' + (j + 1);
+    if (used[h]) { let k = 2; while (used[h + ' (' + k + ')']) k++; h = h + ' (' + k + ')'; }
+    used[h] = true; return h;
+  });
+  return { headers: hs, raw: raw.map(r => keep.map(i => r[i] === undefined ? null : r[i])) };
+}
+GF.io = { decodeText, parseCSV, sheetToRaw, cleanHeaders };
+GF.io.DATA_EXT = ['xlsx', 'xlsm', 'xls', 'ods', 'csv', 'tsv', 'txt'];
+// Nombre de la hoja guardado en el nombre de la fuente (\u00abarchivo.xlsx \u00b7 Hoja\u00bb)
+GF.io.sheetOf = function (name) { const p = String(name || '').split(' \u00b7 '); return p.length > 1 ? p.slice(1).join(' \u00b7 ') : null; };
+
+/* ---------------- armado del informe HTML ----------------
+   Toma estilos, bibliotecas y motor del documento actual (el editor o un informe ya exportado). */
+GF.reportHTML = function (json, title, opts) {
+  opts = opts || {};
+  const txt = id => { const e = document.getElementById(id); return e ? e.textContent : ''; };
+  const css = txt('gf-style').split('/* ---------- editor ---------- */')[0];
+  const xlsx = opts.xlsx ? txt('gf-lib-xlsx') : '';
+  // Los datos van solo con caracteres ASCII (acentos como \u00e9): as\u00ed el informe no se rompe si alguien
+  // lo re-guarda o lo reenv\u00eda con otra codificaci\u00f3n.
+  const data = JSON.stringify(json).replace(/</g, '\\u003c').replace(/[\u007f-\uffff]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
+  return '<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="generator" content="Galgo ' + GF.version + '">\n<title>' + esc(title).replace(/[\u0080-\uffff]/g, c => '&#' + c.charCodeAt(0) + ';') + '</title>\n<style id="gf-style">' + css + '</style>\n</head>\n<body>\n<div id="gf-app"></div>\n<script id="gf-lib-chart">' + txt('gf-lib-chart') + '<\/script>\n'
+    + (xlsx ? '<script id="gf-lib-xlsx">' + xlsx + '<\/script>\n' : '')
+    + '<script id="gf-engine">' + txt('gf-engine') + '<\/script>\n<script type="application/json" id="gf' + '-data">' + data + '<\/script>\n<script>GF.bootView();<\/script>\n</body>\n</html>\n';
+};
+
+/* ---------------- actualizar los datos desde el informe ----------------
+   Quien recibe el informe elige un Excel o CSV con las mismas columnas: el tablero se recalcula
+   y puede guardar el informe actualizado. Todo ocurre en su computadora. */
+const ICON_REFRESH = '<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M13.2 8a5.2 5.2 0 0 1-9.4 3.1M2.8 8a5.2 5.2 0 0 1 9.4-3.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12.6 2.2v3h-3M3.4 13.8v-3h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+GF.ICON_REFRESH = ICON_REFRESH;
+GF.updateData = function () {
+  const ts = GF.tables();
+  if (ts.length > 1) {
+    const box = el('div', 'gf-sheets');
+    box.appendChild(el('p', 'gf-upd-p', '\u00bfQu\u00e9 tabla quer\u00e9s actualizar? El archivo nuevo tiene que tener las mismas columnas que esa tabla.'));
+    const m = GF.modal('Actualizar datos', box, [{ label: 'Cancelar' }]);
+    ts.forEach(t => {
+      const b = el('button', 'gf-btn', '<b>' + esc(t.name) + '</b><span>' + nf(0).format(t.rows.length) + (t.rows.length === 1 ? ' fila' : ' filas') + (t.id === GF.model.mainId ? ' \u00b7 principal' : '') + '</span>');
+      b.onclick = () => { m.close(); pickUpdate(t.id); };
+      box.appendChild(b);
+    });
+    return;
+  }
+  pickUpdate(ts[0] && ts[0].id);
+};
+function pickUpdate(tid) {
+  const hasX = typeof XLSX !== 'undefined';
+  const fi = el('input'); fi.type = 'file'; fi.style.display = 'none';
+  fi.accept = hasX ? '.xlsx,.xlsm,.xls,.ods,.csv,.tsv,.txt' : '.csv,.tsv,.txt';
+  fi.onchange = () => { const f = fi.files[0]; fi.remove(); if (f) readUpdate(f, tid); };
+  document.body.appendChild(fi); fi.click();
+}
+async function readUpdate(file, tid) {
+  const name = file.name, ext = (name.split('.').pop() || '').toLowerCase();
+  const fail = msg => GF.modal('No se pudieron actualizar los datos', '<p class="gf-upd-p">' + msg + '</p>', [{ label: 'Entendido', primary: true }]);
+  try {
+    if (ext === 'csv' || ext === 'txt' || ext === 'tsv') {
+      const r = parseCSV(decodeText(await file.arrayBuffer()));
+      return applyUpdate(name, r.headers, r.raw, tid);
+    }
+    if (typeof XLSX === 'undefined') return fail('Este informe solo puede actualizarse con un archivo CSV.');
+    if (!GF.io.DATA_EXT.includes(ext)) return fail('Eleg\u00ed un archivo de Excel (.xlsx, .xls) o CSV.');
+    const wb = XLSX.read(await file.arrayBuffer(), { type: 'array', cellNF: true, cellDates: false, cellText: false });
+    const sheets = wb.SheetNames.filter(n => wb.Sheets[n] && wb.Sheets[n]['!ref']);
+    if (!sheets.length) return fail('El archivo no tiene hojas con datos.');
+    const go = sh => { const r = sheetToRaw(wb.Sheets[sh]); applyUpdate(sheets.length > 1 ? name + ' \u00b7 ' + sh : name, r.headers, r.raw, tid); };
+    const want = GF.io.sheetOf((GF.tableById(tid) || {}).name);
+    if (sheets.length === 1) return go(sheets[0]);
+    if (want && sheets.includes(want)) return go(want);
+    // Varias hojas: se usa la primera que tenga todas las columnas del informe; si hay m\u00e1s de una, se pregunta.
+    const need = (GF.tableById(tid) || GF.data).columns.map(c => c.name);
+    const ok = sheets.filter(sh => { const h = sheetToRaw(wb.Sheets[sh]).headers; return need.every(n => h.includes(n)); });
+    if (ok.length === 1) return go(ok[0]);
+    const box = el('div', 'gf-sheets');
+    box.appendChild(el('p', 'gf-upd-p', 'El archivo tiene varias hojas. \u00bfCu\u00e1l quer\u00e9s usar?'));
+    const m = GF.modal('Eleg\u00ed una hoja', box, [{ label: 'Cancelar' }]);
+    (ok.length ? ok : sheets).forEach(sh => { const b = el('button', 'gf-btn', esc(sh)); b.onclick = () => { m.close(); go(sh); }; box.appendChild(b); });
+  } catch (err) {
+    console.error(err);
+    fail('No se pudo leer el archivo: ' + esc(err.message || String(err)));
+  }
+}
+function applyUpdate(name, headers, raw, tid) {
+  const T = GF.tableById(tid) || GF.mainTable(), need = T.columns.map(c => c.name);
+  const fail = msg => GF.modal('No se pudieron actualizar los datos', msg, [{ label: 'Entendido', primary: true }]);
+  if (!headers.length || !raw.length) return fail('<p class="gf-upd-p">No se encontraron filas con datos en el archivo.</p>');
+  const missing = need.filter(n => !headers.includes(n));
+  if (missing.length) {
+    return fail('<p class="gf-upd-p">Al archivo le faltan columnas que usa este informe:</p><ul class="gf-upd-l">' + missing.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul><p class="gf-upd-p">Los nombres de las columnas tienen que ser iguales a los del archivo original. El informe qued\u00f3 como estaba.</p>');
+  }
+  // Solo entran las columnas que el informe ya ten\u00eda, en el mismo orden y con el mismo tipo.
+  const idx = need.map(n => headers.indexOf(n));
+  const before = T.rows.length;
+  const prev = { snap: GF.tables().map(t => ({ t, name: t.name, raw: t.raw, rows: t.rows, profile: t.profile })), meta: GF.meta, fvals: GF.rt.fvals };
+  T.name = name;
+  T.raw = raw.map(r => idx.map(i => r[i] === undefined ? null : r[i]));
+  retypeTable(T);
+  GF.buildViews();
+  const inv = T.profile.reduce((a, p) => a + (p.inv || 0), 0);
+  GF.meta = Object.assign({}, GF.meta, { generated: Date.now(), source: name, rows: GF.data.rows.length, updated: true });
+  GF.rt.fvals = {}; GF.rt.sel = null; GF.rt.msel = null; GF.rt.tsort = {};
+  GF.rt.upd = { before, after: T.rows.length, name, inv, prev, rel: relWarn() };
+  GF.render();
+}
+/* Tras actualizar, avisa si alguna relaci\u00f3n qued\u00f3 con filas sin correspondencia. */
+function relWarn() {
+  const main = GF.mainTable(); if (!main) return null;
+  const out = [];
+  for (const t of GF.refTables()) {
+    if (!t.rel) continue;
+    const q = GF.relQuality(main, t, t.rel.key, t.rel.refKey);
+    if (q && q.unmatched) out.push(t.name + ': ' + nf(0).format(q.unmatched) + (q.unmatched === 1 ? ' fila sin correspondencia' : ' filas sin correspondencia'));
+  }
+  return out.length ? out.join(' \u00b7 ') : null;
+}
+function updateBanner() {
+  const u = GF.rt.upd; if (!u) return null;
+  const b = el('div', 'gf-upd'); b.setAttribute('role', 'status');
+  b.appendChild(el('div', 'gf-upd-t', '<b>Datos actualizados</b> desde \u00ab' + esc(u.name) + '\u00bb: ' + nf(0).format(u.after) + (u.after === 1 ? ' fila' : ' filas') + ' (antes ' + nf(0).format(u.before) + ').'
+    + (u.inv ? ' <span class="gf-upd-w">' + nf(0).format(u.inv) + (u.inv === 1 ? ' valor no se pudo' : ' valores no se pudieron') + ' convertir al tipo de su columna.</span>' : '')
+    + (u.rel ? ' <span class="gf-upd-w">' + esc(u.rel) + '.</span>' : '')
+    + (u.saved ? ' Guardado como \u00ab' + esc(u.saved) + '\u00bb.' : ' Para conservarlos, guard\u00e1 el informe: si no, al volver a abrirlo vas a ver los datos anteriores.')));
+  const acts = el('div', 'gf-upd-a');
+  if (!u.saved) {
+    const sv = el('button', 'gf-btn gf-primary', 'Guardar informe'); sv.onclick = GF.saveReport; acts.appendChild(sv);
+    const un = el('button', 'gf-btn', 'Deshacer'); un.title = 'Volver a los datos anteriores';
+    un.onclick = () => { u.prev.snap.forEach(s => { s.t.name = s.name; s.t.raw = s.raw; s.t.rows = s.rows; s.t.profile = s.profile; }); GF.buildViews(); GF.meta = u.prev.meta; GF.rt.fvals = u.prev.fvals; GF.rt.sel = null; GF.rt.msel = null; GF.rt.upd = null; GF.render(); };
+    acts.appendChild(un);
+  } else {
+    const x = el('button', 'gf-btn', 'Cerrar'); x.onclick = () => { GF.rt.upd = null; GF.render(); }; acts.appendChild(x);
+  }
+  b.appendChild(acts);
+  return b;
+}
+/* keep: conjunto de columnas a incluir, identificadas como \u00abtabla\u0001columna\u00bb. Sin keep, van todas.
+   Las tablas viajan por separado y se unen al abrir: el informe no repite en cada fila los datos
+   de las tablas de referencia. */
+GF.cidOf = (tid, name) => tid + '\u0001' + name;
+GF.reportJSON = function (keep) {
+  const M = GF.model;
+  const tables = M.tables.map(t => {
+    const must = new Set();
+    if (t.rel) must.add(t.rel.refKey);
+    if (t.id === M.mainId) GF.refTables().forEach(r => { if (r.rel) must.add(r.rel.key); });
+    const idx = t.columns.map((c, i) => i).filter(i => !keep || keep.has(GF.cidOf(t.id, t.columns[i].name)) || must.has(t.columns[i].name));
+    const o = { id: t.id, name: t.name, columns: idx.map(i => ({ name: t.columns[i].name, type: t.columns[i].type })), rows: t.rows.map(r => idx.map(i => r[i])) };
+    if (t.rel) o.rel = { key: t.rel.key, refKey: t.rel.refKey, cols: t.rel.cols ? t.rel.cols.filter(n => idx.some(i => t.columns[i].name === n)) : null };
+    return o;
+  });
+  return { v: 2, cfg: GF.cfg, tables, mainId: M.mainId, meta: GF.meta };
+};
+/* Las columnas que el tablero usa, como \u00abtabla\u0001columna\u00bb (cada objeto en su propia vista). */
+GF.usedCids = function () {
+  const out = new Set();
+  const add = (tid, name) => {
+    if (!name) return;
+    const v = GF.viewOf(tid); if (!v) return;
+    let c = v.columns.find(x => x.name === name);
+    if (!c) { const cid = GF.colIndex[name]; c = cid && v.columns.find(x => GF.cidOf(x.tid, x.src) === cid); }
+    if (c) out.add(GF.cidOf(c.tid, c.src));
+  };
+  (GF.cfg.widgets || []).forEach(W => {
+    const tid = GF.hasTable(W.table) ? W.table : null;
+    [W.dim, W.series].forEach(c => add(tid, c));
+    if (W.measure && String(W.measure).startsWith('calc:')) {
+      const c = GF.calcById(W.measure.slice(5));
+      if (c) { try { GF.compileCalc(c).cols.forEach(x => add(tid, x)); } catch (e) { } }
+    } else if (W.measure && W.measure !== '__rows') add(tid, W.measure);
+    if (W.type === 'table' && W.mode === 'detalle' && W.cols) W.cols.forEach(c => add(tid, c));
+    if (GF.isMulti(W)) W.measures.forEach(m => (m.cols || []).forEach(c => add(tid, c)));
+    if (GF.kpiMulti(W)) W.kcols.forEach(c => add(tid, c));
+  });
+  (GF.cfg.filters || []).forEach(f => add(null, f.col));
+  return out;
+};
+GF.saveReport = async function () {
+  const json = GF.reportJSON();
+  const blob = new Blob([GF.reportHTML(json, GF.cfg.title || 'Informe', { xlsx: true })], { type: 'text/html;charset=utf-8' });
+  const fname = slug(GF.cfg.title || 'informe') + '.html';
+  let saved = '';
+  if (window.showSaveFilePicker) {
+    try {
+      const h = await window.showSaveFilePicker({ suggestedName: fname, types: [{ description: 'Informe HTML', accept: { 'text/html': ['.html'] } }], id: 'galgo-informe' });
+      const w = await h.createWritable(); await w.write(blob); await w.close(); saved = h.name;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+      console.warn('Guardado con di\u00e1logo no disponible, se descarga:', e);
+    }
+  }
+  if (!saved) { GF.download(fname, blob); saved = fname; }
+  if (GF.rt.upd) { GF.rt.upd.saved = saved; GF.render(); }
 };
 
 /* ---------------- columnas y claves ---------------- */
 function colOf(name) {
   const D = GF.data;
   if (!D || name == null || name === '') return null;
-  const i = D.columns.findIndex(c => c.name === name);
-  return i < 0 ? null : { ci: i, type: D.columns[i].type, name };
+  // Se busca primero por origen (tabla + columna): la misma columna puede llamarse distinto en otra
+  // vista (\u00abclientes \u00b7 zona\u00bb en la principal y \u00abzona\u00bb en la de clientes), y dos tablas distintas
+  // pueden tener columnas con el mismo nombre sin ser la misma.
+  const cid = GF.colIndex[name];
+  let i = cid ? D.columns.findIndex(c => c.tid + '\u0001' + c.src === cid) : -1;
+  if (i < 0) i = D.columns.findIndex(c => c.name === name);
+  if (i < 0) return null;
+  return { ci: i, type: D.columns[i].type, name: D.columns[i].name };
 }
 GF.colOf = colOf;
 function keyOf(v, type, grain) {
@@ -868,7 +1448,7 @@ function isMonthly(c) { const p = GF.data && GF.data.profile[c.ci]; return !!(p 
 GF.isMonthly = ci => !!(GF.data && GF.data.profile[ci] && GF.data.profile[ci].monthly);
 function listGrain(c) { return c.type === 'date' ? (isMonthly(c) ? 'mes' : 'dia') : null; }
 GF.distinctList = function (c) {
-  const ck = c.name + '|' + c.type;
+  const ck = (GF.data.tid || '') + '|' + c.name + '|' + c.type;
   if (GF.rt.distinctCache[ck]) return GF.rt.distinctCache[ck];
   const m = new Map(), g = listGrain(c);
   for (const r of GF.data.rows) { const k = keyOf(r[c.ci], c.type, g); m.set(k, (m.get(k) || 0) + 1); }
@@ -1065,7 +1645,7 @@ GF.measureLabel = measureLabel;
 
 function globalRank(colName, grain, W) {
   const c = colOf(colName), agg = aggOf(W);
-  const key = [colName, grain, W.measure, typeof agg === 'object' ? (agg.calc.formula) : agg].join('|');
+  const key = [GF.data.tid || '', colName, grain, W.measure, typeof agg === 'object' ? (agg.calc.formula) : agg].join('|');
   if (GF.rt.rankCache[key]) return GF.rt.rankCache[key];
   const m = measureFn(W), map = new Map();
   for (const r of GF.data.rows) {
@@ -2089,9 +2669,9 @@ function themeBtn() {
 }
 function footerEl() {
   const m = GF.meta || {}, parts = [];
-  if (m.generated) parts.push('Generado el ' + fmtDate(m.generated - new Date(m.generated).getTimezoneOffset() * 60000));
+  if (m.generated) parts.push((m.updated ? 'Datos actualizados el ' : 'Generado el ') + fmtDate(m.generated - new Date(m.generated).getTimezoneOffset() * 60000));
   if (m.source) parts.push('Fuente: ' + m.source);
-  return el('footer', 'gf-foot', (parts.length ? '<span>' + esc(parts.join(' \u00b7 ')) + '</span>' : '') + '<span class="gf-made">Hecho con ' + GF.logoSVG(30) + GF.wordmark() + '<span class="gf-ver">' + esc(GF.version) + '</span></span>');
+  return el('footer', 'gf-foot', (parts.length ? '<span>' + esc(parts.join(' \u00b7 ')) + '</span>' : '') + '<a class="gf-made" href="' + GF.SITE + '" target="_blank" rel="noopener" title="Conoc\u00e9 Galgo: galgo.net.ar">Hecho con ' + GF.logoSVG(30) + GF.wordmark() + '<span class="gf-ver">' + esc(GF.version) + '</span></a>');
 }
 function renderPageView(root, p) {
   Object.values(GF.rt.charts).forEach(c => { try { c.destroy(); } catch (e) { } });
@@ -2193,9 +2773,15 @@ GF.render = function (root) {
   head.appendChild(hl);
   const hr = el('div', 'gf-head-r');
   headLinks(hr, null);
+  if (GF.mode === 'view' && GF.meta && GF.meta.updatable) {
+    const ub = el('button', 'gf-hlink gf-updbtn', ICON_REFRESH + '<span>Actualizar datos</span>');
+    ub.title = 'Cargar un Excel o CSV nuevo con las mismas columnas. Los datos no salen de tu computadora.';
+    ub.onclick = GF.updateData; hr.appendChild(ub);
+  }
   if (GF.mode === 'view') hr.appendChild(themeBtn());
   if (hr.childNodes.length) head.appendChild(hr);
   rep.appendChild(head);
+  const ubn = GF.mode === 'view' ? updateBanner() : null; if (ubn) rep.appendChild(ubn);
   const bar = el('div', 'gf-filters'); rep.appendChild(bar);
   const grid = el('div', 'gf-grid'); rep.appendChild(grid);
   if (GF.mode === 'view' && GF.meta) rep.appendChild(footerEl());
@@ -2224,13 +2810,17 @@ function refreshInner() {
   if (!GF.data) { GF.rt.baseCount = null; renderFilters(GF.rt.barEl); if (GF.hooks.emptyGrid) GF.hooks.emptyGrid(grid); return; }
   if (GF.rt.sel && !GF.cfg.widgets.some(w => w.id === GF.rt.sel.wid)) GF.rt.sel = null;
   if (GF.rt.msel) { const src = GF.cfg.widgets.find(w => w.id === GF.rt.msel.wid); if (!src || !isMulti(src)) GF.rt.msel = null; }
-  const base = GF.baseRows();
-  const sp = selPred();
-  const selRows = sp ? base.filter(sp) : base;
-  GF.rt.baseCount = selRows.length;
+  const cache = {};
+  const rowsOf = tid => {
+    const k = tid || '';
+    if (!cache[k]) cache[k] = withView(tid, () => { const b = GF.baseRows(); const sp = selPred(); return { base: b, sel: sp ? b.filter(sp) : b }; });
+    return cache[k];
+  };
+  const b0 = rowsOf(null);
+  GF.rt.baseCount = b0.sel.length;
   renderFilters(GF.rt.barEl);
   if (!GF.cfg.widgets.length && GF.hooks.emptyGrid) GF.hooks.emptyGrid(grid);
-  GF.rt.rowsFor = W0 => GF.rt.sel && GF.rt.sel.wid !== W0.id ? selRows : base;
+  GF.rt.rowsFor = W0 => { const b = rowsOf(GF.hasTable(W0.table) ? W0.table : null); return GF.rt.sel && GF.rt.sel.wid !== W0.id ? b.sel : b.base; };
   GF.ensureLayout();
   // El orden del documento sigue la posici\u00f3n (arriba \u2192 abajo, izquierda \u2192 derecha): sirve para el teclado y el celular.
   const ordered = GF.cfg.widgets.slice().sort((a, b) => (a.gy - b.gy) || (a.gx - b.gx));
@@ -2243,6 +2833,10 @@ function refreshInner() {
   if (GF.rt.focus) renderFocus();
 }
 function renderWidget(W0, body, titleEl, ckey) {
+  if (GF.hasTable(W0.table) && W0.table !== GF.data.tid) return withView(W0.table, () => renderWidget2(W0, body, titleEl, ckey));
+  return renderWidget2(W0, body, titleEl, ckey);
+}
+function renderWidget2(W0, body, titleEl, ckey) {
   const rows = GF.rt.rowsFor(W0);
   let W = W0;
   try {
@@ -2309,7 +2903,8 @@ GF.bootView = function () {
   const j = JSON.parse(document.getElementById('gf-data').textContent);
   GF.mode = 'view';
   GF.cfg = j.cfg; GF.meta = j.meta || null;
-  GF.setTyped((j.meta && j.meta.source) || '', j.columns, j.rows);
+  if (j.tables) GF.setModel(j.tables, j.mainId);
+  else GF.setTyped((j.meta && j.meta.source) || '', j.columns, j.rows);
   GF.setFavicon();
   const start = (GF.cfg.pages || []).find(p => p.start);
   GF.rt.page = start ? start.id : null;
@@ -2334,6 +2929,7 @@ const I = {
   plus: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   filter: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 3.5h11l-4.2 5v4l-2.6 1.2V8.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
   eye: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>',
+  trash: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M3.5 5h9l-.8 8.5H4.3z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2.5 5h11M6.5 3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
   pencil: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M10.5 2.5l3 3L6 13H3v-3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
   export: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 10V2.5M5 5.5l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9.5v3a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   theme: '<svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg>',
@@ -2344,6 +2940,7 @@ const I = {
   panelL: '<svg viewBox="0 0 16 16" width="16" height="16"><rect x="2" y="2.5" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6 2.5v11" stroke="currentColor" stroke-width="1.3"/></svg>',
   panelR: '<svg viewBox="0 0 16 16" width="16" height="16"><rect x="2" y="2.5" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M10 2.5v11" stroke="currentColor" stroke-width="1.3"/></svg>',
   chevL: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  chevD: '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M4 6.5 8 10.5l4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   chevR: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   fx: '<span style="font:italic 700 14px Georgia,serif">\u0192</span>',
   doc: '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M4 2.5h5.5L12.5 5.5v8H4z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 8h4.5M6 10.5h4.5" stroke="currentColor" stroke-width="1.2"/></svg>',
@@ -2373,7 +2970,9 @@ function GFE_boot() {
   root.innerHTML = '';
   const shell = el('div', 'ed');
   const top = el('header', 'ed-top');
-  top.appendChild(el('div', 'ed-brand', GF.logoSVG(46) + GF.wordmark() + '<span class="gf-ver">' + esc(GF.version) + '</span>'));
+  const brand = el('a', 'ed-brand', GF.logoSVG(46) + GF.wordmark() + '<span class="gf-ver">' + esc(GF.version) + '</span>');
+  brand.href = GF.SITE; brand.target = '_blank'; brand.rel = 'noopener'; brand.title = 'Ir al sitio de Galgo: galgo.net.ar';
+  top.appendChild(brand);
   GF.setFavicon();
   const tools = el('div', 'ed-tools');
   const B = (icon, label, fn, cls, title) => { const b = el('button', 'gf-btn' + (cls ? ' ' + cls : ''), icon + '<span>' + label + '</span>'); b.onclick = fn; b.title = title || label; tools.appendChild(b); return b; };
@@ -2414,7 +3013,7 @@ function GFE_boot() {
   });
   if (window.ResizeObserver) new ResizeObserver(() => applyZoom()).observe(center);
   const fi = el('input'); fi.type = 'file'; fi.accept = '.xlsx,.xlsm,.xls,.ods,.csv,.tsv,.txt,.json,.html,.htm'; fi.style.display = 'none'; fi.id = 'ed-file';
-  fi.onchange = () => { if (fi.files[0]) openFile(fi.files[0]); fi.value = ''; };
+  fi.onchange = () => { const upd = S.nextUpdate, tid = S.nextTid; S.nextUpdate = false; S.nextTid = null; if (fi.files[0]) openFile(fi.files[0], null, upd ? { update: true, tid } : null); fi.value = ''; };
   document.body.appendChild(fi);
   setupDrop();
   setupHooks();
@@ -2731,8 +3330,19 @@ function updHistBtns() {
 const FSA = !!(window.showSaveFilePicker && window.showOpenFilePicker);
 S.fh = null; S.fhPerm = false; S.saveState = 'off';
 function projectObj() {
-  const D = GF.data;
-  return { gf: 'galgo-proyecto', version: 1, galgo: GF.version, saved: new Date().toISOString(), cfg: GF.cfg, data: { name: D.name, columns: D.columns, raw: D.raw || D.rows.map(r => r.map((v, i) => D.columns[i].type === 'date' && v != null ? { d: v } : v)) } };
+  const M = GF.model;
+  const tables = M.tables.map(t => {
+    const o = { id: t.id, name: t.name, columns: t.columns.map(c => ({ name: c.name, type: c.type })), raw: tableRaw(t) };
+    if (t.rel) o.rel = { key: t.rel.key, refKey: t.rel.refKey, cols: t.rel.cols };
+    return o;
+  });
+  return { gf: 'galgo-proyecto', version: 2, galgo: GF.version, saved: new Date().toISOString(), cfg: GF.cfg, tables, mainId: M.mainId };
+}
+// Valores crudos de una tabla (sin las columnas unidas de otras tablas)
+function tableRaw(t) {
+  const n = t.columns.length;
+  if (t.raw) return t.raw.map(r => r.slice(0, n));
+  return t.rows.map(r => r.slice(0, n).map((v, i) => t.columns[i].type === 'date' && v != null ? { d: v } : v));
 }
 async function writeProject(h) {
   const w = await h.createWritable();
@@ -2936,32 +3546,82 @@ function renderData() {
     left.innerHTML = '<div class="ed-empty-l"><div class="ed-h">Datos</div><p class="ed-hint">Todav\u00eda no hay datos cargados. Abr\u00ed un Excel o CSV, o cargalos a mano.</p><p class="ed-hint">Ac\u00e1 vas a ver cada columna con su tipo y un perfil r\u00e1pido de calidad: vac\u00edos, valores inv\u00e1lidos y duplicados.</p></div>';
     return;
   }
-  const D = GF.data;
+  const multi = GF.tables().length > 1;
+  const T = (S.tsel && GF.tableById(S.tsel)) || GF.mainTable();
+  S.tsel = T.id;
+  if (multi) {
+    const ts = el('div', 'ed-sec ed-sec-tablas');
+    ts.innerHTML = '<div class="ed-h">Tablas <span class="ed-badge">' + GF.tables().length + '</span><button class="gf-icon ed-collapse" title="Ocultar el panel (Ctrl + \\)" aria-label="Ocultar el panel de datos">' + I.chevL + '</button></div>';
+    GF.tables().forEach(t => {
+      const card = el('div', 'ed-tbl' + (t.id === T.id ? ' cur' : ''));
+      card.onclick = () => { S.tsel = t.id; renderData(); };
+      const n = el('div', 'ed-tbl-n', esc(t.name) + (t.id === GF.model.mainId ? ' <span class="ed-badge main">Principal</span>' : ''));
+      card.appendChild(n);
+      card.appendChild(el('div', 'ed-meta', nf(0).format(t.rows.length) + ' filas \u00b7 ' + t.columns.length + ' columnas'));
+      if (t.rel) {
+        const q = GF.relQuality(GF.mainTable(), t, t.rel.key, t.rel.refKey) || { pct: 0 };
+        const good = q.pct >= 95 && !q.dupKeys;
+        const rel = el('div', 'ed-tbl-rel');
+        rel.innerHTML = 'se une por <span class="ed-key">' + esc(t.rel.key) + '</span><span class="ed-badge ' + (good ? 'ok' : q.pct >= 60 ? 'warn' : 'bad') + '">' + nf(1).format(q.pct) + ' % coincide</span>';
+        const ed = el('button', 'gf-icon ed-tbl-x', I.pencil); ed.title = 'Editar la relaci\u00f3n';
+        ed.onclick = e => { e.stopPropagation(); relDialog(t, false); };
+        const rm = el('button', 'gf-icon ed-tbl-x', I.trash); rm.title = 'Quitar la tabla';
+        rm.onclick = e => { e.stopPropagation(); removeTable(t); };
+        const acts = el('div', 'ed-tbl-acts'); acts.appendChild(ed); acts.appendChild(rm);
+        rel.appendChild(acts);
+        card.appendChild(rel);
+      }
+      ts.appendChild(card);
+    });
+    const row = el('div', 'ed-actions-row');
+    const ba = el('button', 'gf-btn', I.plus + '<span>Agregar</span>'); ba.title = 'Sumar otra tabla de referencia'; ba.onclick = addTableFlow;
+    const bm = el('button', 'gf-btn', I.doc + '<span>Ver modelo</span>'); bm.onclick = modelDialog;
+    row.appendChild(ba); row.appendChild(bm);
+    ts.appendChild(row);
+    left.appendChild(ts);
+  }
+  const D = multi ? GF.viewOf(T.id) : GF.data;
   const sec = el('div', 'ed-sec ed-sec-data');
-  sec.innerHTML = '<div class="ed-h">Datos<button class="gf-icon ed-collapse" title="Ocultar el panel (Ctrl + \\)" aria-label="Ocultar el panel de datos">' + I.chevL + '</button></div><div class="ed-file">' + esc(D.name || 'Datos') + '</div><div class="ed-meta">' + nf(0).format(D.rows.length) + ' filas \u00b7 ' + D.columns.length + ' columnas</div>';
+
+  sec.innerHTML = '<div class="ed-h">' + (multi ? 'Tabla ' + esc(T.name) : 'Datos<button class="gf-icon ed-collapse" title="Ocultar el panel (Ctrl + \\)" aria-label="Ocultar el panel de datos">' + I.chevL + '</button>') + '</div>'
+    + (multi ? '' : '<div class="ed-file">' + esc(D.name || 'Datos') + '</div>')
+    + '<div class="ed-meta">' + nf(0).format(T.rows.length) + ' filas \u00b7 ' + T.columns.length + ' columnas</div>';
   const q = el('div', 'ed-q');
-  const cells = D.rows.length * D.columns.length || 1;
-  const nulls = D.profile.reduce((a, p) => a + p.nulls, 0);
-  const inv = D.profile.reduce((a, p) => a + p.inv, 0);
-  const invCols = D.profile.filter(p => p.inv > 0).length;
+  const cells = T.rows.length * T.columns.length || 1;
+  const nulls = T.profile.reduce((a, p) => a + p.nulls, 0);
+  const inv = T.profile.reduce((a, p) => a + p.inv, 0);
+  const invCols = T.profile.filter(p => p.inv > 0).length;
   const dups = countDups();
   q.appendChild(el('div', null, '<span class="ed-badge">' + nf(1).format(nulls / cells * 100) + '%</span> celdas vac\u00edas'));
   q.appendChild(el('div', null, inv ? '<span class="ed-badge warn">' + nf(0).format(inv) + '</span> valores inv\u00e1lidos en ' + invCols + (invCols === 1 ? ' columna' : ' columnas') : '<span class="ed-badge ok">0</span> valores inv\u00e1lidos'));
   q.appendChild(el('div', null, dups ? '<span class="ed-badge warn">' + nf(0).format(dups) + '</span> filas duplicadas' : '<span class="ed-badge ok">0</span> filas duplicadas'));
   sec.appendChild(q);
+  const bu = el('button', 'gf-btn ed-upd', GF.ICON_REFRESH + '<span>Actualizar datos</span>');
+  const known = S.src && S.src.handle && S.src.name === T.name && T.id === GF.model.mainId;
+  bu.title = known ? 'Vuelve a leer \u00ab' + S.src.handle.name + '\u00bb y actualiza el tablero' : 'Eleg\u00ed el archivo con los datos nuevos (mismas columnas). Galgo lo recuerda para la pr\u00f3xima vez.';
+  bu.onclick = () => updateData(T.id);
+  sec.appendChild(bu);
+  if (known && S.src.at) sec.appendChild(el('div', 'ed-upd-at', 'Le\u00eddo el ' + new Date(S.src.at).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' }) + ' a las ' + new Date(S.src.at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })));
   const acts = el('div', 'ed-actions-row');
   const be = el('button', 'gf-btn', I.pencil + '<span>Editar</span>'); be.onclick = () => openManual(true);
-  if (D.rows.length > 3000 || !D.raw) { be.disabled = true; be.title = D.raw ? 'Disponible hasta 3.000 filas' : 'No disponible'; }
-  const br = el('button', 'gf-btn', I.open + '<span>Reemplazar</span>'); br.title = 'Cargar otro archivo con las mismas columnas y mantener el tablero'; br.onclick = pickFile;
+  if (T.rows.length > 3000 || !T.raw || multi) { be.disabled = true; be.title = !T.raw ? 'No disponible' : multi ? 'No disponible con varias tablas' : 'Disponible hasta 3.000 filas'; }
+  const br = el('button', 'gf-btn', I.open + '<span>Reemplazar</span>'); br.title = 'Cargar otro archivo con las mismas columnas y mantener el tablero'; br.onclick = () => pickFile();
+  if (multi) { br.disabled = true; br.title = 'Con varias tablas, us\u00e1 \u00abActualizar datos\u00bb'; }
   acts.appendChild(be); acts.appendChild(br);
   sec.appendChild(acts);
+  if (!multi) {
+    const bt = el('button', 'gf-btn ed-addtbl', I.plus + '<span>Relacionar otra tabla</span>');
+    bt.title = 'Sumar una tabla con datos de referencia (clientes, productos, sucursales\u2026)';
+    bt.onclick = addTableFlow;
+    sec.appendChild(bt);
+  }
   left.appendChild(sec);
   const cs = el('div', 'ed-sec'); cs.style.borderBottom = '0'; cs.style.paddingBottom = '0';
-  cs.innerHTML = '<div class="ed-h">Columnas</div>';
+  cs.innerHTML = '<div class="ed-h">Columnas' + (multi ? ' de ' + esc(T.name) : '') + '</div>';
   left.appendChild(cs);
   const list = el('div', 'ed-cols');
-  D.columns.forEach((c, i) => {
-    const p = D.profile[i];
+  T.columns.forEach((c, i) => {
+    const p = T.profile[i];
     const it = el('div', 'ed-col');
     const top = el('div', 'ed-col-top');
     top.appendChild(el('span', 'ed-tico ' + c.type, TICO[c.type]));
@@ -2972,8 +3632,8 @@ function renderData() {
     top.appendChild(nm);
     const s = el('select'); s.setAttribute('aria-label', 'Tipo de ' + c.name);
     ['text', 'number', 'date'].forEach(t => { const o = el('option'); o.value = t; o.textContent = TYPE_LABEL[t]; if (t === c.type) o.selected = true; s.appendChild(o); });
-    s.onchange = () => changeType(i, s.value);
-    if (!D.raw) s.disabled = true;
+    s.onchange = () => changeType(T, i, s.value);
+    if (!T.raw) s.disabled = true;
     top.appendChild(s);
     it.appendChild(top);
     const st = el('div', 'ed-col-s');
@@ -2982,7 +3642,7 @@ function renderData() {
     st.innerHTML = parts.map(esc).join(' \u00b7 ');
     if (p.inv) {
       const w = el('a', 'warn', ' \u00b7 ' + nf(0).format(p.inv) + ' inv\u00e1lidos'); w.href = '#'; w.title = 'Ver ejemplos';
-      w.onclick = e => { e.preventDefault(); showInvalid(i); };
+      w.onclick = e => { e.preventDefault(); showInvalid(T, i); };
       st.appendChild(w);
     }
     if (p.min != null && c.type !== 'text') {
@@ -3364,8 +4024,8 @@ function countDups() {
   for (const r of D.rows) { const k = JSON.stringify(r); if (seen.has(k)) d++; else seen.add(k); }
   return d;
 }
-function showInvalid(ci) {
-  const D = GF.data, c = D.columns[ci];
+function showInvalid(D, ci) {
+  const c = D.columns[ci];
   const ex = [];
   for (let r = 0; r < D.rows.length && ex.length < 100; r++) {
     const rv = D.raw[r][ci];
@@ -3378,30 +4038,293 @@ function showInvalid(ci) {
   if (D.profile[ci].inv > ex.length) h += '<p class="ed-note">Se muestran los primeros ' + ex.length + ' de ' + nf(0).format(D.profile[ci].inv) + '.</p>';
   GF.modal('Valores inv\u00e1lidos', h, [{ label: 'Cerrar' }]);
 }
-function changeType(ci, t) {
-  const D = GF.data, c = D.columns[ci];
-  c.type = t; GF.retype();
-  GF.cfg.filters.forEach(f => { if (f.col === c.name) { f.kind = defaultFilterKind(ci); delete GF.rt.fvals[f.id]; } });
+function changeType(T, ci, t) {
+  const c = T.columns[ci];
+  c.type = t; GF.retype(T.id);
+  const vc = GF.data.columns.findIndex(x => x.tid === T.id && x.src === c.name);
+  if (vc >= 0) GF.cfg.filters.forEach(f => { if (f.col === GF.data.columns[vc].name) { f.kind = defaultFilterKind(vc); delete GF.rt.fvals[f.id]; } });
   GF.cfg.widgets.forEach(W => {
     if (W.measure === c.name && t !== 'number' && !['count', 'countd'].includes(W.agg)) W.agg = 'count';
   });
   GF.rt.sel = null; dirty();
   renderAll();
-  const p = D.profile[ci];
+  const p = T.profile[ci];
   histReset();
   if (p.inv) GF.toast(nf(0).format(p.inv) + ' valores de \u00ab' + c.name + '\u00bb no se pudieron convertir', 'warn');
 }
 
 /* ---------------- carga de archivos ---------------- */
-async function pickFile() {
-  if (!FSA) { $('#ed-file').click(); return; }
+const DATA_TYPES = { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx', '.xlsm'], 'application/vnd.ms-excel': ['.xls'], 'application/vnd.oasis.opendocument.spreadsheet': ['.ods'], 'text/csv': ['.csv', '.tsv', '.txt'] };
+async function pickFile(o) {
+  const upd = !!(o && o.update);
+  if (!FSA) { S.nextUpdate = upd; S.nextTid = upd ? (o && o.tid) : null; $('#ed-file').click(); return; }
   try {
-    const [h] = await window.showOpenFilePicker({ id: 'galgo-abrir', types: [{ description: 'Excel, CSV, proyecto de Galgo o informe', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx', '.xlsm'], 'application/vnd.ms-excel': ['.xls'], 'application/vnd.oasis.opendocument.spreadsheet': ['.ods'], 'text/csv': ['.csv', '.tsv', '.txt'], 'application/json': ['.json'], 'text/html': ['.html', '.htm'] } }] });
-    openFile(await h.getFile(), h);
+    const types = upd ? [{ description: 'Excel o CSV', accept: DATA_TYPES }]
+      : [{ description: 'Excel, CSV, proyecto de Galgo o informe', accept: Object.assign({}, DATA_TYPES, { 'application/json': ['.json'], 'text/html': ['.html', '.htm'] }) }];
+    const [h] = await window.showOpenFilePicker({ id: 'galgo-abrir', types });
+    openFile(await h.getFile(), h, upd ? { update: true, tid: o && o.tid } : null);
   } catch (e) {
     if (e && e.name === 'AbortError') return;
-    $('#ed-file').click();
+    S.nextUpdate = upd; S.nextTid = upd ? (o && o.tid) : null; $('#ed-file').click();
   }
+}
+/* Lee un Excel o CSV y devuelve {name, headers, raw}. Si el Excel tiene varias hojas, pregunta cu\u00e1l. */
+function readDataFile(file, cb) {
+  const name = file.name, ext = (name.split('.').pop() || '').toLowerCase();
+  const fail = e => { console.error(e); GF.toast('No se pudo leer el archivo: ' + (e.message || e), 'warn'); };
+  const go = async () => {
+    if (ext === 'csv' || ext === 'txt' || ext === 'tsv') {
+      const r = parseCSV(decodeText(await file.arrayBuffer()));
+      return cb({ name, headers: r.headers, raw: r.raw });
+    }
+    const wb = XLSX.read(await file.arrayBuffer(), { type: 'array', cellNF: true, cellDates: false, cellText: false });
+    const sheets = wb.SheetNames.filter(n => wb.Sheets[n] && wb.Sheets[n]['!ref']);
+    if (!sheets.length) { GF.toast('El archivo no tiene hojas con datos', 'warn'); return; }
+    const use = sh => { const r = sheetToRaw(wb.Sheets[sh]); cb({ name: sheets.length > 1 ? name + ' \u00b7 ' + sh : name, headers: r.headers, raw: r.raw }); };
+    if (sheets.length === 1) return use(sheets[0]);
+    const box = el('div', 'ed-sheets');
+    box.appendChild(el('p', 'ed-hint', 'El archivo tiene varias hojas. \u00bfCu\u00e1l quer\u00e9s usar?'));
+    const m = GF.modal('Eleg\u00ed una hoja', box, [{ label: 'Cancelar' }]);
+    sheets.forEach(sh => {
+      const r = XLSX.utils.decode_range(wb.Sheets[sh]['!ref']);
+      const b = el('button', 'gf-btn', '<b>' + esc(sh) + '</b><span>' + plural(r.e.r - r.s.r, 'fila', 'filas') + ' aprox. \u00b7 ' + plural(r.e.c - r.s.c + 1, 'columna', 'columnas') + '</span>');
+      b.onclick = () => { m.close(); use(sh); };
+      box.appendChild(b);
+    });
+  };
+  go().catch(fail);
+}
+function pickDataFile(cb) {
+  const fi = el('input'); fi.type = 'file'; fi.accept = '.xlsx,.xlsm,.xls,.ods,.csv,.tsv,.txt'; fi.style.display = 'none';
+  fi.onchange = () => { const f = fi.files[0]; fi.remove(); if (f) readDataFile(f, cb); };
+  document.body.appendChild(fi); fi.click();
+}
+
+/* ---------------- tablas relacionadas ----------------
+   Una tabla principal y tablas de referencia que le suman columnas por una clave en com\u00fan. */
+function addTableFlow() {
+  pickDataFile(d => {
+    const t = GF.mkTable(d.name, d.headers, d.raw);
+    if (!t.rows.length) { GF.toast('No se encontraron filas con datos', 'warn'); return; }
+    const ya = GF.tables().find(x => x.name === d.name);
+    if (ya) {
+      GF.modal('Esa tabla ya est\u00e1 cargada', '<p class="ed-hint" style="margin-top:0">Ya hay una tabla llamada <b>' + esc(d.name) + '</b> en el modelo. Si lo que quer\u00e9s es traer datos nuevos, us\u00e1 <b>Actualizar datos</b> sobre esa tabla.</p>', [
+        { label: 'Actualizar esa tabla', primary: true, onClick: () => { S.tsel = ya.id; renderData(); updateData(ya.id); } },
+        { label: 'Agregarla igual', onClick: () => relDialog(t, true) },
+        { label: 'Cancelar' }
+      ]);
+      return;
+    }
+    relDialog(t, true);
+  });
+}
+function relDialog(t, isNew) {
+  const main = GF.mainTable();
+  const sug = isNew ? GF.suggestRel(t, main) : null;
+  let key = (t.rel && t.rel.key) || (sug && sug.key) || main.columns[0].name;
+  let refKey = (t.rel && t.rel.refKey) || (sug && sug.refKey) || t.columns[0].name;
+  let picked = t.rel && t.rel.cols ? t.rel.cols.slice() : null;
+  const box = el('div');
+  const f = el('div', 'ed-rel-pair');
+  const mSel = selectEl(main.columns.map(c => [c.name, GF.colLabel(c.name)]), key, v => { key = v; upd(); });
+  const rSel = selectEl(t.columns.map(c => [c.name, GF.colLabel(c.name)]), refKey, v => { refKey = v; upd(); });
+  field(f, 'Columna en ' + main.name, mSel);
+  const eq = el('div', 'ed-rel-eq', '='); f.appendChild(eq);
+  field(f, 'Columna en ' + t.name, rSel);
+  box.appendChild(f);
+  box.appendChild(el('p', 'ed-hint', sug ? 'Galgo las propuso porque tienen los mismos valores. Pod\u00e9s cambiarlas.' : 'Eleg\u00ed la columna que identifica a cada fila de \u00ab' + esc(t.name) + '\u00bb.'));
+  const q = el('div', 'ed-relq'); box.appendChild(q);
+  box.appendChild(el('div', 'ed-fl ed-relc-h', 'Columnas de ' + esc(t.name) + ' para usar en el tablero'));
+  const cl = el('div', 'ed-relc'); box.appendChild(cl);
+  let ok = null;
+  function upd() {
+    const Q = GF.relQuality(main, t, key, refKey);
+    q.innerHTML = '';
+    if (!Q) return;
+    const good = Q.pct >= 95 && !Q.dupKeys, mid = Q.pct >= 60;
+    const head = el('div', 'ed-relq-h', 'Calidad de la relaci\u00f3n <span class="ed-badge ' + (good ? 'ok' : mid ? 'warn' : 'bad') + '">' + (good ? 'Buena' : mid ? 'Con avisos' : 'Casi no coincide') + '</span>');
+    q.appendChild(head);
+    const row = (v, txt, kind) => { const r = el('div', 'ed-relq-r'); r.appendChild(el('div', 'ed-relq-v' + (kind ? ' ' + kind : ''), v)); r.appendChild(el('div', 'ed-relq-t', txt)); return r; };
+    q.appendChild(row(nf(1).format(Q.pct) + ' %', 'de las filas de <b>' + esc(main.name) + '</b> encontr\u00f3 su fila en <b>' + esc(t.name) + '</b>', Q.pct >= 95 ? 'ok' : Q.pct >= 60 ? 'warn' : 'bad'));
+    const bar = el('div', 'ed-relq-bar'); bar.innerHTML = '<i style="width:' + Math.max(0, Math.min(100, Q.pct)) + '%"></i>'; q.appendChild(bar);
+    if (Q.unmatched) {
+      const r = row(nf(0).format(Q.unmatched), 'filas sin correspondencia <span class="ed-dim">(' + plural(Q.missKeys, 'valor distinto', 'valores distintos') + ')</span>', 'warn');
+      const a = el('button', 'ed-link', 'Ver cu\u00e1les');
+      a.onclick = () => GF.modal('Valores sin correspondencia', '<p class="ed-hint" style="margin-top:0">Estos valores de <b>' + esc(key) + '</b> no existen en <b>' + esc(refKey) + '</b>:</p><div class="ed-keys">' + Q.sample.map(x => '<span>' + esc(x) + '</span>').join('') + '</div>' + (Q.missKeys > Q.sample.length ? '<p class="ed-hint">y ' + nf(0).format(Q.missKeys - Q.sample.length) + ' m\u00e1s.</p>' : ''), [{ label: 'Cerrar', primary: true }]);
+      r.appendChild(a); q.appendChild(r);
+    }
+    if (Q.caseFix) q.appendChild(row(nf(0).format(Q.caseFix), 'de esas filas coincidir\u00edan si no se miraran may\u00fasculas y min\u00fasculas', 'warn'));
+    if (Q.nulls) q.appendChild(row(nf(0).format(Q.nulls), 'filas con <b>' + esc(key) + '</b> vac\u00edo', 'warn'));
+    q.appendChild(row(nf(0).format(Q.dupKeys), Q.dupKeys ? 'valores repetidos en <b>' + esc(refKey) + '</b>: Galgo usa la primera fila de cada uno' : 'valores repetidos en <b>' + esc(refKey) + '</b>', Q.dupKeys ? 'warn' : 'ok'));
+    if (Q.orphanRefs) q.appendChild(row(nf(0).format(Q.orphanRefs), 'filas de <b>' + esc(t.name) + '</b> sin uso en <b>' + esc(main.name) + '</b> <span class="ed-dim">(se pueden contar igual)</span>'));
+    // columnas a traer
+    cl.innerHTML = '';
+    t.columns.forEach(c => {
+      if (c.name === refKey) return;
+      const l = el('label', 'ed-check');
+      const cb = el('input'); cb.type = 'checkbox';
+      cb.checked = picked ? picked.includes(c.name) : true;
+      cb.onchange = () => { picked = [...cl.querySelectorAll('input')].filter(x => x.checked).map(x => x.value); };
+      cb.value = c.name;
+      l.appendChild(cb); l.appendChild(el('span', null, esc(GF.colLabel(c.name))));
+      cl.appendChild(l);
+    });
+    if (ok) ok.textContent = Q.dupKeys ? 'Relacionar igual' : (isNew ? 'Relacionar tablas' : 'Guardar relaci\u00f3n');
+  }
+  upd();
+  const m = GF.modal((isNew ? 'Relacionar \u00ab' : 'Relaci\u00f3n de \u00ab') + t.name + '\u00bb con \u00ab' + main.name + '\u00bb', box, [
+    { label: 'Cancelar' },
+    {
+      label: 'Relacionar tablas', primary: true, onClick: () => {
+        const cols = [...cl.querySelectorAll('input')].filter(x => x.checked).map(x => x.value);
+        if (!cols.length && !confirm('No elegiste ninguna columna para traer. \u00bfAgregar la tabla igual? Vas a poder contar sus filas, pero no graficar por sus columnas.')) return false;
+        t.rel = { key, refKey, cols };
+        if (isNew) GF.model.tables.push(t);
+        GF.buildViews();
+        S.tsel = t.id;
+        dirty(); renderAll();
+        const Q = GF.relQuality(main, t, key, refKey);
+        GF.toast(isNew ? 'Tabla agregada: ' + nf(1).format(Q.pct) + ' % de las filas coincide' : 'Relaci\u00f3n actualizada');
+      }
+    }
+  ], { wide: true });
+  ok = m.el.querySelector('.gf-modal-f .gf-primary');
+  upd();
+}
+/* Actualiza una tabla de referencia con un archivo nuevo, manteniendo la relaci\u00f3n. */
+function applyRef(t, name, headers, raw, opts) {
+  const before = t.rows.length;
+  const key = t.rel ? t.rel.refKey : null;
+  if (key && !headers.includes(key)) {
+    GF.modal('El archivo no sirve para esta tabla', '<p class="ed-hint" style="margin-top:0">\u00ab' + esc(name) + '\u00bb no tiene la columna <b>' + esc(key) + '</b>, que es la que une \u00ab' + esc(t.name) + '\u00bb con \u00ab' + esc(GF.mainTable().name) + '\u00bb.</p><p class="ed-hint">Eleg\u00ed un archivo con esa columna, o edit\u00e1 la relaci\u00f3n despu\u00e9s de cargarlo.</p>', [{ label: 'Entendido', primary: true }]);
+    return;
+  }
+  const lost = t.rel && t.rel.n ? (t.rel.cols && t.rel.cols.length ? t.rel.cols : t.columns.map(c => c.name)).filter(n => n !== key && !headers.includes(n)) : [];
+  const types = {}; t.columns.forEach(c => { if (headers.includes(c.name)) types[c.name] = c.type; });
+  GF.replaceTableRaw(t.id, name, headers, raw, types);
+  GF.rt.fvals = {}; GF.rt.sel = null; GF.rt.tsort = {};
+  dirty(); S.tsel = t.id; renderAll();
+  const q = GF.relQuality(GF.mainTable(), t, t.rel ? t.rel.key : null, key);
+  const dif = t.rows.length - before;
+  GF.toast('\u00ab' + t.name + '\u00bb: ' + nf(0).format(t.rows.length) + ' filas' + (dif ? ' (' + (dif > 0 ? '+' : '') + nf(0).format(dif) + ')' : '') + (q ? ' \u00b7 ' + nf(1).format(q.pct) + ' % coincide' : ''), q && q.pct < 60 ? 'warn' : null);
+  if (lost.length) GF.toast('Faltan columnas que usaba el tablero: ' + lost.map(esc).join(', '), 'warn');
+}
+/* Diagrama del modelo: las tablas con sus columnas, la clave resaltada y los vinculos curvos. */
+function modelDialog() {
+  const main = GF.mainTable();
+  const refs = GF.refTables().filter(t => t.rel);
+  const box = el('div', 'ed-model');
+  const cv = el('div', 'ed-mcanvas');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'ed-mlines');
+  cv.appendChild(svg);
+  const MAXC = 7;
+  const node = (t, isMain, keys) => {
+    const d = el('div', 'ed-mnode' + (isMain ? ' main' : ''));
+    const h = el('div', 'ed-mn-h');
+    h.appendChild(el('span', 'ed-mn-t', esc(t.name)));
+    h.appendChild(el('span', 'ed-mn-c', (isMain ? 'Principal \u00b7 ' : '') + nf(0).format(t.rows.length)));
+    d.appendChild(h);
+    const body = el('div', 'ed-mn-b');
+    t.columns.slice(0, MAXC).forEach(c => {
+      const r = el('div', 'ed-mn-r' + (keys.includes(c.name) ? ' key' : ''));
+      r.innerHTML = '<span class="ed-tico ' + c.type + '">' + TICO[c.type] + '</span><span>' + esc(GF.colLabel(c.name)) + '</span>';
+      r.dataset.col = c.name;
+      body.appendChild(r);
+    });
+    if (t.columns.length > MAXC) body.appendChild(el('div', 'ed-mn-mas', '+ ' + (t.columns.length - MAXC) + ' columnas m\u00e1s'));
+    d.appendChild(body);
+    return d;
+  };
+  const left = el('div', 'ed-mcol');
+  const right = el('div', 'ed-mcol ed-mcol-main');
+  cv.appendChild(left); cv.appendChild(right);
+  const mainKeys = refs.map(t => t.rel.key);
+  const mNode = node(main, true, mainKeys);
+  right.appendChild(mNode);
+  const items = refs.map(t => {
+    const n = node(t, false, [t.rel.refKey]);
+    left.appendChild(n);
+    const q = GF.relQuality(main, t, t.rel.key, t.rel.refKey) || { pct: 0 };
+    const b = el('div', 'ed-mbadge ' + (q.pct >= 95 ? 'ok' : q.pct >= 60 ? 'warn' : 'bad'), nf(1).format(q.pct) + ' % coincide');
+    cv.appendChild(b);
+    return { t, n, b, q };
+  });
+  if (!refs.length) box.appendChild(el('p', 'ed-hint', 'Todav\u00eda no hay tablas de referencia. Agreg\u00e1 una desde el panel de datos.'));
+  box.appendChild(cv);
+  box.appendChild(el('p', 'ed-hint', 'Cada tabla de referencia le suma sus columnas a <b>' + esc(main.name) + '</b> por la clave resaltada. Los objetos del tablero miden sobre <b>' + esc(main.name) + '</b>, salvo los que cuenten filas de una tabla de referencia.'));
+  const m = GF.modal('Modelo de datos', box, [{ label: 'Cerrar', primary: true }], { wide: true });
+  // Las curvas se dibujan cuando el dialogo ya esta en pantalla y se pueden medir las filas.
+  let ro = null;
+  const draw = () => {
+    if (!document.body.contains(cv)) { if (ro) ro.disconnect(); window.removeEventListener('resize', draw); return; }
+    const cr = cv.getBoundingClientRect();
+    if (!cr.width) return;
+    svg.setAttribute('viewBox', '0 0 ' + cr.width + ' ' + cr.height);
+    svg.setAttribute('width', cr.width); svg.setAttribute('height', cr.height);
+    svg.innerHTML = '';
+    const rowY = (nd, col) => {
+      const r = nd.querySelector('[data-col="' + (window.CSS && CSS.escape ? CSS.escape(col) : col) + '"]');
+      const b = (r || nd).getBoundingClientRect();
+      return b.top - cr.top + b.height / 2;
+    };
+    items.forEach(it => {
+      const a = it.n.getBoundingClientRect(), z = mNode.getBoundingClientRect();
+      const x1 = a.right - cr.left, y1 = rowY(it.n, it.t.rel.refKey);
+      const x2 = z.left - cr.left, y2 = rowY(mNode, it.t.rel.key);
+      const dx = Math.max(28, (x2 - x1) * 0.55);
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + (x1 + dx) + ' ' + y1 + ' ' + (x2 - dx) + ' ' + y2 + ' ' + x2 + ' ' + y2);
+      path.setAttribute('class', 'ed-mline ' + (it.q.pct >= 95 ? 'ok' : it.q.pct >= 60 ? 'warn' : 'bad'));
+      svg.appendChild(path);
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', x2); dot.setAttribute('cy', y2); dot.setAttribute('r', 3.5);
+      dot.setAttribute('class', 'ed-mdot ' + (it.q.pct >= 95 ? 'ok' : it.q.pct >= 60 ? 'warn' : 'bad'));
+      svg.appendChild(dot);
+      it.b.style.left = ((x1 + x2) / 2 - it.b.offsetWidth / 2) + 'px';
+      it.b.style.top = ((y1 + y2) / 2 - it.b.offsetHeight - 6) + 'px';
+    });
+  };
+  ro = window.ResizeObserver ? new ResizeObserver(() => draw()) : null;
+  requestAnimationFrame(() => { draw(); requestAnimationFrame(draw); if (ro) ro.observe(cv); });
+  window.addEventListener('resize', draw);
+}
+function removeTable(t) {
+  if (!confirm('\u00bfQuitar la tabla \u00ab' + t.name + '\u00bb? Los objetos que usen sus columnas van a quedar sin datos.')) return;
+  GF.model.tables = GF.model.tables.filter(x => x.id !== t.id);
+  GF.cfg.widgets.forEach(W => { if (W.table === t.id) delete W.table; });
+  if (S.tsel === t.id) S.tsel = null;
+  GF.buildViews(); dirty(); renderAll();
+  GF.toast('Tabla quitada');
+}
+
+/* Actualizar datos: vuelve a leer el archivo de origen. Si Galgo tiene el archivo (se abri\u00f3 con \u00abAbrir\u00bb o
+   arrastr\u00e1ndolo, en Chrome o Edge), lo relee con un clic; si no, lo pide una vez y lo recuerda. */
+S.src = null;
+async function updateData(tid) {
+  const T = (tid && GF.tableById(tid)) || GF.mainTable();
+  const src = T.id === GF.model.mainId ? S.src : null;
+  if (src && src.handle && src.name === T.name) {
+    try {
+      let p = await src.handle.queryPermission({ mode: 'read' });
+      if (p !== 'granted') p = await src.handle.requestPermission({ mode: 'read' });
+      if (p === 'granted') return openFile(await src.handle.getFile(), src.handle, { update: true, tid: T.id });
+      return;
+    } catch (e) {
+      console.warn(e);
+      GF.toast('No se encontr\u00f3 el archivo de origen (\u00bfse movi\u00f3 o cambi\u00f3 de nombre?). Elegilo de nuevo.', 'warn');
+    }
+  }
+  pickFile({ update: true, tid: T.id });
+}
+function rememberSrc(handle, name) {
+  S.src = { handle: handle && handle.kind === 'file' ? handle : null, name, at: Date.now() };
+  if (S.src.handle) idbSet('src', S.src);
+}
+// Al abrir un proyecto, recupera el archivo de origen si es el mismo que se us\u00f3 la \u00faltima vez en esta computadora.
+function restoreSrc() {
+  S.src = null;
+  idbGet('src').then(r => { if (r && r.handle && GF.data && r.name === GF.data.name) { S.src = r; renderData(); } });
 }
 function setupDrop() {
   const ov = el('div', 'ed-dropall', 'Solt\u00e1 el archivo para cargarlo'); document.body.appendChild(ov);
@@ -3419,22 +4342,29 @@ function setupDrop() {
     const f = e.dataTransfer.files[0]; if (f) hp.then(h => openFile(f, h));
   });
 }
-async function openFile(file, handle) {
+async function openFile(file, handle, o) {
   const name = file.name, ext = (name.split('.').pop() || '').toLowerCase();
+  const upd = !!(o && o.update && GF.data);
+  const refT = upd && o.tid && GF.model && o.tid !== GF.model.mainId ? GF.tableById(o.tid) : null;
+  const ao = { src: refT ? null : (handle || null), update: upd, refT, before: upd ? (refT || GF.data).rows.length : 0 };
   try {
+    if (upd && (ext === 'json' || ext === 'html' || ext === 'htm')) { GF.toast('Para actualizar los datos, eleg\u00ed un Excel o CSV', 'warn'); return; }
     if (ext === 'json') return loadProject(await file.text(), handle && handle.kind === 'file' ? handle : null);
     if (ext === 'html' || ext === 'htm') return loadFromReport(await file.text(), name);
     if (ext === 'csv' || ext === 'txt' || ext === 'tsv') {
       const t = decodeText(await file.arrayBuffer());
       const { headers, raw } = parseCSV(t);
-      return applyData(name, headers, raw);
+      return applyData(name, headers, raw, ao);
     }
     const buf = await file.arrayBuffer();
     const wb = XLSX.read(buf, { type: 'array', cellNF: true, cellDates: false, cellText: false });
     const sheets = wb.SheetNames.filter(n => wb.Sheets[n] && wb.Sheets[n]['!ref']);
     if (!sheets.length) { GF.toast('El archivo no tiene hojas con datos', 'warn'); return; }
-    const go = sh => { const { headers, raw } = sheetToRaw(wb.Sheets[sh]); applyData(sheets.length > 1 ? name + ' \u00b7 ' + sh : name, headers, raw); };
+    const go = sh => { const { headers, raw } = sheetToRaw(wb.Sheets[sh]); applyData(sheets.length > 1 ? name + ' \u00b7 ' + sh : name, headers, raw, ao); };
     if (sheets.length === 1) return go(sheets[0]);
+    // Al actualizar, se usa la misma hoja que la vez anterior
+    const want = upd ? GF.io.sheetOf(GF.data.name) : null;
+    if (want && sheets.includes(want)) return go(want);
     const box = el('div', 'ed-sheets');
     box.appendChild(el('p', 'ed-hint', 'El archivo tiene varias hojas. \u00bfCu\u00e1l quer\u00e9s usar?'));
     const m = GF.modal('Eleg\u00ed una hoja', box, [{ label: 'Cancelar' }]);
@@ -3450,79 +4380,11 @@ async function openFile(file, handle) {
   }
 }
 function plural(n, a, b) { return nf(0).format(n) + ' ' + (n === 1 ? a : b); }
-function decodeText(buf) {
-  let t = new TextDecoder('utf-8').decode(buf);
-  if (t.includes('\ufffd')) t = new TextDecoder('windows-1252').decode(buf);
-  return t.replace(/^\ufeff/, '');
-}
-function parseCSV(text) {
-  const first = text.split(/\r?\n/, 1)[0];
-  let sep = ',', best = 0;
-  [';', ',', '\t', '|'].forEach(c => { const n = first.split(c).length; if (n > best) { best = n; sep = c; } });
-  const rows = []; let row = [], f = '', q = false;
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (q) {
-      if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; }
-      else f += ch;
-    } else if (ch === '"' && f === '') q = true;
-    else if (ch === sep) { row.push(f); f = ''; }
-    else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
-    else f += ch;
-  }
-  if (f !== '' || row.length) { row.push(f); rows.push(row); }
-  const clean = rows.filter(r => r.some(x => x.trim() !== ''));
-  const headers = (clean.shift() || []).map(h => h.trim());
-  const width = Math.max(headers.length, ...clean.map(r => r.length));
-  const raw = clean.map(r => { const o = []; for (let i = 0; i < width; i++) o.push(r[i] == null || r[i].trim() === '' ? null : r[i]); return o; });
-  return cleanHeaders(headers, raw, width);
-}
-function sheetToRaw(ws) {
-  const R = XLSX.utils.decode_range(ws['!ref']);
-  const get = (r, c) => ws[XLSX.utils.encode_cell({ r, c })];
-  const val = cell => {
-    if (!cell) return null;
-    switch (cell.t) {
-      case 'n':
-        if (cell.z && XLSX.SSF.is_date(cell.z)) { const p = XLSX.SSF.parse_date_code(cell.v); if (p) return { d: Date.UTC(p.y, p.m - 1, p.d) }; }
-        return cell.v;
-      case 'd': { const d = cell.v; return { d: Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) }; }
-      case 'b': return cell.v;
-      case 'e': return null;
-      default: return cell.v == null ? null : String(cell.v);
-    }
-  };
-  let hr = R.s.r;
-  for (; hr <= R.e.r; hr++) {
-    let n = 0; for (let c = R.s.c; c <= R.e.c; c++) { const x = get(hr, c); if (x && x.v != null && String(x.v).trim() !== '') n++; }
-    if (n >= 1) break;
-  }
-  const headers = [];
-  for (let c = R.s.c; c <= R.e.c; c++) { const h = get(hr, c); headers.push(h ? String(h.w != null ? h.w : h.v).trim() : ''); }
-  const raw = [];
-  for (let r = hr + 1; r <= R.e.r; r++) {
-    const row = []; let any = false;
-    for (let c = R.s.c; c <= R.e.c; c++) { const v = val(get(r, c)); row.push(v); if (v != null && v !== '') any = true; }
-    if (any) raw.push(row);
-  }
-  return cleanHeaders(headers, raw, headers.length);
-}
-function cleanHeaders(headers, raw, width) {
-  const keep = [];
-  for (let i = 0; i < width; i++) {
-    const h = headers[i] || '';
-    if (h || raw.some(r => r[i] != null && r[i] !== '')) keep.push(i);
-  }
-  const used = {};
-  const hs = keep.map((i, j) => {
-    let h = (headers[i] || '').replace(/\s+/g, ' ').trim() || 'Columna ' + (j + 1);
-    if (used[h]) { let k = 2; while (used[h + ' (' + k + ')']) k++; h = h + ' (' + k + ')'; }
-    used[h] = true; return h;
-  });
-  return { headers: hs, raw: raw.map(r => keep.map(i => r[i] === undefined ? null : r[i])) };
-}
+// La lectura de CSV y Excel vive en el motor (GF.io): la usa tambi\u00e9n el informe para actualizar sus datos.
+const decodeText = GF.io.decodeText, parseCSV = GF.io.parseCSV, sheetToRaw = GF.io.sheetToRaw;
 function applyData(name, headers, raw, opts) {
   if (!headers.length || !raw.length) { GF.toast('No se encontraron filas con datos', 'warn'); return; }
+  if (opts && opts.refT) return applyRef(opts.refT, name, headers, raw, opts);
   const prev = GF.data;
   const types = {};
   if (prev) prev.columns.forEach(c => { if (headers.includes(c.name)) types[c.name] = c.type; });
@@ -3535,8 +4397,10 @@ function applyData(name, headers, raw, opts) {
     ]);
     return;
   }
-  GF.setRaw(name, headers, raw, prev ? types : null);
+  if (GF.model && GF.tables().length > 1) GF.replaceTableRaw(GF.model.mainId, name, headers, raw, prev ? types : null);
+  else GF.setRaw(name, headers, raw, prev ? types : null);
   S.sourceName = name;
+  if (opts && 'src' in opts) rememberSrc(opts.src, name);
   GF.rt.fvals = {}; GF.rt.sel = null; GF.rt.tsort = {};
   if (!had) {
     S.fh = null; S.fhPerm = false; S.savedAt = null;
@@ -3548,7 +4412,9 @@ function applyData(name, headers, raw, opts) {
   S.selId = null;
   renderAll();
   if (had) {
-    GF.toast(missing.length ? 'Datos reemplazados. Faltan columnas: ' + missing.join(', ') : 'Datos reemplazados. Se mantuvo el tablero.', missing.length ? 'warn' : null);
+    const verb = opts && opts.update ? 'Datos actualizados' : 'Datos reemplazados';
+    const cnt = opts && opts.update ? ': ' + plural(raw.length, 'fila', 'filas') + ' (antes ' + nf(0).format(opts.before) + ')' : '';
+    GF.toast(missing.length ? verb + '. Faltan columnas: ' + missing.join(', ') : verb + cnt + '. Se mantuvo el tablero.', missing.length ? 'warn' : null);
   }
   histReset();
   const cells = raw.length * headers.length;
@@ -3611,28 +4477,37 @@ function loadProject(text, handle) {
   let o;
   try { o = JSON.parse(text); } catch (e) { GF.toast('El archivo no es un proyecto v\u00e1lido', 'warn'); return; }
   if (!o || (o.gf !== 'galgo-proyecto' && o.gf !== 'graficador-proyecto')) { GF.toast('El archivo no es un proyecto de Galgo', 'warn'); return; }
-  const types = {}; o.data.columns.forEach(c => { types[c.name] = c.type; });
   GF.cfg = normCfg(o.cfg);
-  GF.setRaw(o.data.name, o.data.columns.map(c => c.name), o.data.raw, types);
+  if (o.tables) GF.setModel(o.tables, o.mainId);
+  else {
+    const types = {}; o.data.columns.forEach(c => { types[c.name] = c.type; });
+    GF.setRaw(o.data.name, o.data.columns.map(c => c.name), o.data.raw, types);
+  }
   GF.rt.fvals = {}; GF.rt.sel = null; S.selId = null; S.dirty = false; S.savedAt = null; S.saveState = 'off'; S.pageEdit = null;
   S.fh = null; S.fhPerm = false;
-  renderAll(); histReset();
+  renderAll(); histReset(); restoreSrc();
   if (handle) setProjectHandle(handle, false).then(() => GF.toast(S.fhPerm ? 'Proyecto abierto. Los cambios se guardan solos en \u00ab' + handle.name + '\u00bb.' : 'Proyecto abierto. Toc\u00e1 \u00abActivar autoguardado\u00bb para que se guarde solo.'));
   else GF.toast('Proyecto abierto');
 }
 function loadFromReport(html, fname) {
-  const m = html.match(/<script type="application\/json" id="gf-data">([\s\S]*?)<\/script>/);
-  if (!m) { GF.toast('Ese HTML no es un informe de Galgo', 'warn'); return; }
-  const j = JSON.parse(m[1]);
-  const types = {}; j.columns.forEach(c => { types[c.name] = c.type; });
-  const raw = j.rows.map(r => r.map((v, i) => j.columns[i].type === 'date' && v != null ? { d: v } : v));
+  // Se lee con el analizador de HTML del navegador (no con una b\u00fasqueda de texto): es m\u00e1s seguro
+  // porque el propio motor del informe contiene c\u00f3digo que arma esa misma etiqueta.
+  const node = new DOMParser().parseFromString(html, 'text/html').getElementById('gf-data');
+  if (!node) { GF.toast('Ese HTML no es un informe de Galgo', 'warn'); return; }
+  const j = JSON.parse(node.textContent);
   GF.cfg = normCfg(j.cfg);
-  GF.setRaw((j.meta && j.meta.source) || fname, j.columns.map(c => c.name), raw, types);
+  if (j.tables) {
+    GF.setModel(j.tables.map(t => Object.assign({}, t, { raw: t.rows.map(r => r.map((v, i) => t.columns[i].type === 'date' && v != null ? { d: v } : v)), rows: [] })), j.mainId);
+  } else {
+    const types = {}; j.columns.forEach(c => { types[c.name] = c.type; });
+    const raw = j.rows.map(r => r.map((v, i) => j.columns[i].type === 'date' && v != null ? { d: v } : v));
+    GF.setRaw((j.meta && j.meta.source) || fname, j.columns.map(c => c.name), raw, types);
+  }
   GF.rt.fvals = {}; GF.rt.sel = null; S.selId = null; S.dirty = true; S.fh = null; S.fhPerm = false; S.pageEdit = null;
-  renderAll(); histReset();
+  renderAll(); histReset(); restoreSrc();
   GF.toast('Informe abierto para editar. Guardalo como proyecto para seguir edit\u00e1ndolo.');
 }
-function normCfg(c) { return { title: c.title || 'Informe', subtitle: c.subtitle || '', widgets: c.widgets || [], filters: c.filters || [], pages: c.pages || [], calcs: c.calcs || [], colMeta: c.colMeta || {} }; }
+function normCfg(c) { return { title: c.title || 'Informe', subtitle: c.subtitle || '', widgets: c.widgets || [], filters: c.filters || [], pages: c.pages || [], calcs: c.calcs || [], colMeta: c.colMeta || {}, updatable: !!c.updatable }; }
 
 /* ---------------- sugerencias ---------------- */
 function cols(type) { const D = GF.data; return D.columns.map((c, i) => ({ name: c.name, type: c.type, ci: i, p: D.profile[i] })).filter(c => !type || c.type === type); }
@@ -3730,7 +4605,9 @@ function addFilterMenu(anchor) {
   const box = el('div', 'gf-menu');
   box.style.maxHeight = '360px'; box.style.overflow = 'auto';
   box.appendChild(el('div', 'gf-menu-h', 'Filtrar por'));
+  let lastT = null;
   GF.data.columns.forEach((c, i) => {
+    if (byTable() && c.tid !== lastT) { lastT = c.tid; box.appendChild(el('div', 'gf-menu-h gf-menu-sub', esc(tlabel(GF.tableById(c.tid))))); }
     const exists = GF.cfg.filters.some(f => f.col === c.name);
     const b = el('button', 'gf-menu-i', '<span class="ed-tico ' + c.type + '">' + TICO[c.type] + '</span><span>' + esc(GF.colLabel(c.name)) + '</span>');
     if (exists) { b.disabled = true; b.style.opacity = .45; }
@@ -3795,17 +4672,117 @@ function segEl(opts, val, on) {
   opts.forEach(([v, l]) => { const b = el('button', String(v) === String(val) ? 'on' : '', esc(l)); b.type = 'button'; b.onclick = () => on(v); d.appendChild(b); });
   return d;
 }
-function colGroups(filterFn) {
-  const D = GF.data, g = { text: [], date: [], number: [] };
-  D.columns.forEach(c => { if (!filterFn || filterFn(c)) g[c.type].push([c.name, GF.colLabel(c.name)]); });
-  return [{ group: 'Texto', items: g.text }, { group: 'Fecha', items: g.date }, { group: 'N\u00famero', items: g.number }];
+/* Elegir columnas. Con una sola tabla se agrupan por tipo de dato, como siempre; con varias,
+   por tabla, que es lo que primero busca el que arma el tablero. */
+function byTable() { return GF.tables().length > 1 && GF.data && GF.data.tid === GF.model.mainId; }
+function tlabel(t) { return t.name + (t.id === GF.model.mainId ? ' (principal)' : ''); }
+function tableOrder() { return [GF.mainTable()].concat(GF.refTables().filter(t => t.rel)); }
+const TYPE_GRP = { text: 'Texto', date: 'Fecha', number: 'N\u00famero' };
+/* Grupos de columnas: [{ group, items: [{ v, label, type, sub }] }] */
+function colItems(filterFn) {
+  const D = GF.data, ok = c => !filterFn || filterFn(c);
+  const it = c => ({ v: c.name, label: GF.colLabel(c.name), type: c.type, sub: byTable() ? null : '' });
+  if (!byTable()) {
+    return ['text', 'date', 'number'].map(ty => ({ group: TYPE_GRP[ty], items: D.columns.filter(c => c.type === ty && ok(c)).map(it) })).filter(g => g.items.length);
+  }
+  return tableOrder().map(t => {
+    const items = [];
+    ['text', 'date', 'number'].forEach(ty => D.columns.forEach(c => { if (c.tid === t.id && c.type === ty && ok(c)) items.push(it(c)); }));
+    return items.length ? { group: tlabel(t), items } : null;
+  }).filter(Boolean);
 }
-
+/* Grupos del campo \u00abValor\u00bb: n\u00fameros para sumar y, aparte, columnas para contar. */
+function measureItems() {
+  const D = GF.data;
+  const out = [{ group: null, items: [{ v: '__rows', label: 'Cantidad de registros', icon: '\u03a3' }] }];
+  const calcs = (GF.cfg.calcs || []).map(c => ({ v: 'calc:' + c.id, label: c.name, icon: '\u0192' }));
+  if (calcs.length) out.push({ group: 'Medidas calculadas', items: calcs });
+  const mk = c => ({ v: c.name, label: GF.colLabel(c.name), type: c.type });
+  if (!byTable()) {
+    const nums = D.columns.filter(c => c.type === 'number').map(mk), otros = D.columns.filter(c => c.type !== 'number').map(mk);
+    if (nums.length) out.push({ group: 'N\u00fameros', items: nums });
+    if (otros.length) out.push({ group: 'Contar valores de', items: otros });
+    return out;
+  }
+  tableOrder().forEach(t => {
+    const nums = D.columns.filter(c => c.tid === t.id && c.type === 'number').map(mk);
+    const otros = D.columns.filter(c => c.tid === t.id && c.type !== 'number').map(mk);
+    if (nums.length) out.push({ group: tlabel(t) + ' \u00b7 n\u00fameros', items: nums });
+    if (otros.length) out.push({ group: tlabel(t) + ' \u00b7 contar valores de', items: otros });
+  });
+  return out;
+}
+/* Bot\u00f3n con la columna elegida que abre una lista buscable, con el tipo de dato a la vista. */
+function pickEl(groups, val, onPick, placeholder) {
+  const b = el('button', 'ed-pick'); b.type = 'button';
+  b.setAttribute('aria-haspopup', 'listbox');
+  let cur = null;
+  groups.forEach(g => g.items.forEach(i => { if (i.v === val) cur = i; }));
+  const mark = i => i.icon ? '<span class="ed-tico">' + i.icon + '</span>' : '<span class="ed-tico ' + i.type + '">' + TICO[i.type] + '</span>';
+  b.innerHTML = cur ? mark(cur) + '<span class="ed-pick-t">' + esc(cur.label) + '</span>'
+    : '<span class="ed-pick-t ed-dim">' + esc(placeholder || '\u2014 Eleg\u00ed una columna \u2014') + '</span>';
+  b.innerHTML += '<span class="ed-pick-c">' + I.chevD + '</span>';
+  const total = groups.reduce((a, g) => a + g.items.length, 0);
+  b.onclick = () => {
+    const box = el('div', 'ed-pop');
+    let inp = null;
+    if (total > 10) {
+      inp = el('input', 'ed-psearch'); inp.type = 'search'; inp.placeholder = 'Buscar columna\u2026';
+      box.appendChild(inp);
+    }
+    const list = el('div', 'ed-plist'); box.appendChild(list);
+    const rows = [];
+    const draw = q => {
+      list.innerHTML = ''; rows.length = 0;
+      const n = x => String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const qq = n(q || '');
+      groups.forEach(g => {
+        const items = g.items.filter(i => !qq || n(i.label).includes(qq) || (g.group && n(g.group).includes(qq)));
+        if (!items.length) return;
+        if (g.group) list.appendChild(el('div', 'ed-pgrp', esc(g.group)));
+        items.forEach(i => {
+          const r = el('button', 'ed-pcol' + (i.v === val ? ' on' : ''));
+          r.type = 'button';
+          r.innerHTML = mark(i) + '<span>' + esc(i.label) + '</span>';
+          r.onclick = () => { GF.closePopover(); onPick(i.v); };
+          list.appendChild(r); rows.push(r);
+        });
+      });
+      if (!rows.length) list.appendChild(el('div', 'ed-hint', 'Ninguna columna coincide con la b\u00fasqueda.'));
+    };
+    draw('');
+    if (inp) {
+      inp.oninput = () => draw(inp.value);
+      inp.onkeydown = e => {
+        if (e.key === 'Enter' && rows.length) { e.preventDefault(); rows[0].click(); }
+        if (e.key === 'ArrowDown' && rows.length) { e.preventDefault(); rows[0].focus(); }
+      };
+    }
+    const pop = GF.popover(b, box);
+    pop.style.minWidth = Math.max(b.offsetWidth, 240) + 'px';
+    const on = list.querySelector('.ed-pcol.on');
+    if (on) on.scrollIntoView({ block: 'nearest' });
+    if (inp) setTimeout(() => inp.focus(), 0);
+  };
+  return b;
+}
+/* Encabezado con el nombre de la tabla dentro de una lista de casillas, cuando hay varias. */
+function tHead(box, c, state) {
+  if (!byTable() || c.tid === state.t) return;
+  state.t = c.tid;
+  box.appendChild(el('div', 'ed-pgrp', esc(tlabel(GF.tableById(c.tid)))));
+}
+function colPick(val, onPick, filterFn, extra, placeholder) {
+  const gs = colItems(filterFn);
+  if (extra) gs.unshift({ group: null, items: extra });
+  return pickEl(gs, val, onPick, placeholder);
+}
 function renderProps() {
   layoutPanels();
   const keep = right.scrollTop, same = right.dataset.wid === String(S.selId);
   right.dataset.wid = String(S.selId);
-  renderPropsInner();
+  const W = getW(S.selId);
+  GF.withView(W && W.table, renderPropsInner);
   if (same) right.scrollTop = keep;
 }
 function renderPropsInner() {
@@ -3851,6 +4828,18 @@ function renderPropsInner() {
     types.appendChild(b);
   });
   field(form, 'Tipo', types);
+  if (GF.tables().length > 1 && W.type !== 'text') {
+    const main = GF.mainTable();
+    const opts = [[main.id, main.name + ' (principal)']].concat(GF.refTables().filter(t => t.rel).map(t => [t.id, t.name]));
+    field(form, 'Tabla', selectEl(opts, GF.hasTable(W.table) ? W.table : main.id, v => {
+      if (v === main.id) delete W.table; else W.table = v;
+      delete W.dim; delete W.series; delete W.cols; delete W.measures; delete W.kcols; delete W.vmode;
+      W.measure = '__rows'; W.agg = 'count'; W.title = '';
+      if (GF.rt.sel && GF.rt.sel.wid === W.id) GF.rt.sel = null;
+      dirty(); renderAll(); renderProps();
+    }));
+    if (GF.hasTable(W.table)) form.appendChild(el('div', 'ed-hint', 'Este objeto mide sobre \u00ab' + esc(GF.viewOf(W.table).name) + '\u00bb, una tabla de referencia: cuenta sus propias filas (por ejemplo, cu\u00e1ntos clientes hay por zona). Los filtros y las selecciones del informe lo afectan solo si usan columnas de esta tabla.'));
+  }
   field(form, 'T\u00edtulo', inputEl(W.title, v => { W.title = v; redraw(); }, GF.autoTitle(W) || 'Sin t\u00edtulo'));
   const clearSel = () => { if (GF.rt.sel && GF.rt.sel.wid === W.id) GF.rt.sel = null; };
   const up = (k, conv, props) => v => { W[k] = conv ? conv(v) : v; clearSel(); redraw(props); };
@@ -3866,7 +4855,9 @@ function renderPropsInner() {
     field(form, 'Modo', segEl([['resumen', 'Resumen'], ['detalle', 'Detalle']], 'detalle', v => { W.mode = v; if (!W.dim) W.dim = defaultsFor('table').dim; redraw(true); }));
     const box = el('div', 'ed-cchk');
     const all = !W.cols || !W.cols.length;
+    const st1 = { t: null };
     D.columns.forEach(c => {
+      tHead(box, c, st1);
       const l = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = all || W.cols.includes(c.name);
       cb.onchange = () => {
         const cur = new Set(!W.cols || !W.cols.length ? D.columns.map(x => x.name) : W.cols);
@@ -3902,7 +4893,9 @@ function renderPropsInner() {
     if (W.type === 'kpi' && W.vmode === 'multi') {
       const nums = D.columns.filter(c => c.type === 'number');
       const box = el('div', 'ed-cchk');
+      const st2 = { t: null };
       nums.forEach(c => {
+        tHead(box, c, st2);
         const l = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = (W.kcols || []).includes(c.name);
         cb.onchange = () => { const set = new Set(W.kcols || []); if (cb.checked) set.add(c.name); else set.delete(c.name); W.kcols = nums.map(n => n.name).filter(n => set.has(n)); redraw(); };
         l.appendChild(cb); l.appendChild(el('span', null, esc(GF.colLabel(c.name)))); box.appendChild(l);
@@ -3914,15 +4907,17 @@ function renderPropsInner() {
     // eje / categor\u00eda
     if (W.type !== 'kpi' && !(multi && W.type === 'pie')) {
       const lab = W.type === 'pie' ? 'Porciones seg\u00fan' : W.type === 'table' ? 'Agrupar filas por' : W.type === 'line' ? 'Eje horizontal' : 'Categor\u00edas';
-      field(form, lab + (multi ? ' (opcional)' : ''), selectEl([['', multi ? 'Sin categor\u00edas (solo totales)' : '\u2014 Eleg\u00ed una columna \u2014']].concat(colGroups()), W.dim, v => { W.dim = v || undefined; if (W.series === W.dim) W.series = undefined; clearSel(); redraw(true); }));
+      field(form, lab + (multi ? ' (opcional)' : ''), colPick(W.dim, v => { W.dim = v || undefined; if (W.series === W.dim) W.series = undefined; clearSel(); redraw(true); }, null,
+        multi ? [{ v: '', label: 'Sin categor\u00edas (solo totales)', icon: '\u2014' }] : null,
+        multi ? 'Sin categor\u00edas (solo totales)' : null));
       const dc = GF.colOf(W.dim);
       if (dc && dc.type === 'date') field(form, 'Agrupar fechas por', segEl([['dia', 'D\u00eda'], ['mes', 'Mes'], ['trim', 'Trim.'], ['anio', 'A\u00f1o']], W.grain || 'mes', v => { W.grain = v; clearSel(); redraw(true); }));
     }
     // valor
     if (!multi && !(W.type === 'kpi' && W.vmode === 'multi')) {
-    const mopts = [['__rows', 'Cantidad de registros'], { group: 'Medidas calculadas', items: (GF.cfg.calcs || []).map(c => ['calc:' + c.id, '\u0192 ' + c.name]) }, { group: 'N\u00fameros', items: D.columns.filter(c => c.type === 'number').map(c => [c.name, GF.colLabel(c.name)]) }, { group: 'Contar valores de', items: D.columns.filter(c => c.type !== 'number').map(c => [c.name, GF.colLabel(c.name)]) }];
+    const mopts = measureItems();
     const row = el('div', 'ed-row');
-    field(row, 'Valor', selectEl(mopts, W.measure || '__rows', v => {
+    field(row, 'Valor', pickEl(mopts, W.measure || '__rows', v => {
       dropAutoTitle();
       W.measure = v;
       if (v === '__rows') W.agg = 'count';
@@ -3942,7 +4937,8 @@ function renderPropsInner() {
     form.appendChild(row);
     // desglose
     if (W.type === 'bar' || W.type === 'barh' || W.type === 'line' || (W.type === 'table' && W.mode !== 'detalle')) {
-      field(form, W.type === 'table' ? 'Columnas por' : 'Desglosar por (color)', selectEl([['', 'Sin desglose']].concat(colGroups(c => c.name !== W.dim)), W.series, v => { W.series = v || undefined; redraw(true); }));
+      field(form, W.type === 'table' ? 'Columnas por' : 'Desglosar por (color)', colPick(W.series || '', v => { W.series = v || undefined; redraw(true); }, c => c.name !== W.dim,
+        [{ v: '', label: 'Sin desglose', icon: '\u2014' }], 'Sin desglose'));
       const sc = GF.colOf(W.series);
       if (sc && sc.type === 'date') field(form, 'Agrupar desglose por', segEl([['mes', 'Mes'], ['trim', 'Trim.'], ['anio', 'A\u00f1o']], W.sgrain || 'anio', v => { W.sgrain = v; redraw(true); }));
       if (W.series && W.type !== 'line' && W.type !== 'table') form.appendChild(checkEl('Apilar barras', W.stacked, v => { W.stacked = v; redraw(true); }));
@@ -4087,7 +5083,9 @@ function measuresEditor(form, W, clearSel) {
     top.appendChild(x);
     box.appendChild(top);
     const list = el('div', 'ed-cchk ed-mcols');
+    const st3 = { t: null };
     nums.forEach(c => {
+      tHead(list, c, st3);
       const l = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = (m.cols || []).includes(c.name);
       cb.onchange = () => {
         const set = new Set(m.cols || []); if (cb.checked) set.add(c.name); else set.delete(c.name);
@@ -4206,21 +5204,13 @@ function togglePreview() {
 
 /* ---------------- exportaci\u00f3n ---------------- */
 function usedColumns() {
-  const s = new Set();
-  GF.cfg.widgets.forEach(W => {
-    [W.dim, W.series].forEach(c => c && s.add(c));
-    if (W.measure && String(W.measure).startsWith('calc:')) { const c = GF.calcById(W.measure.slice(5)); if (c) { try { GF.compileCalc(c).cols.forEach(x => s.add(x)); } catch (e) { } } }
-    else if (W.measure && W.measure !== '__rows') s.add(W.measure);
-    if (W.type === 'table' && W.mode === 'detalle' && W.cols) W.cols.forEach(c => s.add(c));
-    if (GF.isMulti(W)) W.measures.forEach(m => (m.cols || []).forEach(c => s.add(c)));
-    if (GF.kpiMulti(W)) W.kcols.forEach(c => s.add(c));
-  });
-  GF.cfg.filters.forEach(f => s.add(f.col));
-  return [...s];
+  const out = [];
+  const used = GF.usedCids();
+  GF.data.columns.forEach(c => { if (used.has(GF.cidOf(c.tid, c.src))) out.push(c.name); });
+  return out;
 }
 function exportDialog() {
-  const D = GF.data;
-  const used = new Set(usedColumns().filter(n => GF.colOf(n)));
+  const used = GF.usedCids();
   const detailAll = GF.cfg.widgets.some(W => W.type === 'table' && W.mode === 'detalle' && (!W.cols || !W.cols.length));
   const box = el('div');
   const f1 = el('div', 'ed-form');
@@ -4229,25 +5219,44 @@ function exportDialog() {
   box.appendChild(f1);
   box.appendChild(el('div', 'ed-callout', I.warn + '<div><b>Los datos viajan dentro del archivo.</b> Quien reciba el HTML puede ver todas las filas de las columnas que incluyas, aunque no aparezcan en los gr\u00e1ficos. Inclu\u00ed solo lo necesario.</div>'));
   box.appendChild(el('div', 'ed-fl', 'Columnas a incluir'));
-  const cl = el('div', 'ed-exp-cols');
   const checks = [];
-  D.columns.forEach(c => {
-    const u = used.has(c.name);
-    const l = el('label', u ? 'used' : '');
-    const cb = el('input'); cb.type = 'checkbox'; cb.checked = u || detailAll; cb.disabled = u; cb.value = c.name;
-    cb.onchange = upd;
-    checks.push(cb);
-    l.appendChild(cb); l.appendChild(el('span', null, esc(GF.colLabel(c.name)) + (u ? ' <small style="color:var(--ink-3)">(en uso)</small>' : '')));
-    cl.appendChild(l);
+  const multi = GF.tables().length > 1;
+  GF.tables().forEach(t => {
+    if (multi) box.appendChild(el('div', 'ed-exp-tbl', esc(t.name) + (t.id === GF.model.mainId ? ' <small>principal</small>' : '')));
+    const cl = el('div', 'ed-exp-cols');
+    const keyCols = new Set();
+    if (t.rel) keyCols.add(t.rel.refKey);
+    if (t.id === GF.model.mainId) GF.refTables().forEach(r => { if (r.rel) keyCols.add(r.rel.key); });
+    t.columns.forEach(c => {
+      const cid = GF.cidOf(t.id, c.name);
+      const key = keyCols.has(c.name), u = used.has(cid) || key;
+      const l = el('label', u ? 'used' : '');
+      const cb = el('input'); cb.type = 'checkbox'; cb.checked = u || detailAll; cb.disabled = u; cb.value = cid;
+      cb.onchange = upd;
+      checks.push(cb);
+      l.appendChild(cb); l.appendChild(el('span', null, esc(GF.colLabel(c.name)) + (u ? ' <small style="color:var(--ink-3)">' + (key && !used.has(cid) ? '(clave)' : '(en uso)') + '</small>' : '')));
+      cl.appendChild(l);
+    });
+    box.appendChild(cl);
   });
-  box.appendChild(cl);
+  const upL = el('label', 'ed-check ed-exp-upd');
+  const upC = el('input'); upC.type = 'checkbox'; upC.checked = !!GF.cfg.updatable; upC.onchange = () => { GF.cfg.updatable = upC.checked; dirty(); upd(); };
+  upL.appendChild(upC); upL.appendChild(el('span', null, 'Permitir actualizar los datos desde el informe'));
+  box.appendChild(upL);
+  box.appendChild(el('p', 'ed-hint ed-exp-updh', 'Agrega al informe el bot\u00f3n \u00abActualizar datos\u00bb: quien lo recibe puede cargar un Excel o CSV nuevo con las mismas columnas, sin usar Galgo. Suma alrededor de 1,2 MB al archivo.'));
   const note = el('p', 'ed-note');
   box.appendChild(note);
   function upd() {
-    const n = checks.filter(c => c.checked).length;
+    const keep = new Set(checks.filter(c => c.checked).map(c => c.value));
     const pagesKB = Math.round(GF.pages().reduce((a, p) => a + (p.html || '').length, 0) / 1024);
-    const est = 230 + Math.round(D.rows.length * n * 9 / 1024) + pagesKB;
-    note.innerHTML = nf(0).format(D.rows.length) + ' filas \u00d7 ' + n + ' columnas \u00b7 tama\u00f1o estimado ' + (est > 1024 ? nf(1).format(est / 1024) + ' MB' : est + ' KB') + (detailAll ? '<br>La tabla de detalle va a mostrar todas las columnas que incluyas.' : '');
+    let cells = 0, rows = 0, ncols = 0;
+    GF.tables().forEach(t => {
+      const n = t.columns.filter(c => keep.has(GF.cidOf(t.id, c.name))).length;
+      cells += t.rows.length * n;
+      if (t.id === GF.model.mainId) { rows = t.rows.length; ncols = n; }
+    });
+    const est = 230 + Math.round(cells * 9 / 1024) + pagesKB + (upC.checked ? 1250 : 0);
+    note.innerHTML = nf(0).format(rows) + ' filas \u00d7 ' + ncols + ' columnas' + (multi ? ' en la tabla principal' : '') + ' \u00b7 tama\u00f1o estimado ' + (est > 1024 ? nf(1).format(est / 1024) + ' MB' : est + ' KB') + (detailAll ? '<br>La tabla de detalle va a mostrar todas las columnas que incluyas.' : '');
   }
   upd();
   GF.modal('Exportar informe HTML', box, [
@@ -4256,38 +5265,28 @@ function exportDialog() {
       label: 'Descargar HTML', primary: true, onClick: () => {
         const t = tIn.value.trim() || 'Informe';
         GF.cfg.title = t; const h = center.querySelector('.gf-title'); if (h) h.textContent = t;
-        const keep = checks.filter(c => c.checked).map(c => c.value);
-        buildAndDownload(keep);
+        buildAndDownload(new Set(checks.filter(c => c.checked).map(c => c.value)));
       }
     }
   ]);
 }
-function buildAndDownload(keepNames) {
+function buildAndDownload(keep) {
   const D = GF.data;
-  const idx = D.columns.map((c, i) => keepNames.includes(c.name) ? i : -1).filter(i => i >= 0);
-  const json = {
-    v: 1, cfg: JSON.parse(JSON.stringify(GF.cfg)),
-    columns: idx.map(i => ({ name: D.columns[i].name, type: D.columns[i].type })),
-    rows: D.rows.map(r => idx.map(i => r[i])),
-    meta: { generated: Date.now(), source: S.sourceName || D.name || '', rows: D.rows.length }
-  };
-  json.cfg.widgets.forEach(W => { if (W.cols && W.cols.length) W.cols = W.cols.filter(c => keepNames.includes(c)); });
-  const html = reportHTML(json, GF.cfg.title);
+  const names = new Set();
+  GF.tables().forEach(t => t.columns.forEach(c => { if (keep.has(GF.cidOf(t.id, c.name))) names.add(c.name); }));
+  const prevMeta = GF.meta, prevCfg = GF.cfg;
+  GF.meta = { generated: Date.now(), source: S.sourceName || D.name || '', rows: D.rows.length, updatable: !!GF.cfg.updatable };
+  GF.cfg = JSON.parse(JSON.stringify(GF.cfg));
+  GF.cfg.widgets.forEach(W => { if (W.cols && W.cols.length) W.cols = W.cols.filter(c => names.has(c)); });
+  const json = GF.reportJSON(keep);
+  GF.cfg = prevCfg;
+  const html = GF.reportHTML(json, GF.cfg.title, { xlsx: !!GF.cfg.updatable });
+  GF.meta = prevMeta;
   saveFile(GF.slug(GF.cfg.title) + '.html', new Blob([html], { type: 'text/html;charset=utf-8' }), 'informe').then(name => {
     if (name === null) return;
     GF.toast(name ? 'Informe guardado como \u00ab' + name + '\u00bb. Se abre con doble clic en cualquier navegador.' : 'Informe guardado en la carpeta Descargas.');
   });
 }
-function reportHTML(json, title) {
-  const css = $('#gf-style').textContent.split('/* ---------- editor ---------- */')[0];
-  const chart = $('#gf-lib-chart').textContent;
-  const eng = $('#gf-engine').textContent;
-  // Los datos van solo con caracteres ASCII (acentos como \u00e9): as\u00ed el informe no se rompe si alguien
-  // lo re-guarda o lo reenv\u00eda con otra codificaci\u00f3n.
-  const data = JSON.stringify(json).replace(/</g, '\\u003c').replace(/[\u007f-\uffff]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
-  return '<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="generator" content="Galgo ' + GF.version + '">\n<title>' + esc(title).replace(/[\u0080-\uffff]/g, c => '&#' + c.charCodeAt(0) + ';') + '</title>\n<style>' + css + '</style>\n</head>\n<body>\n<div id="gf-app"></div>\n<script>' + chart + '<\/script>\n<script id="gf-engine">' + eng + '<\/script>\n<script type="application/json" id="gf-data">' + data + '<\/script>\n<script>GF.bootView();<\/script>\n</body>\n</html>\n';
-}
-
 /* ---------------- carga manual ---------------- */
 function openManual(prefill) {
   let H, Rw;
@@ -4419,6 +5418,7 @@ function loadSample() {
 
 /* Arranque al final, cuando ya est\u00e1n definidas todas las constantes del m\u00f3dulo. */
 GFE_boot();
+  GF.ed = { S, select, addTableFlow, relDialog, removeTable, modelDialog, renderAll, projectObj, loadProject, renderData, updateData, autoDashboard };
 })();
 </script>
 </body>
