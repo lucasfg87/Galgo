@@ -665,7 +665,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 (function () {
 'use strict';
 const GF = window.GF = window.GF || {};
-GF.version = '1.06';
+GF.version = '1.07';
 GF.mode = 'view';
 GF.cfg = { title: 'Informe', subtitle: '', widgets: [], filters: [] };
 GF.data = null;
@@ -4381,7 +4381,7 @@ async function openFile(file, handle, o) {
 }
 function plural(n, a, b) { return nf(0).format(n) + ' ' + (n === 1 ? a : b); }
 // La lectura de CSV y Excel vive en el motor (GF.io): la usa tambi\u00e9n el informe para actualizar sus datos.
-const decodeText = GF.io.decodeText, parseCSV = GF.io.parseCSV, sheetToRaw = GF.io.sheetToRaw;
+const decodeText = GF.io.decodeText, parseCSV = GF.io.parseCSV, sheetToRaw = GF.io.sheetToRaw, cleanHeaders = GF.io.cleanHeaders;
 function applyData(name, headers, raw, opts) {
   if (!headers.length || !raw.length) { GF.toast('No se encontraron filas con datos', 'warn'); return; }
   if (opts && opts.refT) return applyRef(opts.refT, name, headers, raw, opts);

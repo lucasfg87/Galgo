@@ -53,6 +53,7 @@ Importante: **el HTML exportado lleva los datos adentro.** Quien lo recibe puede
 
 ## Versiones
 
+- **1.07:** arregla el botón «Usar estos datos» al cargar datos a mano, que no respondía desde la 1.05.
 - **1.06:** varias tablas relacionadas (una principal y sus tablas de referencia), con control de calidad de la relación y diagrama del modelo; los desplegables de columnas se agrupan por tabla y tienen buscador.
 - **1.05:** «Actualizar datos» en el editor y en el informe exportado, con deshacer; la marca Galgo y el pie del informe llevan al sitio.
 - **1.04:** clic en la leyenda para filtrar todo el tablero, nombres editables para los valores de la leyenda y opción de mostrar el total de cada barra apilada.
