@@ -135,7 +135,7 @@ button { cursor: pointer; }
 .gf-lg { color: var(--brand-lg); }
 
 /* popover, men\fa , modal, aviso */
-.gf-pop { position: absolute; z-index: 1000; background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; }
+.gf-pop { position: absolute; z-index: 2200; background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; }
 .gf-menu { display: flex; flex-direction: column; min-width: 200px; }
 .gf-menu-i { text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 6px; font-size: 13.5px; display: flex; align-items: center; gap: 10px; }
 .gf-menu-i:hover { background: var(--surface-2); }
@@ -538,6 +538,18 @@ a.ed-brand:hover .gf-word { text-decoration: underline; text-underline-offset: 3
 .gf-rotos p { color: var(--ink-2); line-height: 1.5; margin: 0 0 10px; }
 .gf-rotos-pie { margin-top: 28px; font-size: 13px; color: var(--ink-3); }
 
+.gf-kpi-roto { justify-content: center; text-align: center; padding: 0 8px; }
+.gf-kpi-aviso { font-size: 14px; font-weight: 600; color: var(--warn); line-height: 1.3; }
+
+/* filtro propio de un objeto */
+.ed-conds { display: flex; flex-direction: column; gap: 6px; }
+.ed-cond { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 8px; border: 1px solid var(--line); border-radius: 9px; padding: 7px 8px 7px 10px; background: var(--surface); }
+.ed-cond-t { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.ed-cond-v { grid-column: 1; font-size: 12px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; }
+.ed-cond-acts { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 2px; }
+.ed-cond-body { margin-top: 10px; }
+.ed-cond-vals { max-height: 260px; overflow: auto; margin-top: 6px; }
+
 /* ---------------- tablas relacionadas ---------------- */
 .ed-badge.bad { background: rgba(208,59,59,.12); color: var(--crit); }
 .ed-badge.main { background: var(--accent-wash); color: var(--accent-ink); }
@@ -673,7 +685,7 @@ t.sheetStubs=true}if(t.type=="array"){t.type="binary";var a=xk(e,t);t.type="arra
 (function () {
 'use strict';
 const GF = window.GF = window.GF || {};
-GF.version = '1.08';
+GF.version = '1.09';
 GF.mode = 'view';
 GF.cfg = { title: 'Informe', subtitle: '', widgets: [], filters: [] };
 GF.data = null;
@@ -790,7 +802,7 @@ GF.colLabel = colLabel;
 GF.effFmt = effFmt;
 function fmtDate(ms) { const d = new Date(ms); return p2(d.getUTCDate()) + '/' + p2(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear(); }
 function isoDate(ms) { const d = new Date(ms); return d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1) + '-' + p2(d.getUTCDate()); }
-GF.fmtVal = fmtVal; GF.fmtDate = fmtDate; GF.nf = nf;
+GF.fmtVal = fmtVal; GF.fmtDate = fmtDate; GF.nf = nf; GF.isoDate = isoDate;
 function fmtCell(v, type, monthly, col) {
   if (v == null) return '';
   if (type === 'date') return monthly ? labelOf(keyOf(v, 'date', 'mes'), 'date', 'mes') : fmtDate(v);
@@ -1459,6 +1471,7 @@ GF.usedCids = function () {
   (GF.cfg.widgets || []).forEach(W => {
     const tid = GF.hasTable(W.table) ? W.table : null;
     [W.dim, W.series].forEach(c => add(tid, c));
+    GF.condOf(W).forEach(q => add(tid, q.col));
     if (W.measure && String(W.measure).startsWith('calc:')) {
       const c = GF.calcById(W.measure.slice(5));
       if (c) { try { GF.compileCalc(c).cols.forEach(x => add(tid, x)); } catch (e) { } }
@@ -1570,6 +1583,56 @@ function filterPreds() {
   }
   return preds;
 }
+/* ---------------- filtro propio de un objeto ----------------
+   Por ahora solo en los indicadores. Se guarda dentro del objeto, viaja al informe exportado y se
+   suma a los filtros del informe y a la seleccion: nunca los reemplaza. */
+GF.condOf = function (W) { return Array.isArray(W.cond) ? W.cond.filter(q => q && q.col) : []; };
+/* Si el filtro apunta a una columna que ya no est\u00e1, el objeto no puede mostrar un n\u00famero:
+   contar todo ser\u00eda peor que avisar, porque el titulo seguir\u00eda diciendo \u00abResueltos\u00bb. */
+GF.condBroken = function (W) {
+  for (const q of GF.condOf(W)) if (!colOf(q.col)) return q.col;
+  return null;
+};
+GF.condPred = function (W) {
+  const ps = [];
+  for (const q of GF.condOf(W)) {
+    const c = colOf(q.col); if (!c) continue;
+    const ci = c.ci;
+    if (q.kind === 'range') {
+      const a = q.from == null ? null : q.from, b = q.to == null ? null : q.to;
+      if (a == null && b == null) continue;
+      ps.push(r => { const x = r[ci]; return x != null && (a == null || x >= a) && (b == null || x <= b); });
+    } else {
+      const vals = Array.isArray(q.vals) ? q.vals : [];
+      if (!vals.length) continue;
+      const set = new Set(vals), g = listGrain(c), t = c.type, no = !!q.not;
+      ps.push(r => { const hit = set.has(keyOf(r[ci], t, g)); return no ? !hit : hit; });
+    }
+  }
+  if (!ps.length) return null;
+  return r => { for (const p of ps) if (!p(r)) return false; return true; };
+};
+/* Texto corto para mostrar en la tarjeta: \u00absolo estado: Cerrado\u00bb. */
+GF.condText = function (W) {
+  const partes = [];
+  for (const q of GF.condOf(W)) {
+    const c = colOf(q.col); if (!c) continue;
+    const nom = colLabel(q.col);
+    if (q.kind === 'range') {
+      const f = q.from, t = q.to;
+      if (f == null && t == null) continue;
+      const v = x => c.type === 'date' ? GF.fmtDate(x) : nf(2).format(x);
+      partes.push(nom + ': ' + (f != null && t != null ? v(f) + ' a ' + v(t) : f != null ? 'desde ' + v(f) : 'hasta ' + v(t)));
+    } else {
+      const vals = Array.isArray(q.vals) ? q.vals : [];
+      if (!vals.length) continue;
+      const lista = GF.distinctList(c);
+      const et = vals.slice(0, 3).map(k => { const it = lista.find(x => x.key === k); return it ? it.label : k; });
+      partes.push(nom + (q.not ? ' distinto de ' : ': ') + et.join(', ') + (vals.length > 3 ? ' y ' + (vals.length - 3) + ' m\u00e1s' : ''));
+    }
+  }
+  return partes.length ? 'Solo ' + partes.join(' \u00b7 ') : '';
+};
 function selPred() {
   // La selecci\u00f3n por clic puede tener dos partes: la categor\u00eda (eje) y la serie (leyenda).
   const s = GF.rt.sel; if (!s) return null;
@@ -2231,10 +2294,16 @@ function toggleSeriesSel(W, R, sk, multi) {
 
 /* ---------------- KPI, tabla, texto ---------------- */
 function renderKpi(W, body, rows) {
+  const falta = GF.condBroken(W);
+  if (falta) {
+    body.innerHTML = '<div class="gf-kpi gf-kpi-roto"><div class="gf-kpi-aviso">Falta la columna <b>' + esc(falta) + '</b></div><div class="gf-kpi-s">Este indicador la usa para filtrar. Carg\u00e1 datos que la incluyan o edit\u00e1 el filtro.</div></div>';
+    return;
+  }
   const m = measureFn(W), agg = aggOf(W), a = newAcc();
   for (const r of rows) addAcc(a, m(r), agg);
   const v = accVal(a, agg);
-  const note = W.$focus ? 'Solo: ' + W.$focus : (W.note || '');
+  const cond = W.condTag === false ? '' : GF.condText(W);
+  const note = W.$focus ? 'Solo: ' + W.$focus : (cond || W.note || '');
   const total = GF.data.rows.length, shown = rows.length;
   const sub = shown < total && (!W.measure || W.measure === '__rows') ? nf(0).format(shown) + ' de ' + nf(0).format(total) + ' registros' : '';
   let txt = fmtVal(v, W), full = txt;
@@ -2914,7 +2983,12 @@ function refreshInner() {
   GF.rt.baseCount = b0.sel.length;
   renderFilters(GF.rt.barEl);
   if (!GF.cfg.widgets.length && GF.hooks.emptyGrid) GF.hooks.emptyGrid(grid);
-  GF.rt.rowsFor = W0 => { const b = rowsOf(GF.hasTable(W0.table) ? W0.table : null); return GF.rt.sel && GF.rt.sel.wid !== W0.id ? b.sel : b.base; };
+  GF.rt.rowsFor = W0 => {
+    const b = rowsOf(GF.hasTable(W0.table) ? W0.table : null);
+    const base = GF.rt.sel && GF.rt.sel.wid !== W0.id ? b.sel : b.base;
+    const p = GF.condPred(W0);
+    return p ? base.filter(p) : base;
+  };
   GF.ensureLayout();
   // El orden del documento sigue la posici\u00f3n (arriba \u2192 abajo, izquierda \u2192 derecha): sirve para el teclado y el celular.
   const ordered = GF.cfg.widgets.slice().sort((a, b) => (a.gy - b.gy) || (a.gx - b.gx));
@@ -4892,6 +4966,129 @@ function colPick(val, onPick, filterFn, extra, placeholder) {
   if (extra) gs.unshift({ group: null, items: extra });
   return pickEl(gs, val, onPick, placeholder);
 }
+/* ---------------- filtro propio de un objeto (por ahora, solo indicadores) ----------------
+   Permite que una tarjeta cuente un subconjunto (\u00absolo los cerrados\u00bb) sin tocar el resto del
+   tablero ni los datos de origen. */
+function condResumen(q) {
+  const c = GF.colOf(q.col);
+  if (!c) return 'columna que ya no est\u00e1';
+  if (q.kind === 'range') {
+    const v = x => c.type === 'date' ? GF.fmtDate(x) : nf(2).format(x);
+    if (q.from != null && q.to != null) return v(q.from) + ' a ' + v(q.to);
+    if (q.from != null) return 'desde ' + v(q.from);
+    if (q.to != null) return 'hasta ' + v(q.to);
+    return 'sin l\u00edmites';
+  }
+  const vals = Array.isArray(q.vals) ? q.vals : [];
+  if (!vals.length) return 'sin valores elegidos';
+  const lista = GF.distinctList(c);
+  const et = vals.slice(0, 2).map(k => { const it = lista.find(x => x.key === k); return it ? it.label : k; });
+  return (q.not ? 'distinto de ' : '') + et.join(', ') + (vals.length > 2 ? ' y ' + (vals.length - 2) + ' m\u00e1s' : '');
+}
+function condEditor(form, W) {
+  const cs = GF.condOf(W);
+  const box = el('div', 'ed-conds');
+  cs.forEach((q, i) => {
+    const row = el('div', 'ed-cond');
+    const c = GF.colOf(q.col);
+    const t = el('div', 'ed-cond-t');
+    t.innerHTML = c ? esc(GF.colLabel(q.col)) : '<span class="ed-badge bad">Falta \u00ab' + esc(q.col) + '\u00bb</span>';
+    const v = el('div', 'ed-cond-v', esc(condResumen(q)));
+    const ed = el('button', 'gf-icon ed-tbl-x', I.pencil); ed.title = 'Editar la condici\u00f3n';
+    ed.onclick = () => condDialog(W, i);
+    const rm = el('button', 'gf-icon ed-tbl-x', I.trash); rm.title = 'Quitar la condici\u00f3n';
+    rm.onclick = () => { W.cond.splice(i, 1); if (!W.cond.length) delete W.cond; dirty(); renderAll(); renderProps(); };
+    const acts = el('div', 'ed-cond-acts'); acts.appendChild(ed); acts.appendChild(rm);
+    row.appendChild(t); row.appendChild(v); row.appendChild(acts);
+    box.appendChild(row);
+  });
+  const add = el('button', 'gf-btn ed-addtbl', I.plus + '<span>' + (cs.length ? 'Otra condici\u00f3n' : 'Filtrar solo este indicador') + '</span>');
+  add.onclick = () => condDialog(W, -1);
+  box.appendChild(add);
+  field(form, 'Filtro de este objeto', box);
+  if (cs.length) {
+    form.appendChild(checkEl('Mostrar debajo del n\u00famero qu\u00e9 filtra', W.condTag !== false, v => { W.condTag = v ? undefined : false; redraw(); }));
+    form.appendChild(el('div', 'ed-hint', 'Se suma a los filtros del informe y a lo que est\u00e9 seleccionado: nunca los reemplaza.'));
+  }
+}
+function condDialog(W, idx) {
+  const nuevo = idx < 0;
+  const actual = nuevo ? null : GF.condOf(W)[idx];
+  const q = actual ? JSON.parse(JSON.stringify(actual)) : { col: '', kind: 'list', vals: [] };
+  const box = el('div');
+  const cuerpo = el('div', 'ed-cond-body');
+  const acomodar = () => {
+    const c = GF.colOf(q.col);
+    cuerpo.innerHTML = '';
+    if (!c) { cuerpo.appendChild(el('p', 'ed-hint', 'Eleg\u00ed una columna para empezar.')); return; }
+    if (q.kind === 'range') {
+      const esF = c.type === 'date';
+      const fila = el('div', 'ed-row');
+      const mk = (cual, et) => {
+        const i = el('input', 'ed-inp'); i.type = esF ? 'date' : 'number'; if (!esF) i.step = 'any';
+        i.value = q[cual] == null ? '' : (esF ? GF.isoDate(q[cual]) : q[cual]);
+        i.onchange = () => { const t = i.value; q[cual] = t === '' ? null : (esF ? GF.parseDateStr(t) : parseFloat(t)); };
+        field(fila, et, i);
+      };
+      mk('from', 'Desde'); mk('to', 'Hasta');
+      cuerpo.appendChild(fila);
+      cuerpo.appendChild(el('p', 'ed-hint', 'Dejar un campo vac\u00edo significa \u00absin l\u00edmite\u00bb de ese lado.'));
+      return;
+    }
+    const lista = GF.distinctList(c);
+    const sel = new Set(Array.isArray(q.vals) ? q.vals : []);
+    const bar = el('div', 'ed-row');
+    const nq = el('select', 'ed-sel');
+    [['0', 'Es alguno de'], ['1', 'No es ninguno de']].forEach(([v, t]) => { const o = el('option', null, t); o.value = v; nq.appendChild(o); });
+    nq.value = q.not ? '1' : '0';
+    nq.onchange = () => { q.not = nq.value === '1'; };
+    field(bar, 'Condici\u00f3n', nq);
+    cuerpo.appendChild(bar);
+    const buscar = el('input', 'ed-psearch'); buscar.type = 'search'; buscar.placeholder = 'Buscar valor\u2026';
+    if (lista.length > 10) cuerpo.appendChild(buscar);
+    const cont = el('div', 'ed-cchk ed-cond-vals');
+    const pintar = () => {
+      const t = GF.norm(buscar.value || '');
+      cont.innerHTML = '';
+      let vistos = 0;
+      lista.forEach(it => {
+        if (t && !GF.norm(it.label).includes(t)) return;
+        if (++vistos > 500) return;
+        const l = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = sel.has(it.key);
+        cb.onchange = () => { if (cb.checked) sel.add(it.key); else sel.delete(it.key); q.vals = lista.map(x => x.key).filter(k => sel.has(k)); };
+        l.appendChild(cb); l.appendChild(el('span', null, esc(it.label))); cont.appendChild(l);
+      });
+      if (!vistos) cont.appendChild(el('div', 'ed-hint', 'Ning\u00fan valor coincide con la b\u00fasqueda.'));
+      else if (vistos > 500) cont.appendChild(el('div', 'ed-hint', 'Se muestran los primeros 500 valores; us\u00e1 el buscador.'));
+    };
+    buscar.oninput = pintar; pintar();
+    cuerpo.appendChild(cont);
+  };
+  const campo = el('div');
+  const ponerCol = v => {
+    q.col = v;
+    const c = GF.colOf(v);
+    q.kind = c && c.type !== 'text' ? 'range' : 'list';
+    q.vals = []; q.from = null; q.to = null;
+    campo.innerHTML = ''; campo.appendChild(colPick(q.col, ponerCol, null, null, 'Eleg\u00ed una columna'));
+    acomodar();
+  };
+  campo.appendChild(colPick(q.col, ponerCol, null, null, 'Eleg\u00ed una columna'));
+  field(box, 'Columna', campo);
+  box.appendChild(cuerpo);
+  acomodar();
+  GF.modal(nuevo ? 'Filtrar este indicador' : 'Editar la condici\u00f3n', box, [
+    { label: nuevo ? 'Aplicar el filtro' : 'Guardar', primary: true, onClick: () => {
+      if (!q.col) { GF.toast('Eleg\u00ed una columna', 'warn'); return false; }
+      if (q.kind === 'list' && !(q.vals || []).length) { GF.toast('Eleg\u00ed al menos un valor', 'warn'); return false; }
+      if (q.kind === 'range' && q.from == null && q.to == null) { GF.toast('Pon\u00e9 un desde o un hasta', 'warn'); return false; }
+      if (!Array.isArray(W.cond)) W.cond = [];
+      if (nuevo) W.cond.push(q); else W.cond[idx] = q;
+      dirty(); renderAll(); renderProps();
+    } },
+    { label: 'Cancelar' }
+  ]);
+}
 function renderProps() {
   layoutPanels();
   const keep = right.scrollTop, same = right.dataset.wid === String(S.selId);
@@ -5078,6 +5275,7 @@ function renderPropsInner() {
       form.appendChild(checkEl('Mostrar el total de cada barra', W.totals, v => { W.totals = v; redraw(); }));
     if (W.type === 'pie') form.appendChild(checkEl('Mostrar porcentajes en las porciones', W.labels !== false, v => { W.labels = v; redraw(); }));
     if (W.type === 'line') form.appendChild(checkEl('Eje vertical desde cero', W.zero !== false, v => { W.zero = v; redraw(); }));
+    if (W.type === 'kpi') condEditor(form, W);
     if (W.type === 'kpi') field(form, 'Nota debajo del n\u00famero', inputEl(W.note, v => { W.note = v; redraw(); }, 'Opcional, p. ej. \u00aben millones\u00bb'));
     // formato
     const r3 = el('div', 'ed-row3');

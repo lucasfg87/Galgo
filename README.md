@@ -55,6 +55,7 @@ Qué protege Galgo, qué no protege y cómo reportar un problema de seguridad: [
 
 ## Versiones
 
+- **1.09:** filtro propio en los indicadores: una tarjeta puede contar solo un subconjunto (por ejemplo, solo los casos cerrados) sin afectar al resto del tablero ni tocar los datos de origen.
 - **1.08:** actualiza la librería que lee Excel (SheetJS 0.20.3, corrige [CVE-2023-30533](https://nvd.nist.gov/vuln/detail/cve-2023-30533)); verifica los proyectos e informes antes de abrirlos y avisa con claridad si están dañados; registra la procedencia de las librerías; arranca siempre en modo claro y recuerda el tema que elijas. Ver [SEGURIDAD.md](SEGURIDAD.md).
 - **1.07:** arregla el botón «Usar estos datos» al cargar datos a mano, que no respondía desde la 1.05.
 - **1.06:** varias tablas relacionadas (una principal y sus tablas de referencia), con control de calidad de la relación y diagrama del modelo; los desplegables de columnas se agrupan por tabla y tienen buscador.
